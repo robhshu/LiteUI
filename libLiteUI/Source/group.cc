@@ -1,0 +1,91 @@
+//
+//  liteui::group
+//  Part of the libLiteUI project
+//
+//  Author: Robert H
+//  Date:   Feb 2014
+//
+#include <liteui/group.h>
+#include <algorithm>
+
+namespace liteui
+{
+
+group::group( )
+  : element( "group" )
+  , m_bUpdateFlag( true )
+{
+  Update();
+}
+
+void group::AddChild( element *pObj )
+{
+  if( !HasChild( pObj ) ) {
+    pObj->SetParent( this );
+    m_items.push_back( pObj );
+    pObj->Update();
+    Update();
+  }
+}
+
+void group::RemoveChild( element *pObj )
+{
+  items_cit cit = find(m_items.begin(), m_items.end(), pObj );
+  if( cit != m_items.end() ) {
+    (*cit)->SetParent(nullptr);
+    m_items.erase( cit );
+    pObj->Update();
+    Update();
+  }
+}
+
+void group::Render( )
+{
+  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+    (*it)->Render();
+  }
+}
+
+bool group::HasChild( element *pObj ) const
+{
+  return find(m_items.begin(), m_items.end(), pObj) != m_items.end();
+}
+
+bool group::HasChildNamed( const char *cName ) const
+{
+  // todo: implement
+  return false;
+}
+
+void group::Update( )
+{
+  if( !m_bUpdateFlag )
+    return;
+
+  unsigned width = 1;
+  unsigned height = 1;
+
+  unsigned tmp_val = 0;
+
+  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+    (*it)->Update();
+
+    tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
+    if( tmp_val > width ) {
+      width = tmp_val;
+    }
+    tmp_val = (*it)->GetRelativeY() + (*it)->GetHeight();
+    if( tmp_val > height ) {
+      height = tmp_val;
+    }
+  }
+
+  // todo: fix recursion design issue
+
+  m_bUpdateFlag = false;
+  SetWidth( width );
+  SetHeight( height );
+  m_bUpdateFlag = true;
+}
+
+};

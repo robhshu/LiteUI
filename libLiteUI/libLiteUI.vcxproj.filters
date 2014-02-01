@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="LiteUI">
+      <UniqueIdentifier>{1eccc9d0-3681-4b7e-a8f2-a77e5e80cbf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements">
+      <UniqueIdentifier>{6c41ed3a-02df-432d-b044-d42cd09f6424}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements\button">
+      <UniqueIdentifier>{821f2859-d4ae-4858-83cd-d4ec193b4eb8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements\group">
+      <UniqueIdentifier>{00fb2c19-7ba2-421c-8b0f-06472c2ff1cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements\label">
+      <UniqueIdentifier>{4830c82d-7689-4e2b-9cde-ae0e446fa9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements\scene">
+      <UniqueIdentifier>{09b62f9f-f1a3-4edb-a8c3-5a1527527b84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\parser">
+      <UniqueIdentifier>{4844cc62-6ac3-4f48-9722-349a261950f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\parser\scenegraph">
+      <UniqueIdentifier>{9077550c-3bd2-49e0-80e0-b3395faa561c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements\base">
+      <UniqueIdentifier>{4964089c-57a9-4d6b-8a35-acf47e2e77b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\elements\panel">
+      <UniqueIdentifier>{80e22175-d86f-404a-9baf-fee0078f8158}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\liteui.h">
+      <Filter>LiteUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\button.h">
+      <Filter>LiteUI\elements\button</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\group.h">
+      <Filter>LiteUI\elements\group</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\label.h">
+      <Filter>LiteUI\elements\label</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\parser.h">
+      <Filter>LiteUI\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\scene.h">
+      <Filter>LiteUI\elements\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\scenegraph.h">
+      <Filter>LiteUI\parser\scenegraph</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\base.h">
+      <Filter>LiteUI\elements\base</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\element.h">
+      <Filter>LiteUI\elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\liteui\panel.h">
+      <Filter>LiteUI\elements\panel</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\button.cc">
+      <Filter>LiteUI\elements\button</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\group.cc">
+      <Filter>LiteUI\elements\group</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\label.cc">
+      <Filter>LiteUI\elements\label</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\parser.cc">
+      <Filter>LiteUI\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scene.cc">
+      <Filter>LiteUI\elements\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scenegraph.cc">
+      <Filter>LiteUI\parser\scenegraph</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\base.cc">
+      <Filter>LiteUI\elements\base</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\element.cc">
+      <Filter>LiteUI\elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\panel.cc">
+      <Filter>LiteUI\elements\panel</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
