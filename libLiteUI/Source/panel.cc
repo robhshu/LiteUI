@@ -13,7 +13,6 @@ namespace liteui
 panel::panel( )
   : element( "panel" )
 {
-  Update();
 }
 
 };

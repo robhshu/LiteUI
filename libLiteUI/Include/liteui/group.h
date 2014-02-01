@@ -36,7 +36,6 @@ public:
 
 private:
   items m_items;
-  bool m_bUpdateFlag;
 };
 };
 

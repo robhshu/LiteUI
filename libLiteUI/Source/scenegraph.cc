@@ -9,14 +9,14 @@
 
 namespace liteui
 {
-scenegraph::scenegraph( )
-{
-  m_sceneList.resize(1);
-}
-
-scene &scenegraph::GetRootScene( )
-{
-  return m_sceneList.front();
-}
+//scenegraph::scenegraph( )
+//{
+//  m_sceneList.resize(1);
+//}
+//
+//scene &scenegraph::GetRootScene( )
+//{
+//  return m_sceneList.front();
+//}
 
 };

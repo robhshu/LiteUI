@@ -13,7 +13,11 @@ namespace liteui
 button::button( )
   : element( "button" )
 {
-  Update();
+}
+
+void button::Update( )
+{
+  element::Update( );
 }
 
 };

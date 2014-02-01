@@ -9,27 +9,27 @@
 
 namespace liteui
 {
-base::base( const char *cTypeName )
-  : m_cTypeName( cTypeName )
-  , m_cName( "unnamed" )
+base::base( const string &szTypeName )
+  : m_szTypeName( szTypeName )
+  , m_szName( "unnamed" )
 {
 }
 
-void base::SetName( const char *cName )
+void base::SetName( const string &szName )
 {
-  if( cName != nullptr ) {
-    m_cName = cName;
+  if( m_szName.compare( szName ) != 0 ) {
+    m_szName = szName;
   }
 }
 
-const char *base::GetTypeName( ) const
+const string &base::GetTypeName( ) const
 {
-  return m_cTypeName;
+  return m_szTypeName;
 }
 
-const char *base::GetName( ) const
+const string &base::GetName( ) const
 {
-  return m_cName;
+  return m_szName;
 }
 
 };

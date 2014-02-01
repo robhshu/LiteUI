@@ -12,22 +12,26 @@ namespace liteui
 
 label::label( )
   : element( "label" )
-  , m_cText( "LabelText" )
+  , m_szText( "LabelText" )
 {
-  Update();
 }
 
-void label::SetText( const char *cText )
+void label::SetText( const string &szText )
 {
-  if( cText != nullptr ) {
-    m_cText = cText;
-    Update();
+  if( m_szText.compare( szText ) != 0 ) {
+    m_szText = szText;
+    m_bDirty = true;
   }
 }
 
-const char *label::GetText( ) const
+const string &label::GetText( ) const
 {
-  return m_cText;
+  return m_szText;
+}
+
+void label::Update( )
+{
+  element::Update( );
 }
 
 };

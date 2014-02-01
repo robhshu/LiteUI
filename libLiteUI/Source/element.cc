@@ -9,51 +9,60 @@
 
 namespace liteui
 {
-element::element( const char *cTypeName )
-  : base( cTypeName )
+element::element( const string &szTypeName )
+  : base( szTypeName )
   , m_pParent( nullptr )
   , m_posX( 0 )
   , m_posY( 0 )
   , m_width( 1 )
   , m_height( 1 )
   , m_userData( 0 )
+  , m_bDirty( true )
 {
 }
 
 void element::SetParent( element *pParent )
 {
-  m_pParent = pParent;
+  if( m_pParent != pParent ) {
+    m_pParent = pParent;
+    m_bDirty = true;
+  }
 }
 
 void element::SetPositionX( unsigned px )
 {
-  m_posX = px;
+  if( m_posX != px ) {
+    m_posX = px;
+    m_bDirty = true;
+  }
 }
 
 void element::SetPositionY( unsigned py )
 {
-  m_posY = py;
+  if( m_posY != py ) {
+    m_posY = py;
+    m_bDirty = true;
+  }
 }
 
 void element::SetPosition( unsigned px, unsigned py )
 {
   SetPositionX( px );
   SetPositionY( py );
-  Update();
 }
 
 void element::SetWidth( unsigned val )
 {
   if( val >= 1 ) {
     m_width = val;
-    Update();
+    m_bDirty = true;
   }
 }
 
 void element::SetHeight( unsigned val ) {
   if( val >= 1 ) {
     m_height = val;
-    Update();
+    m_bDirty = true;
   }
 }
 
@@ -121,6 +130,11 @@ bool element::IsPointInside( unsigned px, unsigned py ) const
 
   return( px >= ab_px && px <= ab_px + GetWidth()
     && py >= ab_py && py <= ab_py + GetHeight() );
+}
+
+void element::Update( )
+{
+  m_bDirty = false;
 }
 
 };

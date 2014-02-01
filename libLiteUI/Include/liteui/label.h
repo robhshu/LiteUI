@@ -9,23 +9,26 @@
 #define LIBLITEUI_LABEL_H
 
 #include <liteui/element.h>
+#include <string>
 
 namespace liteui
 {
+using std::string;
+
 class label
   : public element
 {
 public:
   label( );
-  void SetText( const char *cText );
+  void SetText( const string &szText );
 
-  const char *GetText( ) const;
+  const string &GetText( ) const;
 
   virtual void Render( ) { }
-  virtual void Update( ) { }
+  virtual void Update( ) ;
 
 private:
-  const char *m_cText;
+  string m_szText;
 };
 };
 

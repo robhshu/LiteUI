@@ -8,19 +8,23 @@
 #ifndef LIBLITEUI_BASE_H
 #define LIBLITEUI_BASE_H
 
+#include <string>
+
 namespace liteui
 {
+using std::string;
+
 class base
 {
 public:
-  base( const char *cTypeName );
-  void SetName( const char *cName );
+  base( const string &szTypeName );
+  void SetName( const string &szName );
 
-  const char *GetTypeName( ) const;
-  const char *GetName( ) const;
+  const string &GetTypeName( ) const;
+  const string &GetName( ) const;
 private:
-  const char *m_cTypeName;
-  const char *m_cName;
+  const string m_szTypeName;
+  string m_szName;
 };
 };
 

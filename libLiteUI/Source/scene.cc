@@ -10,6 +10,7 @@
 
 namespace liteui
 {
+
 scene::scene( )
   : base("scene")
 {

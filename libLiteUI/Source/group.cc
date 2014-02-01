@@ -13,9 +13,7 @@ namespace liteui
 
 group::group( )
   : element( "group" )
-  , m_bUpdateFlag( true )
 {
-  Update();
 }
 
 void group::AddChild( element *pObj )
@@ -23,8 +21,7 @@ void group::AddChild( element *pObj )
   if( !HasChild( pObj ) ) {
     pObj->SetParent( this );
     m_items.push_back( pObj );
-    pObj->Update();
-    Update();
+    m_bDirty = true;
   }
 }
 
@@ -35,7 +32,7 @@ void group::RemoveChild( element *pObj )
     (*cit)->SetParent(nullptr);
     m_items.erase( cit );
     pObj->Update();
-    Update();
+    m_bDirty = true;
   }
 }
 
@@ -59,33 +56,30 @@ bool group::HasChildNamed( const char *cName ) const
 
 void group::Update( )
 {
-  if( !m_bUpdateFlag )
-    return;
+  if( m_bDirty ) {
+    unsigned width = 1;
+    unsigned height = 1;
 
-  unsigned width = 1;
-  unsigned height = 1;
+    unsigned tmp_val = 0;
 
-  unsigned tmp_val = 0;
+    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+      (*it)->Update();
 
-  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-    (*it)->Update();
-
-    tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
-    if( tmp_val > width ) {
-      width = tmp_val;
+      tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
+      if( tmp_val > width ) {
+        width = tmp_val;
+      }
+      tmp_val = (*it)->GetRelativeY() + (*it)->GetHeight();
+      if( tmp_val > height ) {
+        height = tmp_val;
+      }
     }
-    tmp_val = (*it)->GetRelativeY() + (*it)->GetHeight();
-    if( tmp_val > height ) {
-      height = tmp_val;
-    }
+
+    SetWidth( width );
+    SetHeight( height );
+    
+    element::Update();
   }
-
-  // todo: fix recursion design issue
-
-  m_bUpdateFlag = false;
-  SetWidth( width );
-  SetHeight( height );
-  m_bUpdateFlag = true;
 }
 
 };

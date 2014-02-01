@@ -9,14 +9,17 @@
 #define LIBLITEUI_ELEMENT_H
 
 #include <liteui/base.h>
+#include <string>
 
 namespace liteui
 {
+using std::string;
+
 class element
   : public base
 {
 public:
-  element( const char *cTypeName );
+  element( const string &szTypeName );
 
   virtual void Render( ) { }
 
@@ -39,7 +42,7 @@ public:
   unsigned GetUserData( ) const;
 
   virtual bool IsPointInside( unsigned px, unsigned py ) const;
-  virtual void Update( ) { };
+  virtual void Update( );
 
 private:
   element *m_pParent;
@@ -48,6 +51,9 @@ private:
   unsigned m_width;
   unsigned m_height;
   unsigned m_userData;
+
+protected:
+  bool m_bDirty;
 };
 };
 

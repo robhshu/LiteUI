@@ -15,7 +15,7 @@ namespace liteui
 class parser
 {
 public:
-  static bool LoadRaw( const char *sceneDesc, scenegraph& ref );
+
 };
 };
 
