@@ -16,6 +16,11 @@ label::label( )
 {
 }
 
+label::~label()
+{
+  m_szText.clear();
+}
+
 void label::SetText( const string &szText )
 {
   if( m_szText.compare( szText ) != 0 ) {
@@ -29,9 +34,23 @@ const string &label::GetText( ) const
   return m_szText;
 }
 
+void label::SetProperty(const string &szProperty, const string &szValue)
+{
+  if( szProperty == "text" ) {
+    SetText( szValue );
+  } else {
+    base::SetProperty( szProperty, szValue );
+  }
+}
+
 void label::Update( )
 {
   element::Update( );
+}
+
+unsigned label::GetTextLength( ) const
+{
+  return m_szText.length();
 }
 
 };

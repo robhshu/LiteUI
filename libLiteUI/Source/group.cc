@@ -16,6 +16,15 @@ group::group( )
 {
 }
 
+group::~group( )
+{
+  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+    (*it)->Release();
+  }
+
+  m_items.clear();
+}
+
 void group::AddChild( element *pObj )
 {
   if( !HasChild( pObj ) ) {

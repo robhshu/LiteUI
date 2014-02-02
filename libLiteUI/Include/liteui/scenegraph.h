@@ -15,23 +15,23 @@
 
 namespace liteui
 {
-//using std::vector;
-//typedef vector<scene>           scenes;
-//typedef scenes::iterator        scenes_it;
-//typedef scenes::const_iterator  scenes_cit;
-//class scenegraph
-//{
-//public:
-//  scenegraph( );
-//
-//  scene &GetRootScene( );
-//
-//  // todo: unload scene
-//  // todo: load scene (from description? json?)
-//  
-//private:
-//  scenes m_sceneList;
-//};
+using std::vector;
+typedef vector<scene* >         scenes;
+typedef scenes::iterator        scenes_it;
+typedef scenes::const_iterator  scenes_cit;
+
+class scenegraph
+{
+public:
+  scenegraph( );
+
+  scene &GetActiveScene( );
+
+  void AddScene( scene *pScene );
+  
+private:
+  scenes m_sceneList;
+};
 };
 
 #endif

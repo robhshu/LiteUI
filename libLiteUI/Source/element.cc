@@ -23,6 +23,16 @@ element::element( const string &szTypeName )
   }
 }
 
+element::~element( )
+{
+  m_pParent = nullptr;
+}
+
+void element::Release( )
+{
+  delete this;
+}
+
 void element::SetParent( element *pParent )
 {
   if( m_pParent != pParent ) {
@@ -123,6 +133,21 @@ unsigned element::GetWidth( ) const
 unsigned element::GetHeight( ) const
 {
   return m_height;
+}
+
+void element::SetProperty(const string &szProperty, unsigned nValue)
+{
+  if( szProperty == "width" ) {
+    SetWidth( nValue );
+  } else if( szProperty == "height" ) {
+    SetHeight( nValue );
+  } else if( szProperty == "pos_x" ) {
+    SetPositionX( nValue );
+  } else if( szProperty == "pos_y" ) {
+    SetPositionY( nValue );
+  } else {
+    base::SetProperty( szProperty, nValue );
+  }
 }
 
 void element::OnMessage( unsigned px, unsigned py )

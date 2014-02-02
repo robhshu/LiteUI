@@ -17,6 +17,7 @@ class button
 {
 public:
   button( );
+  virtual ~button( ) { }
 
   virtual void Render( ) { }
   virtual void Update( ) ;

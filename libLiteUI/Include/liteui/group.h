@@ -24,6 +24,7 @@ class group
 {
 public:
   group( );
+  virtual ~group( );
 
   void AddChild( element *pObj );
   void RemoveChild( element *pObj );

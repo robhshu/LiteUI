@@ -19,6 +19,10 @@ class base
 public:
   base( const string &szTypeName );
   void SetName( const string &szName );
+
+  virtual void SetProperty(const string &szProperty, const string &szValue);
+  virtual void SetProperty(const string &szProperty, unsigned nValue);
+
   void Dirty( );
 
   const string &GetTypeName( ) const;
@@ -26,6 +30,7 @@ public:
 private:
   const string m_szTypeName;
   string m_szName;
+
 protected:
   bool m_bDirty;
 };

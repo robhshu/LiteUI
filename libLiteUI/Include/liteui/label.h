@@ -20,9 +20,14 @@ class label
 {
 public:
   label( );
+  virtual ~label();
   void SetText( const string &szText );
 
   const string &GetText( ) const;
+
+  virtual unsigned GetTextLength( ) const;
+
+  virtual void SetProperty(const string &szProperty, const string &szValue);
 
   virtual void Render( ) { }
   virtual void Update( ) ;

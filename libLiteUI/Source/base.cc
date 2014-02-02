@@ -23,6 +23,17 @@ void base::SetName( const string &szName )
   }
 }
 
+void base::SetProperty(const string &szProperty, const string &szValue)
+{
+  if( szProperty == "name" ) {
+    SetName( szValue );
+  }
+}
+
+void base::SetProperty(const string &szProperty, unsigned nValue)
+{
+}
+
 void base::Dirty( )
 {
   m_bDirty = true;

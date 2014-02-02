@@ -17,6 +17,7 @@ class panel
 {
 public:
   panel( );
+  virtual ~panel( ){ }
 
   virtual void Render( ) { }
   virtual void Update( ) { }

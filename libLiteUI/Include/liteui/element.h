@@ -34,6 +34,9 @@ class element
 public:
   element( const string &szTypeName );
 
+  virtual ~element( );
+  void Release( );
+
   virtual void Render( ) { }
 
   void SetParent( element *pParent );
@@ -53,6 +56,8 @@ public:
   unsigned GetAbsoluteX( ) const;
   unsigned GetAbsoluteY( ) const;
   unsigned GetUserData( ) const;
+
+  virtual void SetProperty(const string &szProperty, unsigned nValue);
 
   virtual void OnMessage( unsigned px, unsigned py );
   virtual bool IsPointInside( unsigned px, unsigned py ) const;
