@@ -13,6 +13,8 @@ namespace liteui
 
 scene::scene( )
   : base("scene")
+  , m_lastPx( 0 )
+  , m_lastPy( 0 )
 {
 }
   
@@ -40,6 +42,18 @@ void scene::RenderScene( )
 bool scene::HasGroup( group *pGroup ) const
 {
   return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
+}
+
+void scene::SetCursor( unsigned px, unsigned py )
+{
+  if( px != m_lastPx || py != m_lastPy ) {   
+    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+      (*it)->OnMessage(px, py);
+    }
+
+    m_lastPx = px;
+    m_lastPy = py;
+  }
 }
 
 };

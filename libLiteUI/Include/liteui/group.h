@@ -31,6 +31,8 @@ public:
   bool HasChild( element *pObj ) const;
   bool HasChildNamed( const char *cName ) const;
 
+  virtual void OnMessage( unsigned px, unsigned py );
+
   virtual void Render( ) ;
   virtual void Update( ) ;
 

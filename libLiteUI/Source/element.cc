@@ -19,6 +19,9 @@ element::element( const string &szTypeName )
   , m_userData( 0 )
   , m_bDirty( true )
 {
+  for( unsigned i = 0; i < cb_reason_count; i++ ) {
+    m_callbacks[i] = nullptr;
+  }
 }
 
 void element::SetParent( element *pParent )
@@ -123,6 +126,12 @@ unsigned element::GetHeight( ) const
   return m_height;
 }
 
+void element::OnMessage( unsigned px, unsigned py )
+{
+  const bool bInsideElement = IsPointInside( px, py );
+  UpdateState( bInsideElement );
+}
+
 bool element::IsPointInside( unsigned px, unsigned py ) const
 {
   const unsigned ab_px = GetAbsoluteX();
@@ -135,6 +144,27 @@ bool element::IsPointInside( unsigned px, unsigned py ) const
 void element::Update( )
 {
   m_bDirty = false;
+}
+
+void element::SetCallback( element_callback_reason method, element_callback callback )
+{
+  if( method < cb_reason_count ) {
+    m_callbacks[method] = callback;
+  }
+}
+
+void element::OnBlur( )
+{
+  if( m_callbacks[cb_blur] != nullptr ) {
+    (*m_callbacks[cb_blur])(this);
+  }
+}
+
+void element::OnFocus( )
+{
+  if( m_callbacks[cb_focus] != nullptr ) {
+    (*m_callbacks[cb_focus])(this);
+  }
 }
 
 };

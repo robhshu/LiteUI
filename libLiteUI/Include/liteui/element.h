@@ -9,14 +9,27 @@
 #define LIBLITEUI_ELEMENT_H
 
 #include <liteui/base.h>
+#include <liteui/state.h>
 #include <string>
 
 namespace liteui
 {
 using std::string;
 
+class element;
+typedef void (*element_callback)(element*);
+
+enum element_callback_reason
+{
+  cb_focus = 0,
+  cb_blur,
+
+  cb_reason_count
+};
+
 class element
   : public base
+  , public state
 {
 public:
   element( const string &szTypeName );
@@ -41,8 +54,14 @@ public:
   unsigned GetAbsoluteY( ) const;
   unsigned GetUserData( ) const;
 
+  virtual void OnMessage( unsigned px, unsigned py );
   virtual bool IsPointInside( unsigned px, unsigned py ) const;
   virtual void Update( );
+
+  virtual void OnBlur( );
+  virtual void OnFocus( );
+
+  void SetCallback( element_callback_reason method, element_callback callback );
 
 private:
   element *m_pParent;
@@ -51,6 +70,7 @@ private:
   unsigned m_width;
   unsigned m_height;
   unsigned m_userData;
+  element_callback m_callbacks[cb_reason_count];
 
 protected:
   bool m_bDirty;

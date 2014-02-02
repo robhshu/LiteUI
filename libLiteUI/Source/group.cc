@@ -82,4 +82,16 @@ void group::Update( )
   }
 }
 
+void group::OnMessage( unsigned px, unsigned py )
+{
+  if( IsPointInside( px, py ) ) {
+    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+      (*it)->OnMessage( px, py );
+    }
+  }
+
+  // the group may also have callbacks from the base class
+  element::OnMessage( px, py );
+}
+
 };

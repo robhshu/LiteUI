@@ -8,14 +8,17 @@
 #ifndef LIBLITEUI_PARSER_H
 #define LIBLITEUI_PARSER_H
 
-#include <liteui/scenegraph.h>
+#include <liteui/scene.h>
+#include <liteui/element.h>
 
 namespace liteui
 {
 class parser
 {
 public:
-
+  bool Read( const string &szJson );
+  virtual scene *OnCreateScene( ) const;
+  virtual element *OnCreateElement( const string &szType ) const;
 };
 };
 
