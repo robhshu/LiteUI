@@ -31,6 +31,8 @@ public:
   bool IsHighlighted( ) const;
   bool IsSelected( ) const;
 
+  void UpdateStateRaw( bool bHighlighted );
+
 protected:
   state( );
 

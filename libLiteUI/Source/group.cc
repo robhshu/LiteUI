@@ -84,9 +84,15 @@ void group::Update( )
 
 void group::OnMessage( unsigned px, unsigned py )
 {
+  // we could just send OnMessage to everything
+
   if( IsPointInside( px, py ) ) {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       (*it)->OnMessage( px, py );
+    }
+  } else {
+    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+      (*it)->UpdateStateRaw( false );
     }
   }
 

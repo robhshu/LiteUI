@@ -32,6 +32,11 @@ void state::UpdateState( bool bHighlighted )
   }
 }
 
+void state::UpdateStateRaw( bool bHighlighted )
+{
+  UpdateState( bHighlighted );
+}
+
 bool state::IsHighlighted( ) const
 {
   return m_internalState.m_highlighted;
