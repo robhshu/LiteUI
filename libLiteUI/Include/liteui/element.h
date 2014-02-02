@@ -72,8 +72,6 @@ private:
   unsigned m_userData;
   element_callback m_callbacks[cb_reason_count];
 
-protected:
-  bool m_bDirty;
 };
 };
 

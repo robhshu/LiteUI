@@ -32,12 +32,14 @@ public:
   void SetCursor( unsigned px, unsigned py );
 
   void RenderScene( );
+  
 
 private:
   groups m_groupItems;
   unsigned m_lastPx;
   unsigned m_lastPy;
 
+  void UpdateScene( );
   bool HasGroup( group *pGroup ) const;
 };
 };

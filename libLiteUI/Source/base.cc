@@ -12,6 +12,7 @@ namespace liteui
 base::base( const string &szTypeName )
   : m_szTypeName( szTypeName )
   , m_szName( "unnamed" )
+  , m_bDirty( true )
 {
 }
 
@@ -20,6 +21,11 @@ void base::SetName( const string &szName )
   if( m_szName.compare( szName ) != 0 ) {
     m_szName = szName;
   }
+}
+
+void base::Dirty( )
+{
+  m_bDirty = true;
 }
 
 const string &base::GetTypeName( ) const

@@ -17,7 +17,6 @@ element::element( const string &szTypeName )
   , m_width( 1 )
   , m_height( 1 )
   , m_userData( 0 )
-  , m_bDirty( true )
 {
   for( unsigned i = 0; i < cb_reason_count; i++ ) {
     m_callbacks[i] = nullptr;

@@ -22,6 +22,7 @@ void scene::AddGroup( group *pGroup )
 {
   if( !HasGroup( pGroup ) ) {
     m_groupItems.push_back( pGroup );
+    m_bDirty = true;
   }
 }
 
@@ -34,9 +35,21 @@ group *scene::FindGroupNyName( const char* cGroupName )
 
 void scene::RenderScene( )
 {
+  if( m_bDirty ) {
+    UpdateScene();
+  }
   for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
     (*it)->Render();
   }
+}
+
+void scene::UpdateScene( )
+{
+  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+    (*it)->Update();
+  }
+
+  m_bDirty = false;
 }
 
 bool scene::HasGroup( group *pGroup ) const
@@ -46,7 +59,7 @@ bool scene::HasGroup( group *pGroup ) const
 
 void scene::SetCursor( unsigned px, unsigned py )
 {
-  if( px != m_lastPx || py != m_lastPy ) {   
+  if( px != m_lastPx || py != m_lastPy || m_bDirty ) {   
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
       (*it)->OnMessage(px, py);
     }

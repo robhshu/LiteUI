@@ -19,12 +19,15 @@ class base
 public:
   base( const string &szTypeName );
   void SetName( const string &szName );
+  void Dirty( );
 
   const string &GetTypeName( ) const;
   const string &GetName( ) const;
 private:
   const string m_szTypeName;
   string m_szName;
+protected:
+  bool m_bDirty;
 };
 };
 
