@@ -15,7 +15,7 @@ It has been designed to be a lightweight object-orientated approach for common u
 
 ## XML
 
-Interfaces can created using XML serialization‎ like so:
+Interfaces can be represented using XML like so:
 
 
 ```
