@@ -13,8 +13,8 @@ namespace liteui
 
 scene::scene( )
   : base("scene")
-  , m_lastPx( 0 )
-  , m_lastPy( 0 )
+  , m_lastPx( unsigned(-1) )
+  , m_lastPy( unsigned(-1) )
 {
 }
   
