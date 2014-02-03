@@ -17,10 +17,8 @@ element::element( const string &szTypeName )
   , m_width( 1 )
   , m_height( 1 )
   , m_userData( 0 )
+  , m_eventCallback( nullptr )
 {
-  for( unsigned i = 0; i < cb_reason_count; i++ ) {
-    m_callbacks[i] = nullptr;
-  }
 }
 
 element::~element( )
@@ -170,24 +168,29 @@ void element::Update( )
   m_bDirty = false;
 }
 
-void element::SetCallback( element_callback_reason method, element_callback callback )
+void element::SetCallbackFunc( element_callback callback )
 {
-  if( method < cb_reason_count ) {
-    m_callbacks[method] = callback;
+  m_eventCallback = callback;
+}
+
+void element::SetEventReason(element_callback_reason event, const string &szReason)
+{
+  if( event < cb_reason_count ) {
+    m_eventReasons[event] = szReason;
   }
 }
 
 void element::OnBlur( )
 {
-  if( m_callbacks[cb_blur] != nullptr ) {
-    (*m_callbacks[cb_blur])(this);
+  if( !m_eventReasons[cb_blur].empty() && m_eventCallback != nullptr ) {
+    (*m_eventCallback)(this, m_eventReasons[cb_blur]);
   }
 }
 
 void element::OnFocus( )
 {
-  if( m_callbacks[cb_focus] != nullptr ) {
-    (*m_callbacks[cb_focus])(this);
+  if( !m_eventReasons[cb_focus].empty() && m_eventCallback != nullptr ) {
+    (*m_eventCallback)(this, m_eventReasons[cb_focus]);
   }
 }
 

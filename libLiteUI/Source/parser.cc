@@ -100,7 +100,14 @@ private:
         if( pAttrib->QueryIntValue(&value) == tinyxml2::XML_SUCCESS ) {
           pEle->SetProperty(pAttrib->Name(), value);
         } else {
-          // todo: set string attribute
+          if( pAttrib->Name() == string("text") ) {
+            static_cast<label* >(pEle)->SetText( pAttrib->Value() );
+          }else if( pAttrib->Name() == string("name") ) {
+            pEle->SetName( pAttrib->Value() );
+          } else if( pAttrib->Name() == string("onFocus") ) {
+            pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
+            pEle->SetEventReason(element_callback_reason::cb_blur, "blur");
+          }
         }
       }
 

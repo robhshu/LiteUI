@@ -17,7 +17,7 @@ namespace liteui
 using std::string;
 
 class element;
-typedef void (*element_callback)(element*);
+typedef void (*element_callback)(element*, const string&);
 
 enum element_callback_reason
 {
@@ -66,7 +66,8 @@ public:
   virtual void OnBlur( );
   virtual void OnFocus( );
 
-  void SetCallback( element_callback_reason method, element_callback callback );
+  void SetCallbackFunc( element_callback callback );
+  void SetEventReason(element_callback_reason event, const string &szReason);
 
 private:
   element *m_pParent;
@@ -75,8 +76,8 @@ private:
   unsigned m_width;
   unsigned m_height;
   unsigned m_userData;
-  element_callback m_callbacks[cb_reason_count];
-
+  element_callback m_eventCallback;
+  string m_eventReasons[cb_reason_count];
 };
 };
 
