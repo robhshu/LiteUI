@@ -22,9 +22,6 @@
     <Filter Include="LiteUI\elements\panel">
       <UniqueIdentifier>{80e22175-d86f-404a-9baf-fee0078f8158}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LiteUI\parser\cajun">
-      <UniqueIdentifier>{ebb6641e-9380-410e-bb6f-0814e20d390f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="LiteUI\containers">
       <UniqueIdentifier>{5fee620d-fc87-4d1d-a323-da019d263f7b}</UniqueIdentifier>
     </Filter>
@@ -36,6 +33,9 @@
     </Filter>
     <Filter Include="LiteUI\base">
       <UniqueIdentifier>{4964089c-57a9-4d6b-8a35-acf47e2e77b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LiteUI\parser\tinyxml2">
+      <UniqueIdentifier>{4aed0671-9f8e-4573-96bf-d22d41b29445}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -69,20 +69,11 @@
     <ClInclude Include="Include\liteui\panel.h">
       <Filter>LiteUI\elements\panel</Filter>
     </ClInclude>
-    <ClInclude Include="External\cajun-2.0.2\json\elements.h">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </ClInclude>
-    <ClInclude Include="External\cajun-2.0.2\json\reader.h">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </ClInclude>
-    <ClInclude Include="External\cajun-2.0.2\json\visitor.h">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </ClInclude>
-    <ClInclude Include="External\cajun-2.0.2\json\writer.h">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </ClInclude>
     <ClInclude Include="Include\liteui\state.h">
       <Filter>LiteUI\base</Filter>
+    </ClInclude>
+    <ClInclude Include="External\tinyxml2\tinyxml2.h">
+      <Filter>LiteUI\parser\tinyxml2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,16 +107,8 @@
     <ClCompile Include="Source\state.cc">
       <Filter>LiteUI\base</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="External\cajun-2.0.2\json\writer.inl">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </None>
-    <None Include="External\cajun-2.0.2\json\elements.inl">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </None>
-    <None Include="External\cajun-2.0.2\json\reader.inl">
-      <Filter>LiteUI\parser\cajun</Filter>
-    </None>
+    <ClCompile Include="External\tinyxml2\tinyxml2.cpp">
+      <Filter>LiteUI\parser\tinyxml2</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
