@@ -8,35 +8,23 @@ It has been designed to be a lightweight object-orientated approach for common u
 ## Features
 
 * Straightforward element hierarchy
-* Support for creating interfaces from JSON
+* Support for creating interfaces from XML
 * Event callbacks
 * Virtual methods for control, even at a high-level
 
 
-## JSON
+## XML
 
-Interfaces can created using JSON serialization‎ like so:
+Interfaces can created using XML serialization‎ like so:
 
 
 ```
-{
-	"scene" :	[
-	{
-		"@name" : "Scene 1",
-		"group" : [
-		{
-			"@name" : "Group 1",
-			"button" : [
-			{
-				"@name" : "Button 1",
-				"^pos_x" : 10,
-				"^pos_y" : 10,
-				"^width" : 100,
-				"^height" : 70
-			}]
-		}]
-	}]
-}
+<scene name="Scene 1">
+	<group name="Button Group">
+		<button width="100" height="100" />
+		<button pos_x="150" width="100" height="100" />
+	</group>
+</scene>
 ```
 
 This creates a basic button which can be manipulated directly or via the parent group object.
