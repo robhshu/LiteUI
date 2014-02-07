@@ -23,8 +23,45 @@ enum element_callback_reason
 {
   cb_focus = 0,
   cb_blur,
+  cb_press,
+  cb_release,
 
   cb_reason_count
+};
+
+class element_message
+{
+private:
+  unsigned m_px;
+  unsigned m_py;
+  unsigned m_mdown;
+public:
+  element_message( unsigned px, unsigned py, unsigned mstate )
+  {
+      Set(px, py, mstate);
+  }
+
+  void Set( unsigned px, unsigned py, unsigned mstate )
+  {
+      m_px    = px;
+      m_py    = py;
+      m_mdown = mstate;
+  }
+
+  unsigned GetCursorX( ) const
+  {
+    return m_px;
+  }
+
+  unsigned GetCursorY( ) const
+  {
+    return m_py;
+  }
+
+  unsigned GetCursorState( ) const
+  {
+    return m_mdown;
+  }
 };
 
 class element
@@ -59,12 +96,15 @@ public:
 
   virtual void SetProperty(const string &szProperty, unsigned nValue);
 
-  virtual void OnMessage( unsigned px, unsigned py );
+  virtual void Dirty( );
+
+  virtual void OnMessage( const element_message &msg );
   virtual bool IsPointInside( unsigned px, unsigned py ) const;
   virtual void Update( );
 
   virtual void OnBlur( );
   virtual void OnFocus( );
+  virtual void OnSelect( bool bActive );
 
   void SetCallbackFunc( element_callback callback );
   void SetEventReason(element_callback_reason event, const string &szReason);

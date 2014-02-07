@@ -18,7 +18,7 @@ base::base( const string &szTypeName )
 
 void base::SetName( const string &szName )
 {
-  if( m_szName.compare( szName ) != 0 ) {
+  if( m_szName != szName ) {
     m_szName = szName;
   }
 }

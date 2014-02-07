@@ -27,16 +27,17 @@ private:
 public:
   virtual void OnFocus( ) { }
   virtual void OnBlur( ) { }
+  virtual void OnSelect( bool bActive ) { }
 
   bool IsHighlighted( ) const;
   bool IsSelected( ) const;
 
-  void UpdateStateRaw( bool bHighlighted );
+  void UpdateStateRaw( bool bHighlighted, bool bSelected );
 
 protected:
   state( );
 
-  void UpdateState( bool bHighlighted );
+  void UpdateState( bool bHighlighted, bool bSelected );
 };
 
 };

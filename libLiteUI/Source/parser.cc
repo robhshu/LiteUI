@@ -106,7 +106,12 @@ private:
             pEle->SetName( pAttrib->Value() );
           } else if( pAttrib->Name() == string("onFocus") ) {
             pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
-            pEle->SetEventReason(element_callback_reason::cb_blur, "blur");
+          } else if( pAttrib->Name() == string("onBlur") ) {
+            pEle->SetEventReason(element_callback_reason::cb_blur, pAttrib->Value());
+          } else if( pAttrib->Name() == string("onPress") ) {
+            pEle->SetEventReason(element_callback_reason::cb_press, pAttrib->Value());
+          } else if( pAttrib->Name() == string("onRelease") ) {
+            pEle->SetEventReason(element_callback_reason::cb_release, pAttrib->Value());
           }
         }
       }

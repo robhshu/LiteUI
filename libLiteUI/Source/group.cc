@@ -91,22 +91,20 @@ void group::Update( )
   }
 }
 
-void group::OnMessage( unsigned px, unsigned py )
+void group::OnMessage( const element_message &msg )
 {
-  // we could just send OnMessage to everything
-
-  if( IsPointInside( px, py ) ) {
+  if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->OnMessage( px, py );
+      (*it)->OnMessage( msg );
     }
   } else {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->UpdateStateRaw( false );
+      (*it)->UpdateStateRaw(false, false);
     }
   }
 
   // the group may also have callbacks from the base class
-  element::OnMessage( px, py );
+  element::OnMessage( msg );
 }
 
 };

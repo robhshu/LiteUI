@@ -19,8 +19,10 @@ state::state( )
 {
 }
 
-void state::UpdateState( bool bHighlighted )
+void state::UpdateState( bool bHighlighted, bool bSelected )
 {
+  // multiple events can be fired off here
+  
   if( bHighlighted != m_internalState.m_highlighted ) {
     if( bHighlighted && !m_internalState.m_highlighted ) {
       OnFocus( );
@@ -30,11 +32,28 @@ void state::UpdateState( bool bHighlighted )
 
     m_internalState.m_highlighted = bHighlighted;
   }
+
+  // todo: correctly fire off selection event
+
+  //if( ( bSelected != m_internalState.m_selected ) ) {
+
+  //  // event will not fire if not hovering
+
+  //  if( bHighlighted ) {
+  //    if( bSelected && !m_internalState.m_selected ) {
+  //      OnSelect(true);
+  //    } else {
+  //      OnSelect(false);
+  //    }
+  //  }
+
+  //  m_internalState.m_selected = bSelected;
+  //}
 }
 
-void state::UpdateStateRaw( bool bHighlighted )
+void state::UpdateStateRaw( bool bHighlighted, bool bSelected )
 {
-  UpdateState( bHighlighted );
+  UpdateState( bHighlighted, bSelected );
 }
 
 bool state::IsHighlighted( ) const

@@ -35,7 +35,7 @@ void element::SetParent( element *pParent )
 {
   if( m_pParent != pParent ) {
     m_pParent = pParent;
-    m_bDirty = true;
+    Dirty();
   }
 }
 
@@ -43,7 +43,7 @@ void element::SetPositionX( unsigned px )
 {
   if( m_posX != px ) {
     m_posX = px;
-    m_bDirty = true;
+    Dirty();
   }
 }
 
@@ -51,7 +51,7 @@ void element::SetPositionY( unsigned py )
 {
   if( m_posY != py ) {
     m_posY = py;
-    m_bDirty = true;
+    Dirty();
   }
 }
 
@@ -65,14 +65,14 @@ void element::SetWidth( unsigned val )
 {
   if( val >= 1 ) {
     m_width = val;
-    m_bDirty = true;
+    Dirty();
   }
 }
 
 void element::SetHeight( unsigned val ) {
   if( val >= 1 ) {
     m_height = val;
-    m_bDirty = true;
+    Dirty();
   }
 }
 
@@ -148,10 +148,18 @@ void element::SetProperty(const string &szProperty, unsigned nValue)
   }
 }
 
-void element::OnMessage( unsigned px, unsigned py )
+void element::Dirty( )
 {
-  const bool bInsideElement = IsPointInside( px, py );
-  UpdateState( bInsideElement );
+  base::Dirty();
+  if( GetParent() ) {
+    GetParent()->Dirty();
+  }
+}
+
+void element::OnMessage( const element_message &msg )
+{
+  const bool bInsideElement = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
+  UpdateState( bInsideElement, ( bInsideElement ? msg.GetCursorState() : 0 ) );
 }
 
 bool element::IsPointInside( unsigned px, unsigned py ) const
@@ -191,6 +199,21 @@ void element::OnFocus( )
 {
   if( !m_eventReasons[cb_focus].empty() && m_eventCallback != nullptr ) {
     (*m_eventCallback)(this, m_eventReasons[cb_focus]);
+  }
+}
+
+void element::OnSelect( bool bActive )
+{
+  if( m_eventCallback != nullptr ) {
+    if( bActive ) {
+      if( !m_eventReasons[cb_press].empty() ) {
+        (*m_eventCallback)(this, m_eventReasons[cb_press]);
+      }
+    } else {
+      if( !m_eventReasons[cb_release].empty() ) {
+        (*m_eventCallback)(this, m_eventReasons[cb_release]);
+      }
+    }
   }
 }
 

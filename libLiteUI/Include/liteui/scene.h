@@ -29,15 +29,14 @@ public:
   void AddGroup( group *pGroup );
   group *FindGroupNyName( const char* cGroupName );
 
-  void SetCursor( unsigned px, unsigned py );
+  void SetCursor( unsigned px, unsigned py, unsigned mstate );
 
   void RenderScene( );
   
 
 private:
   groups m_groupItems;
-  unsigned m_lastPx;
-  unsigned m_lastPy;
+  element_message m_lastMsg;
 
   void UpdateScene( );
   bool HasGroup( group *pGroup ) const;

@@ -23,9 +23,9 @@ label::~label()
 
 void label::SetText( const string &szText )
 {
-  if( m_szText.compare( szText ) != 0 ) {
+  if( m_szText != szText ) {
     m_szText = szText;
-    m_bDirty = true;
+    Dirty();
   }
 }
 

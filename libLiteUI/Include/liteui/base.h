@@ -23,7 +23,7 @@ public:
   virtual void SetProperty(const string &szProperty, const string &szValue);
   virtual void SetProperty(const string &szProperty, unsigned nValue);
 
-  void Dirty( );
+  virtual void Dirty( );
 
   const string &GetTypeName( ) const;
   const string &GetName( ) const;
