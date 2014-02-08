@@ -57,12 +57,6 @@ bool group::HasChild( element *pObj ) const
   return find(m_items.begin(), m_items.end(), pObj) != m_items.end();
 }
 
-bool group::HasChildNamed( const char *cName ) const
-{
-  // todo: implement
-  return false;
-}
-
 void group::Update( )
 {
   if( m_bDirty ) {
@@ -91,7 +85,7 @@ void group::Update( )
   }
 }
 
-void group::OnMessage( const element_message &msg )
+void group::OnMessage( const state_message &msg )
 {
   if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {

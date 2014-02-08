@@ -16,9 +16,6 @@ namespace liteui
 {
 using std::string;
 
-class element;
-typedef void (*element_callback)(element*, const string&);
-
 enum element_callback_reason
 {
   cb_focus = 0,
@@ -29,85 +26,127 @@ enum element_callback_reason
   cb_reason_count
 };
 
-class element_message
+class element;
+
+class callback_info
 {
 private:
-  unsigned m_px;
-  unsigned m_py;
-  unsigned m_mdown;
+  const string m_reason;
+  element *m_element;
 public:
-  element_message( unsigned px, unsigned py, unsigned mstate )
+  /// Default constructor; callback reason and existing object
+  callback_info( const string &reason, element *pObj )
+    : m_reason( reason )
+    , m_element( pObj )
+  { }
+
+  /// Get the reason for this callback
+  const string &GetReason( ) const
   {
-      Set(px, py, mstate);
+    return m_reason;
   }
 
-  void Set( unsigned px, unsigned py, unsigned mstate )
+  /// Get the object associated with this callback
+  element *GetElement( ) const
   {
-      m_px    = px;
-      m_py    = py;
-      m_mdown = mstate;
-  }
-
-  unsigned GetCursorX( ) const
-  {
-    return m_px;
-  }
-
-  unsigned GetCursorY( ) const
-  {
-    return m_py;
-  }
-
-  unsigned GetCursorState( ) const
-  {
-    return m_mdown;
+    return m_element;
   }
 };
+
+class element;
+typedef void (*element_callback)(const callback_info &info);
 
 class element
   : public base
   , public state
 {
 public:
+  /// Default constructor; a typename is required to create an element
   element( const string &szTypeName );
 
+  /// Virtual destructor
   virtual ~element( );
+
+  /// Destroy this element; todo: virtual
   void Release( );
 
+  /// Virtual rendering function to override
   virtual void Render( ) { }
 
+  /// Set the current parent object of this instance; sets the dirty flag if changed
   void SetParent( element *pParent );
+
+  /// Set the x-position of this instance; sets the dirty flag if changed
   void SetPositionX( unsigned px );
+
+  /// Set the y-position of this instance; sets the dirty flag if changed
   void SetPositionY( unsigned py );
+
+  /// Set the position of this instance; sets the dirty flag if changed
   void SetPosition( unsigned px, unsigned py );
+
+  /// Set the width of this instance; sets the dirty flag if changed
   void SetWidth( unsigned val );
+
+  /// Set the height of this instance; sets the dirty flag if changed
   void SetHeight( unsigned val );
+
+  /// Set custom user-defined data
   void SetUserData( unsigned val );
 
+  /// Get the width of this object
   unsigned GetWidth( ) const;
+
+  /// Get the height of this object
   unsigned GetHeight( ) const;
 
+  /// Get the parent element of this object or nullptr
   element *GetParent( ) const;
+
+  /// Get the x-position of this element relative to the parent
   unsigned GetRelativeX( ) const;
+
+  /// Get the y-position of this element relative to the parent
   unsigned GetRelativeY( ) const;
+
+  /// Get the x-position of this element in the current scene
   unsigned GetAbsoluteX( ) const;
+
+  /// Get the y-position of this element in the current scene
   unsigned GetAbsoluteY( ) const;
+
+  /// Get custom user-defined data value
   unsigned GetUserData( ) const;
 
-  virtual void SetProperty(const string &szProperty, unsigned nValue);
+  /// Request a member is updated from a property name and property value
+  virtual void SetProperty(const string &szProperty, const string &szValue);
 
+  /// Mark this object as dirty; will also set parent as dirty if this object has a parent
   virtual void Dirty( );
 
-  virtual void OnMessage( const element_message &msg );
+  /// Handle a state update
+  virtual void OnMessage( const state_message &msg );
+
+  /// Check if a point is within this object instance
   virtual bool IsPointInside( unsigned px, unsigned py ) const;
+
+  /// Element-specific updating
   virtual void Update( );
 
+  /// Virtual function to handle a blur event
   virtual void OnBlur( );
+
+  /// Virtual function to handle a focus event
   virtual void OnFocus( );
+
+  /// Virtual function to handle a select event
   virtual void OnSelect( bool bActive );
 
+  /// Set a state listener callback (optional)
   void SetCallbackFunc( element_callback callback );
-  void SetEventReason(element_callback_reason event, const string &szReason);
+
+  /// Allow the listener callback to handle a specific event
+  void SetEventReason( element_callback_reason event, const string &szReason );
 
 private:
   element *m_pParent;

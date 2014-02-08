@@ -96,14 +96,12 @@ private:
 
       const XMLElement *pElement = pNode->ToElement();
       for( const XMLAttribute *pAttrib = pElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
-        int value = 0;
-        if( pAttrib->QueryIntValue(&value) == tinyxml2::XML_SUCCESS ) {
-          pEle->SetProperty(pAttrib->Name(), value);
-        } else {
+        //int value = 0;
+        //if( pAttrib->QueryIntValue(&value) == tinyxml2::XML_SUCCESS ) {
+        //  pEle->SetProperty(pAttrib->Name(), value);
+        //} else {
           if( pAttrib->Name() == string("text") ) {
             static_cast<label* >(pEle)->SetText( pAttrib->Value() );
-          }else if( pAttrib->Name() == string("name") ) {
-            pEle->SetName( pAttrib->Value() );
           } else if( pAttrib->Name() == string("onFocus") ) {
             pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
           } else if( pAttrib->Name() == string("onBlur") ) {
@@ -112,7 +110,8 @@ private:
             pEle->SetEventReason(element_callback_reason::cb_press, pAttrib->Value());
           } else if( pAttrib->Name() == string("onRelease") ) {
             pEle->SetEventReason(element_callback_reason::cb_release, pAttrib->Value());
-          }
+          } else {
+            pEle->SetProperty( pAttrib->Name(), pAttrib->Value() );
         }
       }
 

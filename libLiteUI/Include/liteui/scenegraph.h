@@ -23,10 +23,13 @@ typedef scenes::const_iterator  scenes_cit;
 class scenegraph
 {
 public:
+  /// Default constructor
   scenegraph( );
 
+  /// Fetch the current scene; the scene stack should be handled elsewhere
   scene &GetActiveScene( );
 
+  /// Add a scene to this scenegraph; the scene will automatically be released when the destructor is called
   void AddScene( scene *pScene );
   
 private:

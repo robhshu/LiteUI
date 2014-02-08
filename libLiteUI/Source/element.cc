@@ -133,18 +133,22 @@ unsigned element::GetHeight( ) const
   return m_height;
 }
 
-void element::SetProperty(const string &szProperty, unsigned nValue)
+void element::SetProperty(const string &szProperty, const string &szValue)
 {
   if( szProperty == "width" ) {
+    const unsigned nValue = atoi(szValue.c_str());
     SetWidth( nValue );
   } else if( szProperty == "height" ) {
+    const unsigned nValue = atoi(szValue.c_str());
     SetHeight( nValue );
   } else if( szProperty == "pos_x" ) {
+    const unsigned nValue = atoi(szValue.c_str());
     SetPositionX( nValue );
   } else if( szProperty == "pos_y" ) {
+    const unsigned nValue = atoi(szValue.c_str());
     SetPositionY( nValue );
   } else {
-    base::SetProperty( szProperty, nValue );
+    base::SetProperty( szProperty, szValue );
   }
 }
 
@@ -156,10 +160,10 @@ void element::Dirty( )
   }
 }
 
-void element::OnMessage( const element_message &msg )
+void element::OnMessage( const state_message &msg )
 {
   const bool bInsideElement = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
-  UpdateState( bInsideElement, ( bInsideElement ? msg.GetCursorState() : 0 ) );
+  UpdateState( bInsideElement, ( bInsideElement ? ( msg.GetCursorState() == 1 ) : false ) );
 }
 
 bool element::IsPointInside( unsigned px, unsigned py ) const
@@ -191,14 +195,16 @@ void element::SetEventReason(element_callback_reason event, const string &szReas
 void element::OnBlur( )
 {
   if( !m_eventReasons[cb_blur].empty() && m_eventCallback != nullptr ) {
-    (*m_eventCallback)(this, m_eventReasons[cb_blur]);
+    callback_info cb_info( m_eventReasons[cb_blur], this);
+    (*m_eventCallback)(cb_info);
   }
 }
 
 void element::OnFocus( )
 {
   if( !m_eventReasons[cb_focus].empty() && m_eventCallback != nullptr ) {
-    (*m_eventCallback)(this, m_eventReasons[cb_focus]);
+    callback_info cb_info( m_eventReasons[cb_focus], this);
+    (*m_eventCallback)(cb_info);
   }
 }
 
@@ -207,11 +213,13 @@ void element::OnSelect( bool bActive )
   if( m_eventCallback != nullptr ) {
     if( bActive ) {
       if( !m_eventReasons[cb_press].empty() ) {
-        (*m_eventCallback)(this, m_eventReasons[cb_press]);
+        callback_info cb_info( m_eventReasons[cb_press], this);
+        (*m_eventCallback)(cb_info);
       }
     } else {
       if( !m_eventReasons[cb_release].empty() ) {
-        (*m_eventCallback)(this, m_eventReasons[cb_release]);
+        callback_info cb_info( m_eventReasons[cb_release], this);
+        (*m_eventCallback)(cb_info);
       }
     }
   }

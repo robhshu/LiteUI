@@ -30,10 +30,6 @@ void base::SetProperty(const string &szProperty, const string &szValue)
   }
 }
 
-void base::SetProperty(const string &szProperty, unsigned nValue)
-{
-}
-
 void base::Dirty( )
 {
   m_bDirty = true;

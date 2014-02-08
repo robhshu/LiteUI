@@ -16,10 +16,16 @@ class button
   : public element
 {
 public:
+  /// Default constructor
   button( );
+  
+  /// Virtual destructor
   virtual ~button( ) { }
 
+  /// Button-specific rendering; unused
   virtual void Render( ) { }
+
+  /// Button-specific updating
   virtual void Update( ) ;
 };
 };

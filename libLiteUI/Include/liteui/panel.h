@@ -16,10 +16,16 @@ class panel
   : public element
 {
 public:
+  /// Default constructor
   panel( );
+  
+  /// Virtual destructor
   virtual ~panel( ){ }
 
+  /// Panel-specific rendering; unused
   virtual void Render( ) { }
+
+  /// Panel-specific updating; unused
   virtual void Update( ) { }
 };
 };

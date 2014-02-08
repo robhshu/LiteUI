@@ -17,13 +17,19 @@ namespace liteui
 class parser
 {
 public:
+  /// Default constructor; an existing scenegraph must be supplied by reference
   parser( scenegraph &sgRef );
 
+  /// Parse an XML string and load into the scenegraph
   bool Read( const string &szXML );
 
+  /// Request a scene be created when parsing XML 
   virtual scene *OnCreateScene( ) const;
+
+  /// Request an element be created by name when parsing XML
   virtual element *OnCreateElement( const string &szType ) const;
 
+  /// Get the scenegraph instance used for parsing
   scenegraph &GetSceneGraph( );
 
 private:

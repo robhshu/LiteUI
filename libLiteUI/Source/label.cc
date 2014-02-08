@@ -39,18 +39,13 @@ void label::SetProperty(const string &szProperty, const string &szValue)
   if( szProperty == "text" ) {
     SetText( szValue );
   } else {
-    base::SetProperty( szProperty, szValue );
+    element::SetProperty( szProperty, szValue );
   }
 }
 
 void label::Update( )
 {
   element::Update( );
-}
-
-unsigned label::GetTextLength( ) const
-{
-  return m_szText.length();
 }
 
 };
