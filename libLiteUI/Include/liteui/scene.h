@@ -34,7 +34,7 @@ public:
   group *FindGroupNyName( const char* cGroupName );
 
   /// Update the cursor position and mouse state within this scene
-  void SetCursor( unsigned px, unsigned py, unsigned mstate );
+  void SetCursor( unsigned px, unsigned py, bool bPressed );
 
   /// Render elements within this scene
   void RenderScene( );

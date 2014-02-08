@@ -62,12 +62,12 @@ bool scene::HasGroup( group *pGroup ) const
   return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
 }
 
-void scene::SetCursor( unsigned px, unsigned py, unsigned mstate )
+void scene::SetCursor( unsigned px, unsigned py, bool bPressed )
 {
-  if( m_bDirty || px != m_lastMsg.GetCursorX() || py != m_lastMsg.GetCursorY() || mstate != m_lastMsg.GetCursorState() )
+  if( m_bDirty || px != m_lastMsg.GetCursorX() || py != m_lastMsg.GetCursorY() || bPressed != m_lastMsg.HasPointerHeld() )
   {
     Dirty();
-    m_lastMsg.Set( px, py, mstate );
+    m_lastMsg.Set( px, py, bPressed );
   }
 }
 

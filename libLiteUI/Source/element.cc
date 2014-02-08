@@ -162,8 +162,30 @@ void element::Dirty( )
 
 void element::OnMessage( const state_message &msg )
 {
-  const bool bInsideElement = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
-  UpdateState( bInsideElement, ( bInsideElement ? ( msg.GetCursorState() == 1 ) : false ) );
+  const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
+  
+  const bool hover_change = ( IsHighlighted() != bPointInside );
+  const bool select_change = ( IsSelected() != msg.HasPointerHeld() );
+
+  if( hover_change ) {
+    // any hover change will stop it being selected
+
+    UpdateState( bPointInside, false );
+  } else if( select_change ) {
+    // we only care if this is within the element
+    
+    if( bPointInside ) {
+      if( msg.HasPointerPress() ) {
+        // update local selected flag when pressed the first time
+
+        UpdateState( true, true );
+      } else if( !msg.HasPointerHeld() ) {
+        // remove the local selected flag when released
+
+        UpdateState( true, false );
+      }
+    }
+  }
 }
 
 bool element::IsPointInside( unsigned px, unsigned py ) const

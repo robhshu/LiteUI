@@ -87,18 +87,21 @@ void group::Update( )
 
 void group::OnMessage( const state_message &msg )
 {
-  if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
+  const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
+  
+  if( bPointInside ) {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       (*it)->OnMessage( msg );
     }
+
+    element::OnMessage( msg );
   } else {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       (*it)->UpdateStateRaw(false, false);
     }
-  }
 
-  // the group may also have callbacks from the base class
-  element::OnMessage( msg );
+    element::UpdateStateRaw(false, false);
+  }
 }
 
 };

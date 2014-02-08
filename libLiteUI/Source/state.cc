@@ -12,6 +12,7 @@ namespace liteui
 state::state_internal::state_internal( )
   : m_highlighted( false )
   , m_selected( false )
+  , m_held( false )
 {
 }
 
@@ -28,27 +29,21 @@ void state::UpdateState( bool bHighlighted, bool bSelected )
       OnFocus( );
     } else {
       OnBlur( );
+      bSelected = false;
     }
 
     m_internalState.m_highlighted = bHighlighted;
   }
 
-  // todo: correctly fire off selection event
+  if( ( bSelected != m_internalState.m_selected ) ) {
+    if( bSelected && !m_internalState.m_selected ) {
+      OnSelect(true);
+    } else {
+      OnSelect(false);
+    }
 
-  //if( ( bSelected != m_internalState.m_selected ) ) {
-
-  //  // event will not fire if not hovering
-
-  //  if( bHighlighted ) {
-  //    if( bSelected && !m_internalState.m_selected ) {
-  //      OnSelect(true);
-  //    } else {
-  //      OnSelect(false);
-  //    }
-  //  }
-
-  //  m_internalState.m_selected = bSelected;
-  //}
+    m_internalState.m_selected = bSelected;
+  }
 }
 
 void state::UpdateStateRaw( bool bHighlighted, bool bSelected )
