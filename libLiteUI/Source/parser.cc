@@ -70,13 +70,13 @@ private:
             pScene->AddGroup( static_cast<group*>(pEle) );
           } else {
             // failed to load group
-            delete pScene;
+            pScene->Release();
             return false;
           }          
         } else {
           // cannot add anything but a group to this scene
 
-          delete pScene;
+          pScene->Release();
           return false;
         }
       }
@@ -93,6 +93,11 @@ private:
     for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
       const string szNodeType = pNode->Value();
       element *pEle = m_parser.OnCreateElement(szNodeType);
+
+      if( !pEle ) {
+        // unable to create element
+        return false;
+      }
 
       const XMLElement *pElement = pNode->ToElement();
       for( const XMLAttribute *pAttrib = pElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {

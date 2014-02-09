@@ -10,14 +10,14 @@
 namespace liteui
 {
 scenegraph::scenegraph( )
-  : m_idx( 0 )
+  : m_active( m_sceneList.end() )
 {
 }
 
 scenegraph::~scenegraph( )
 {
-  for( scenes_it it=m_sceneList.begin(); it!=m_sceneList.end(); it++ ) {
-    (*it)->Release( );
+  for( sceneMap_it it=m_sceneList.begin(); it!=m_sceneList.end(); it++ ) {
+    (*it).second->Release( );
   }
 
   m_sceneList.clear();
@@ -25,13 +25,20 @@ scenegraph::~scenegraph( )
 
 scene &scenegraph::GetActiveScene( )
 {
-  return *m_sceneList[m_idx];
+  return *m_active->second;
 }
 
 bool scenegraph::NextScene( )
 {
-  if( m_idx < m_sceneList.size() -1 ) {
-    m_idx++;
+  if( m_active == m_sceneList.end() ) {
+    return false;
+  }
+
+  sceneMap_it next_scene = m_active;
+  ++next_scene;
+
+  if( next_scene != m_sceneList.end() ){
+    m_active = next_scene;
     return true;
   } else {
     return false;
@@ -40,17 +47,34 @@ bool scenegraph::NextScene( )
 
 bool scenegraph::PreviousScene( )
 {
-  if( m_idx > 0 ) {
-    m_idx--;
+  if( m_active == m_sceneList.end() || m_active == m_sceneList.begin() ) {
+    return false;
+  }
+
+  sceneMap_it prev_scene = m_active;
+  --prev_scene;
+
+  if( prev_scene != m_sceneList.end() ){
+    m_active = prev_scene;
     return true;
   } else {
     return false;
   }
 }
 
-void scenegraph::AddScene( scene *pScene )
+void scenegraph::AddScene( scene *pScene, const unsigned uPriority /*= 0*/ )
 {
-  m_sceneList.push_back( pScene );
+  sceneMap_it pos = m_sceneList.insert( sceneMapPair( uPriority, pScene ) );
+
+  // Default to first added scene
+  if( m_active == m_sceneList.end() ) {
+    m_active = pos;
+  }
+}
+
+unsigned scenegraph::CountScenes( ) const
+{
+  return m_sceneList.size();
 }
 
 };

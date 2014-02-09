@@ -11,14 +11,15 @@
 #include <liteui/scene.h>
 #include <liteui/group.h>
 
-#include <vector>
+#include <map>
 
 namespace liteui
 {
-using std::vector;
-typedef vector<scene* >         scenes;
-typedef scenes::iterator        scenes_it;
-typedef scenes::const_iterator  scenes_cit;
+using std::multimap;
+typedef std::pair<unsigned, scene*> sceneMapPair;
+typedef multimap<unsigned, scene*>  sceneMap;
+typedef sceneMap::iterator          sceneMap_it;
+typedef sceneMap::const_iterator    sceneMap_cit;
 
 class scenegraph
 {
@@ -39,11 +40,14 @@ public:
   bool PreviousScene( );
 
   /// Add a scene to this scenegraph; the scene will automatically be released when the destructor is called
-  void AddScene( scene *pScene );
+  void AddScene( scene *pScene, const unsigned uPriority = 0 );
+
+  ///  Get the number of loaded scenes
+  unsigned CountScenes( ) const;
   
 private:
-  scenes m_sceneList;
-  unsigned m_idx;
+  sceneMap m_sceneList;
+  sceneMap_it m_active;
 };
 };
 
