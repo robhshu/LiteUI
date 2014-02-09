@@ -61,10 +61,23 @@ private:
       }
 
       for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
-        const string szNodeType = pNode->Value();
-        element *pEle = m_parser.OnCreateElement(szNodeType);
+        // Skip comments
+        if( pNode->ToComment() ) {
+          continue;
+        }
 
+        const string szNodeType = pNode->Value();
         if( szNodeType == "group" ) {
+          element *pEle = m_parser.OnCreateElement(szNodeType);
+          if( !pEle ) {
+            // unable to create group
+            return false;
+          }
+
+          if( !LoadAttributes( pNode->ToElement(), pEle ) ) {
+            pEle->Release( );
+            return false;
+          }
 
           if( LoadGroup( pNode->ToElement(), static_cast<group*>(pEle) ) ) {
             pScene->AddGroup( static_cast<group*>(pEle) );
@@ -91,42 +104,45 @@ private:
   bool LoadGroup( XMLElement *pRoot, group *pOwner )
   {
     for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
-
       // Skip comments
       if( pNode->ToComment() ) {
         continue;
       }
 
-      const string szNodeType = pNode->Value();
-      element *pEle = m_parser.OnCreateElement(szNodeType);
+      element *pEle = m_parser.OnCreateElement(pNode->Value());
 
       if( !pEle ) {
         // unable to create element
         return false;
       }
 
-      const XMLElement *pElement = pNode->ToElement();
-      for( const XMLAttribute *pAttrib = pElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
-        //int value = 0;
-        //if( pAttrib->QueryIntValue(&value) == tinyxml2::XML_SUCCESS ) {
-        //  pEle->SetProperty(pAttrib->Name(), value);
-        //} else {
-          if( pAttrib->Name() == string("text") ) {
-            static_cast<label* >(pEle)->SetText( pAttrib->Value() );
-          } else if( pAttrib->Name() == string("onFocus") ) {
-            pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
-          } else if( pAttrib->Name() == string("onBlur") ) {
-            pEle->SetEventReason(element_callback_reason::cb_blur, pAttrib->Value());
-          } else if( pAttrib->Name() == string("onPress") ) {
-            pEle->SetEventReason(element_callback_reason::cb_press, pAttrib->Value());
-          } else if( pAttrib->Name() == string("onRelease") ) {
-            pEle->SetEventReason(element_callback_reason::cb_release, pAttrib->Value());
-          } else {
-            pEle->SetProperty( pAttrib->Name(), pAttrib->Value() );
-        }
+      if( !LoadAttributes( pNode->ToElement(), pEle ) ) {
+        pEle->Release( );
+        return false;
       }
 
       pOwner->AddChild(pEle);
+    }
+
+    return true;
+  }
+
+  bool LoadAttributes( XMLElement *pElement, element *pEle )
+  {
+    for( const XMLAttribute *pAttrib = pElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
+      if( pAttrib->Name() == string("text") ) {
+        static_cast<label* >(pEle)->SetText( pAttrib->Value() );
+      } else if( pAttrib->Name() == string("onFocus") ) {
+        pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
+      } else if( pAttrib->Name() == string("onBlur") ) {
+        pEle->SetEventReason(element_callback_reason::cb_blur, pAttrib->Value());
+      } else if( pAttrib->Name() == string("onPress") ) {
+        pEle->SetEventReason(element_callback_reason::cb_press, pAttrib->Value());
+      } else if( pAttrib->Name() == string("onRelease") ) {
+        pEle->SetEventReason(element_callback_reason::cb_release, pAttrib->Value());
+      } else {
+        pEle->SetProperty( pAttrib->Name(), pAttrib->Value() );
+      }
     }
 
     return true;
