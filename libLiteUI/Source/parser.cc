@@ -91,6 +91,12 @@ private:
   bool LoadGroup( XMLElement *pRoot, group *pOwner )
   {
     for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
+
+      // Skip comments
+      if( pNode->ToComment() ) {
+        continue;
+      }
+
       const string szNodeType = pNode->Value();
       element *pEle = m_parser.OnCreateElement(szNodeType);
 
