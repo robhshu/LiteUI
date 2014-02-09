@@ -26,14 +26,24 @@ public:
   /// Default constructor
   scenegraph( );
 
+  /// Destructor
+  ~scenegraph( );
+
   /// Fetch the current scene; the scene stack should be handled elsewhere
   scene &GetActiveScene( );
+
+  /// Go to the next scene
+  bool NextScene( );
+
+  /// Go to the previous scene
+  bool PreviousScene( );
 
   /// Add a scene to this scenegraph; the scene will automatically be released when the destructor is called
   void AddScene( scene *pScene );
   
 private:
   scenes m_sceneList;
+  unsigned m_idx;
 };
 };
 
