@@ -91,6 +91,9 @@ public:
   /// Set custom user-defined data
   void SetUserData( unsigned val );
 
+  /// Set the anchor flags
+  void SetAnchorFlags( bool tl, bool tr, bool bl, bool br );
+
   /// Get the width of this object
   unsigned GetWidth( ) const;
 
@@ -114,6 +117,9 @@ public:
 
   /// Get custom user-defined data value
   unsigned GetUserData( ) const;
+
+  /// Fetch the anchor flags
+  bool GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const;
 
   /// Request a member is updated from a property name and property value
   virtual void SetProperty(const string &szProperty, const string &szValue);
@@ -158,6 +164,11 @@ private:
   bool m_bDragging;
   unsigned m_dragX;
   unsigned m_dragY;
+  unsigned
+    m_anchor_tl : 1,
+    m_anchor_tr : 1,
+    m_anchor_bl : 1,
+    m_anchor_br : 1;
   element_callback m_eventCallback;
   string m_eventReasons[cb_reason_count];
 };

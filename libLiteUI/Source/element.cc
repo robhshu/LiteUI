@@ -20,6 +20,10 @@ element::element( const string &szTypeName )
   , m_bDragging( false )
   , m_dragX( 0 )
   , m_dragY( 0 )
+  , m_anchor_tl( 0 )
+  , m_anchor_tr( 0 )
+  , m_anchor_bl( 0 )
+  , m_anchor_br( 0 )
   , m_eventCallback( nullptr )
 {
 }
@@ -79,6 +83,14 @@ void element::SetUserData( unsigned val )
   m_userData = val;
 }
 
+void element::SetAnchorFlags( bool tl, bool tr, bool bl, bool br )
+{
+  m_anchor_tl = ( tl ? 1 : 0 );
+  m_anchor_tr = ( tr ? 1 : 0 );
+  m_anchor_bl = ( bl ? 1 : 0 );
+  m_anchor_br = ( br ? 1 : 0 );
+}
+
 element *element::GetParent( ) const
 {
   return m_pParent;
@@ -131,6 +143,16 @@ unsigned element::GetHeight( ) const
   return m_height;
 }
 
+bool element::GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const
+{
+  tl = ( m_anchor_tl != 0 );
+  tr = ( m_anchor_tr != 0 );
+  bl = ( m_anchor_bl != 0 );
+  br = ( m_anchor_br != 0 );
+  
+  return tl || tr || bl || br;
+}
+
 void element::SetProperty(const string &szProperty, const string &szValue)
 {
   if( szProperty == "width" ) {
@@ -145,6 +167,13 @@ void element::SetProperty(const string &szProperty, const string &szValue)
   } else if( szProperty == "pos_y" ) {
     const unsigned nValue = atoi(szValue.c_str());
     SetPositionY( nValue );
+  } else if( szProperty == "anchor" ) {
+    bool tl = (strstr(szValue.c_str(), "tl") != nullptr);
+    bool tr = (strstr(szValue.c_str(), "tr") != nullptr);
+    bool bl = (strstr(szValue.c_str(), "bl") != nullptr);
+    bool br = (strstr(szValue.c_str(), "br") != nullptr);
+
+    SetAnchorFlags(tl, tr, bl, br);
   } else {
     base::SetProperty( szProperty, szValue );
   }
@@ -206,6 +235,34 @@ bool element::IsPointInside( unsigned px, unsigned py ) const
 void element::Update( )
 {
   m_bDirty = false;
+
+  if( GetParent() ) {
+    // expand horizontally
+    if( ( m_anchor_tl && m_anchor_tr ) || ( m_anchor_bl && m_anchor_br ) ) {
+      SetWidth( GetParent()->GetWidth() );
+    }
+
+    // expand vertically
+    if( ( m_anchor_tl && m_anchor_bl ) || ( m_anchor_tr && m_anchor_br ) ) {
+      SetHeight( GetParent()->GetHeight() );
+    }
+
+    if( m_anchor_tl ) {
+      SetPositionX( 0 );
+      SetPositionY( 0 );
+    } else if( m_anchor_tr ) {
+      SetPositionX( GetParent()->GetWidth() - GetWidth() );
+      SetPositionY( 0 );
+    }
+
+    if( m_anchor_bl ) {
+      SetPositionX(0);
+      SetPositionY( GetParent()->GetHeight() - GetHeight() );
+    } else if( m_anchor_br ) {
+      SetPositionX( GetParent()->GetWidth() - GetWidth() );
+      SetPositionY( GetParent()->GetHeight() - GetHeight() );
+    }
+  }
 }
 
 void element::SetCallbackFunc( element_callback callback )
