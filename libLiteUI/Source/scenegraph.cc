@@ -16,11 +16,7 @@ scenegraph::scenegraph( )
 
 scenegraph::~scenegraph( )
 {
-  for( sceneMap_it it=m_sceneList.begin(); it!=m_sceneList.end(); it++ ) {
-    (*it).second->Release( );
-  }
-
-  m_sceneList.clear();
+  ClearAll();
 }
 
 scene &scenegraph::GetActiveScene( )
@@ -75,6 +71,16 @@ void scenegraph::AddScene( scene *pScene, const unsigned uPriority /*= 0*/ )
 unsigned scenegraph::CountScenes( ) const
 {
   return m_sceneList.size();
+}
+
+void scenegraph::ClearAll( )
+{
+  for( sceneMap_it it=m_sceneList.begin(); it!=m_sceneList.end(); it++ ) {
+    (*it).second->Release( );
+  }
+
+  m_sceneList.clear();
+  m_active = m_sceneList.end();
 }
 
 };

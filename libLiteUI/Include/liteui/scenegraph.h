@@ -44,6 +44,9 @@ public:
 
   ///  Get the number of loaded scenes
   unsigned CountScenes( ) const;
+
+  /// Clear everything; active scene reference will be invalid
+  void ClearAll( );
   
 private:
   sceneMap m_sceneList;
