@@ -15,6 +15,11 @@ button::button( )
 {
 }
 
+button::~button( )
+{
+
+}
+
 void button::Update( )
 {
   element::Update( );

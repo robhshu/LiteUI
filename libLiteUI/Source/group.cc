@@ -30,7 +30,7 @@ void group::AddChild( element *pObj )
   if( !HasChild( pObj ) ) {
     pObj->SetParent( this );
     m_items.push_back( pObj );
-    m_bDirty = true;
+    Dirty();
   }
 }
 
@@ -41,7 +41,7 @@ void group::RemoveChild( element *pObj )
     (*cit)->SetParent(nullptr);
     m_items.erase( cit );
     pObj->Update();
-    m_bDirty = true;
+    Dirty();
   }
 }
 
@@ -87,20 +87,18 @@ void group::Update( )
 
 void group::OnMessage( const state_message &msg )
 {
-  const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
-  
-  if( bPointInside ) {
+  if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
+    // Update all child elements within this group
+
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       (*it)->OnMessage( msg );
     }
-
-    element::OnMessage( msg );
   } else {
+    // Set ignored states for all child elements
+
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       (*it)->UpdateStateRaw(false, false);
     }
-
-    element::UpdateStateRaw(false, false);
   }
 }
 

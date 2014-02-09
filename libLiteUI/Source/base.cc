@@ -6,6 +6,7 @@
 //  Date:   Feb 2014
 //
 #include <liteui/base.h>
+#include <cassert>
 
 namespace liteui
 {
@@ -14,6 +15,11 @@ base::base( const string &szTypeName )
   , m_szName( "unnamed" )
   , m_bDirty( true )
 {
+}
+
+void base::Release( )
+{
+  delete this;
 }
 
 void base::SetName( const string &szName )

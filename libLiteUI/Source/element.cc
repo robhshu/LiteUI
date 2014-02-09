@@ -17,6 +17,9 @@ element::element( const string &szTypeName )
   , m_width( 1 )
   , m_height( 1 )
   , m_userData( 0 )
+  , m_bDragging( false )
+  , m_dragX( 0 )
+  , m_dragY( 0 )
   , m_eventCallback( nullptr )
 {
 }
@@ -24,11 +27,6 @@ element::element( const string &szTypeName )
 element::~element( )
 {
   m_pParent = nullptr;
-}
-
-void element::Release( )
-{
-  delete this;
 }
 
 void element::SetParent( element *pParent )
@@ -162,27 +160,35 @@ void element::Dirty( )
 
 void element::OnMessage( const state_message &msg )
 {
-  const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
+  if( m_bDragging && msg.HasPointerHeld() ) {
+    const unsigned px = m_dragX + (msg.GetCursorX()-GetAbsoluteX());
+    const unsigned py = m_dragY + (msg.GetCursorY()-GetAbsoluteY());
+
+    SetPosition( px, py );
+    Dirty(); // force parent dirty flag
+  } else {
+    const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
   
-  const bool hover_change = ( IsHighlighted() != bPointInside );
-  const bool select_change = ( IsSelected() != msg.HasPointerHeld() );
+    const bool hover_change = ( IsHighlighted() != bPointInside );
+    const bool select_change = ( IsSelected() != msg.HasPointerHeld() );
 
-  if( hover_change ) {
-    // any hover change will stop it being selected
+    if( hover_change ) {
+      // any hover change will stop it being selected
 
-    UpdateState( bPointInside, false );
-  } else if( select_change ) {
-    // we only care if this is within the element
+      UpdateState( bPointInside, false );
+    } else if( select_change ) {
+      // we only care if this is within the element
     
-    if( bPointInside ) {
-      if( msg.HasPointerPress() ) {
-        // update local selected flag when pressed the first time
+      if( bPointInside ) {
+        if( msg.HasPointerPress() ) {
+          // update local selected flag when pressed the first time
 
-        UpdateState( true, true );
-      } else if( !msg.HasPointerHeld() ) {
-        // remove the local selected flag when released
+          UpdateState( true, true );
+        } else if( !msg.HasPointerHeld() ) {
+          // remove the local selected flag when released
 
-        UpdateState( true, false );
+          UpdateState( true, false );
+        }
       }
     }
   }
@@ -244,6 +250,24 @@ void element::OnSelect( bool bActive )
         (*m_eventCallback)(cb_info);
       }
     }
+  }
+}
+
+void element::StartDrag( unsigned px, unsigned py )
+{
+  if( !m_bDragging ) {
+    m_bDragging = true;
+    m_dragX = GetAbsoluteX() - px;
+    m_dragY = GetAbsoluteY() - py;
+  }
+}
+
+void element::StopDrag( )
+{
+  if( m_bDragging ) {
+    m_bDragging = false;
+    m_dragX = 0;
+    m_dragY = 0;
   }
 }
 

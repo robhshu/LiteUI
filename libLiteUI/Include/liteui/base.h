@@ -20,6 +20,12 @@ public:
   /// Construct using a typename string to aid with debugging this object
   base( const string &szTypeName );
 
+  /// Virtual destructor
+  virtual ~base( ) { }
+
+  /// Destroy this element
+  void Release( );
+
   /// Update the name of this object (optional)
   void SetName( const string &szName );
   

@@ -20,7 +20,7 @@ public:
   button( );
   
   /// Virtual destructor
-  virtual ~button( ) { }
+  virtual ~button( );
 
   /// Button-specific rendering; unused
   virtual void Render( ) { }

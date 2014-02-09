@@ -26,12 +26,12 @@ class scene
 public:
   /// Default constructor
   scene( );
+
+  /// Virtual destructor
+  virtual ~scene( );
   
   /// Add a group object to this scene; the scene will automatically be released when the destructor is called
   void AddGroup( group *pGroup );
-
-  /// Check if the group is within the current scene
-  group *FindGroupNyName( const char* cGroupName );
 
   /// Update the cursor position and mouse state within this scene
   void SetCursor( unsigned px, unsigned py, bool bPressed );

@@ -16,20 +16,22 @@ scene::scene( )
   , m_lastMsg( 0, 0, 0 )
 {
 }
-  
+
+scene::~scene( )
+{
+  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+    (*it)->Release();
+  }
+
+  m_groupItems.clear();
+}
+
 void scene::AddGroup( group *pGroup )
 {
   if( !HasGroup( pGroup ) ) {
     m_groupItems.push_back( pGroup );
     Dirty();
   }
-}
-
-group *scene::FindGroupNyName( const char* cGroupName )
-{
-  // todo: implement
-
-  return nullptr;
 }
 
 void scene::RenderScene( )

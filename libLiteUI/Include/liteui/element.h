@@ -67,9 +67,6 @@ public:
   /// Virtual destructor
   virtual ~element( );
 
-  /// Destroy this element; todo: virtual
-  void Release( );
-
   /// Virtual rendering function to override
   virtual void Render( ) { }
 
@@ -148,6 +145,9 @@ public:
   /// Allow the listener callback to handle a specific event
   void SetEventReason( element_callback_reason event, const string &szReason );
 
+  void StartDrag( unsigned px, unsigned py );
+  void StopDrag( );
+
 private:
   element *m_pParent;
   unsigned m_posX;
@@ -155,6 +155,9 @@ private:
   unsigned m_width;
   unsigned m_height;
   unsigned m_userData;
+  bool m_bDragging;
+  unsigned m_dragX;
+  unsigned m_dragY;
   element_callback m_eventCallback;
   string m_eventReasons[cb_reason_count];
 };
