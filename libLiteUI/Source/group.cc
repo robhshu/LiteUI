@@ -66,8 +66,6 @@ void group::Update( )
     unsigned tmp_val = 0;
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->Update();
-
       tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
       if( tmp_val > width ) {
         width = tmp_val;
@@ -80,8 +78,12 @@ void group::Update( )
 
     SetWidth( width );
     SetHeight( height );
-    
+
     element::Update();
+
+    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+      (*it)->Update();
+    }
   }
 }
 
