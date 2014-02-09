@@ -14,11 +14,18 @@ base::base( const string &szTypeName )
   : m_szTypeName( szTypeName )
   , m_szName( "unnamed" )
   , m_bDirty( true )
+  , m_refCount( 1 )
 {
+}
+
+base::~base( )
+{
+  assert(m_refCount==0);
 }
 
 void base::Release( )
 {
+  m_refCount--;
   delete this;
 }
 

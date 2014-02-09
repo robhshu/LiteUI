@@ -21,7 +21,7 @@ public:
   base( const string &szTypeName );
 
   /// Virtual destructor
-  virtual ~base( ) { }
+  virtual ~base( );
 
   /// Destroy this element
   void Release( );
@@ -46,6 +46,8 @@ private:
 protected:
   /// Flag to mark this object for update
   bool m_bDirty;
+  /// Reference counter; debug only
+  unsigned m_refCount;
 };
 };
 
