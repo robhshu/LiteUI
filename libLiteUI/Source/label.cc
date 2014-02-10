@@ -12,7 +12,7 @@ namespace liteui
 
 label::label( )
   : element( "label" )
-  , m_szText( "LabelText" )
+  , m_szText( "" )
 {
 }
 
