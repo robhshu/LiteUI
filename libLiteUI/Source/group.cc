@@ -57,6 +57,17 @@ bool group::HasChild( element *pObj ) const
   return find(m_items.begin(), m_items.end(), pObj) != m_items.end();
 }
 
+element *group::FindChildByName( const string &szName )
+{
+  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+    if( (*it)->HasCustomName() && (*it)->GetName() == szName ) {
+      return (*it);
+    }
+  }
+
+  return nullptr;
+}
+
 void group::Update( )
 {
   if( m_bDirty ) {

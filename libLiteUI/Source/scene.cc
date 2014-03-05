@@ -73,4 +73,42 @@ void scene::SetCursor( unsigned px, unsigned py, bool bPressed )
   }
 }
 
+element *scene::FindChildByName( const string &szName )
+{
+  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+    if( (*it)->HasCustomName() && (*it)->GetName() == szName ) {
+      return (*it);
+    }
+
+    element *pElement = (*it)->FindChildByName(szName);
+    if( pElement != nullptr ) {
+      return pElement;
+    }
+  }
+
+  return nullptr;
+}
+
+bool scene::GetObjectUserData( const string &szName, unsigned &user_data )
+{
+  const element *pElement = FindChildByName( szName );
+  if( pElement != nullptr ) {
+    user_data = pElement->GetUserData();
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool scene::SetObjectUserData( const string &szName, const unsigned user_data )
+{
+  element *pElement = FindChildByName( szName );
+  if( pElement != nullptr ) {
+    pElement->SetUserData(user_data);
+    return true;
+  } else {
+    return false;
+  }
+}
+
 };

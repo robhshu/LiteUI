@@ -38,6 +38,9 @@ public:
   /// Check if the element is within the current group
   bool HasChild( element *pObj ) const;
 
+  /// Find child by name
+  element *FindChildByName( const string &szName );
+
   /// Handle a state update; filters through to children if applicable
   virtual void OnMessage( const state_message &msg );
 

@@ -40,7 +40,11 @@ public:
   
   /// Get the name of this object
   const string &GetName( ) const;
+
+  /// Is this object named
+  const bool HasCustomName( ) const;
 private:
+  static const string ms_szDefaultName;
   const string m_szTypeName;
   string m_szName;
 protected:

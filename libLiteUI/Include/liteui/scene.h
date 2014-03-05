@@ -38,6 +38,12 @@ public:
 
   /// Render elements within this scene
   void RenderScene( );
+
+  /// Get object user data
+  bool GetObjectUserData( const string &szName, unsigned &user_data );
+
+  /// Set object user data
+  bool SetObjectUserData( const string &szName, const unsigned user_data );
 private:
   groups m_groupItems;
   state_message m_lastMsg;
@@ -47,6 +53,9 @@ private:
 
   /// Check if this group is already tracked by this scene
   bool HasGroup( group *pGroup ) const;
+
+  /// Find child by name
+  element *FindChildByName( const string &szName );
 };
 };
 

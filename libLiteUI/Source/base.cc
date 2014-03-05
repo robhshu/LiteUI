@@ -10,9 +10,11 @@
 
 namespace liteui
 {
+const string base::ms_szDefaultName( "unnamed" );
+
 base::base( const string &szTypeName )
   : m_szTypeName( szTypeName )
-  , m_szName( "unnamed" )
+  , m_szName( ms_szDefaultName )
   , m_bDirty( true )
   , m_refCount( 1 )
 {
@@ -56,6 +58,11 @@ const string &base::GetTypeName( ) const
 const string &base::GetName( ) const
 {
   return m_szName;
+}
+
+const bool base::HasCustomName( ) const
+{
+  return m_szName != ms_szDefaultName;
 }
 
 };

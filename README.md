@@ -10,7 +10,7 @@ It has been designed to be a lightweight object-orientated approach for common u
 * Straightforward element hierarchy
 * Support for creating interfaces from XML
 * Event callbacks
-* Virtual methods for control, even at a high-level
+* Virtual methods for high-level control
 
 
 ## XML
@@ -28,6 +28,12 @@ Interfaces can be represented using XML like so:
 ```
 
 This creates a basic button which can be manipulated directly or via the parent group object.
+
+
+## TODO
+
+* Nested groups
+* Searching for objects by name
 
 
 #### NOTE
