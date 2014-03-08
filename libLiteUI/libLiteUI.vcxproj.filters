@@ -37,6 +37,9 @@
     <Filter Include="LiteUI\parser\tinyxml2">
       <UniqueIdentifier>{4aed0671-9f8e-4573-96bf-d22d41b29445}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LiteUI\parser\scenestack">
+      <UniqueIdentifier>{4394cfd3-3f1e-463c-bb68-7a80bc14715a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\liteui.h">
@@ -75,6 +78,9 @@
     <ClInclude Include="External\tinyxml2\tinyxml2.h">
       <Filter>LiteUI\parser\tinyxml2</Filter>
     </ClInclude>
+    <ClInclude Include="Include\liteui\scenestack.h">
+      <Filter>LiteUI\parser\scenestack</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\button.cc">
@@ -109,6 +115,9 @@
     </ClCompile>
     <ClCompile Include="External\tinyxml2\tinyxml2.cpp">
       <Filter>LiteUI\parser\tinyxml2</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\scenestack.cc">
+      <Filter>LiteUI\parser\scenestack</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

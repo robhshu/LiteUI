@@ -17,6 +17,7 @@
 
 // Scenegraph
 #include <liteui/scenegraph.h>
+#include <liteui/scenestack.h>
 
 // Parser
 #include <liteui/parser.h>

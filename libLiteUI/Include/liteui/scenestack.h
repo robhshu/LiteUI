@@ -1,0 +1,57 @@
+//
+//  liteui::scenestack
+//  Part of the libLiteUI project
+//
+//  Author: Robert H
+//  Date:   Mar 2014
+//
+#ifndef LIBLITEUI_SCENESTACK_H
+#define LIBLITEUI_SCENESTACK_H
+
+#include <liteui/scene.h>
+#include <liteui/scenegraph.h>
+
+#include <vector>
+
+namespace liteui
+{
+using std::vector;
+
+typedef vector<scene* >             sceneptrvec;
+typedef sceneptrvec::iterator       sceneptrvecIt;
+typedef sceneptrvec::const_iterator sceneptrvecCIt;
+
+class scenestack
+{
+public:
+  /// Default constructor
+  scenestack( scenegraph &sg );
+
+  /// Destructor
+  ~scenestack( );
+
+  /// Add scene
+  void PushScene( const string &szName, bool bAllowDuplicate = false );
+
+  /// Remove top scene
+  void PopScene( );
+
+  /// Remove all scenes
+  void Clear( );
+
+  /// Get the foremost scene
+  scene &Top( ) const;
+
+  /// Check if the stack is empty or not
+  bool Empty( ) const;
+private:
+  scenegraph &m_sceneGraph;
+
+  sceneptrvec m_sceneStack;
+
+  /// Find scene by name
+  bool HasScene( const string &szName ) const;
+};
+};
+
+#endif

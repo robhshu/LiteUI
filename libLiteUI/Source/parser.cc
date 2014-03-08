@@ -60,6 +60,17 @@ private:
         return false;
       }
 
+      // try to name scene (todo: default to filename)
+      XMLElement *pAsElement = pRoot->ToElement();
+
+      if( pAsElement ) {
+        for( const XMLAttribute *pAttrib = pAsElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
+          if( pAttrib->Name() == string("name") ) {
+            pScene->SetName(pAttrib->Value());
+          }
+        }
+      }
+
       for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
         // Skip comments
         if( pNode->ToComment() ) {
@@ -94,7 +105,7 @@ private:
         }
       }
 
-      m_parser.GetSceneGraph().AddScene(pScene);
+      m_parser.GetSceneGraph().AddScene(*pScene);
       return true;
     } else {
       return false;
@@ -157,7 +168,6 @@ private:
 
     return true;
   }
-
 };
 
 parser::parser( scenegraph &sgRef )

@@ -9,17 +9,16 @@
 #define LIBLITEUI_SCENEGRAPH_H
 
 #include <liteui/scene.h>
-#include <liteui/group.h>
-
-#include <map>
+#include <vector>
 
 namespace liteui
 {
-using std::multimap;
-typedef std::pair<unsigned, scene*> sceneMapPair;
-typedef multimap<unsigned, scene*>  sceneMap;
-typedef sceneMap::iterator          sceneMap_it;
-typedef sceneMap::const_iterator    sceneMap_cit;
+using std::string;
+using std::vector;
+
+typedef vector<scene* >             sceneptrvec;
+typedef sceneptrvec::iterator       sceneptrvecIt;
+typedef sceneptrvec::const_iterator sceneptrvecCIt;
 
 class scenegraph
 {
@@ -30,27 +29,23 @@ public:
   /// Destructor
   ~scenegraph( );
 
-  /// Fetch the current scene; the scene stack should be handled elsewhere
-  scene &GetActiveScene( );
+  /// Create a new scene definition
+  scene &CreateScene( );
 
-  /// Go to the next scene
-  bool NextScene( );
+  /// Adds an untrack scene
+  void AddScene( scene &ref );
 
-  /// Go to the previous scene
-  bool PreviousScene( );
+  /// Destroy scene and remove if owned
+  void DestroyScene( scene &ref );
 
-  /// Add a scene to this scenegraph; the scene will automatically be released when the destructor is called
-  void AddScene( scene *pScene, const unsigned uPriority = 0 );
+  /// Locate a scene by name
+  scene *FindScene( const string &szName );
 
-  ///  Get the number of loaded scenes
-  unsigned CountScenes( ) const;
-
-  /// Clear everything; active scene reference will be invalid
+  /// Release all scenes
   void ClearAll( );
   
 private:
-  sceneMap m_sceneList;
-  sceneMap_it m_active;
+  sceneptrvec m_scenes;
 };
 };
 

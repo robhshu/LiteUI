@@ -22,6 +22,7 @@
     <ClInclude Include="Include\liteui\parser.h" />
     <ClInclude Include="Include\liteui\scene.h" />
     <ClInclude Include="Include\liteui\scenegraph.h" />
+    <ClInclude Include="Include\liteui\scenestack.h" />
     <ClInclude Include="Include\liteui\state.h" />
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +36,7 @@
     <ClCompile Include="Source\parser.cc" />
     <ClCompile Include="Source\scene.cc" />
     <ClCompile Include="Source\scenegraph.cc" />
+    <ClCompile Include="Source\scenestack.cc" />
     <ClCompile Include="Source\state.cc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
