@@ -36,9 +36,6 @@ void scene::AddGroup( group *pGroup )
 
 void scene::RenderScene( )
 {
-  if( m_bDirty ) {
-    UpdateScene();
-  }
   for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
     (*it)->Render();
   }

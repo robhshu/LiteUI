@@ -36,6 +36,9 @@ public:
   /// Update the cursor position and mouse state within this scene
   void SetCursor( unsigned px, unsigned py, bool bPressed );
 
+  /// Update all elements within this scene
+  void UpdateScene( );
+
   /// Render elements within this scene
   void RenderScene( );
 
@@ -47,9 +50,6 @@ public:
 private:
   groups m_groupItems;
   state_message m_lastMsg;
-
-  /// Update all elements within this scene
-  void UpdateScene( );
 
   /// Check if this group is already tracked by this scene
   bool HasGroup( group *pGroup ) const;
