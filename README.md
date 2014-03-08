@@ -11,6 +11,7 @@ It has been designed to be a lightweight object-orientated approach for common u
 * Support for creating interfaces from XML
 * Event callbacks
 * Virtual methods for high-level control
+* Nested groups
 
 
 ## XML
@@ -29,11 +30,9 @@ Interfaces can be represented using XML like so:
 
 This creates a basic button which can be manipulated directly or via the parent group object.
 
+#### TODO
 
-## TODO
-
-* Nested groups
-* Searching for objects by name
+* Object searching by name
 
 
 #### NOTE
