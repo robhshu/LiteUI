@@ -121,7 +121,17 @@ private:
         return false;
       }
 
-      pOwner->AddChild(pEle);
+      if(pEle->GetTypeName()=="group") {
+
+        if( LoadGroup( pNode->ToElement(), static_cast<group*>(pEle) ) ) {
+          pOwner->AddGroup(static_cast<group*>(pEle));
+        } else {
+          pEle->Release();
+          return false;
+        }
+      } else {
+        pOwner->AddChild(pEle);
+      }
     }
 
     return true;

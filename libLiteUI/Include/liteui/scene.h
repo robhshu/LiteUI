@@ -16,9 +16,6 @@
 namespace liteui
 {
 using std::vector;
-typedef vector<group *>         groups;
-typedef groups::iterator        groups_it;
-typedef groups::const_iterator  groups_cit;
 
 class scene
   : public base

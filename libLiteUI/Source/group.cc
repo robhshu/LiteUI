@@ -23,6 +23,21 @@ group::~group( )
   }
 
   m_items.clear();
+
+  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+    (*it)->Release();
+  }
+
+  m_groupItems.clear();
+}
+
+void group::AddGroup( group *pGroup )
+{
+  if( !HasGroup( pGroup ) ) {
+    pGroup->SetParent( this ); // missing from scene
+    m_groupItems.push_back( pGroup );
+    Dirty();
+  }
 }
 
 void group::AddChild( element *pObj )
@@ -50,6 +65,15 @@ void group::Render( )
   for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
     (*it)->Render();
   }
+
+  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+    (*it)->Render();
+  }
+}
+
+bool group::HasGroup( group *pGroup ) const
+{
+  return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
 }
 
 bool group::HasChild( element *pObj ) const
@@ -71,12 +95,27 @@ element *group::FindChildByName( const string &szName )
 void group::Update( )
 {
   if( m_bDirty ) {
+    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+      (*it)->Update();
+    }
+
     unsigned width = 1;
     unsigned height = 1;
 
     unsigned tmp_val = 0;
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+      tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
+      if( tmp_val > width ) {
+        width = tmp_val;
+      }
+      tmp_val = (*it)->GetRelativeY() + (*it)->GetHeight();
+      if( tmp_val > height ) {
+        height = tmp_val;
+      }
+    }
+
+    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
       tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
       if( tmp_val > width ) {
         width = tmp_val;
@@ -102,6 +141,10 @@ void group::OnMessage( const state_message &msg )
 {
   if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
     // Update all child elements within this group
+
+    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+      (*it)->OnMessage( msg );
+    }
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       (*it)->OnMessage( msg );
