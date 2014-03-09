@@ -57,6 +57,17 @@ scene &scenestack::Top( ) const
   return *m_sceneStack.back();
 }
 
+bool scenestack::IsTop( const string &szName ) const
+{
+  if( !Empty( ) ) {
+    if( Top().GetName() == szName ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 bool scenestack::Empty( ) const
 {
   return m_sceneStack.empty( );

@@ -45,6 +45,9 @@ public:
   /// Get the foremost scene
   scene &Top( ) const;
 
+  /// Check if the foremost scene is top by name
+  bool IsTop( const string &szName ) const;
+
   /// Check if the stack is empty or not
   bool Empty( ) const;
 private:
