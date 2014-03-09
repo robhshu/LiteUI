@@ -39,6 +39,9 @@ public:
   /// Remove all scenes
   void Clear( );
 
+  /// Render all scenes on the stack
+  void Render( );
+
   /// Get the foremost scene
   scene &Top( ) const;
 

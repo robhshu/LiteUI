@@ -41,6 +41,15 @@ void scenestack::Clear( )
   m_sceneStack.clear();
 }
 
+void scenestack::Render( )
+{
+  // this works because the last item is the top-most
+
+  for( sceneptrvecIt i( m_sceneStack.begin() ); i!=m_sceneStack.end(); i++ ) {
+    (*i)->RenderScene( );
+  }
+}
+
 scene &scenestack::Top( ) const
 {
   assert(!Empty());
