@@ -169,7 +169,13 @@ bool element::GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const
 
 void element::SetProperty(const string &szProperty, const string &szValue)
 {
-  if( szProperty == "width" ) {
+  if( szProperty == "visible" ) {
+    if( !szValue.empty() ) {
+      if( szValue[0] == '0' ) {
+        SetVisible(false);
+      }
+    }
+  } else if( szProperty == "width" ) {
     const unsigned nValue = atoi(szValue.c_str());
     SetWidth( nValue );
   } else if( szProperty == "height" ) {
