@@ -73,6 +73,9 @@ public:
   /// Set the current parent object of this instance; sets the dirty flag if changed
   void SetParent( element *pParent );
 
+  /// Set the visibility of this item
+  void SetVisible( bool bFlag );
+
   /// Set the x-position of this instance; sets the dirty flag if changed
   void SetPositionX( unsigned px );
 
@@ -102,6 +105,9 @@ public:
 
   /// Get the parent element of this object or nullptr
   element *GetParent( ) const;
+
+  /// Get the visibility of this element
+  bool IsVisible( ) const;
 
   /// Get the x-position of this element relative to the parent
   unsigned GetRelativeX( ) const;
@@ -161,6 +167,7 @@ private:
   unsigned m_width;
   unsigned m_height;
   unsigned m_userData;
+  bool m_bVisible;
   bool m_bDragging;
   unsigned m_dragX;
   unsigned m_dragY;

@@ -62,12 +62,20 @@ void group::RemoveChild( element *pObj )
 
 void group::Render( )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-    (*it)->Render();
+    if( (*it)->IsVisible() ) {
+      (*it)->Render();
+    }
   }
 
   for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-    (*it)->Render();
+    if( (*it)->IsVisible() ) {
+      (*it)->Render();
+    }
   }
 }
 
@@ -132,28 +140,40 @@ void group::Update( )
     element::Update();
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->Update();
+      if( (*it)->IsVisible() ) {
+        (*it)->Update();
+      }
     }
   }
 }
 
 void group::OnMessage( const state_message &msg )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
     // Update all child elements within this group
 
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-      (*it)->OnMessage( msg );
+      if( (*it)->IsVisible() ) {
+        (*it)->OnMessage( msg );
+      }
     }
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->OnMessage( msg );
+      if( (*it)->IsVisible() ) {
+        (*it)->OnMessage( msg );
+      }
     }
   } else {
     // Set ignored states for all child elements
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->UpdateStateRaw(false, false);
+      if( (*it)->IsVisible() ) {
+        (*it)->UpdateStateRaw(false, false);
+      }
     }
   }
 }

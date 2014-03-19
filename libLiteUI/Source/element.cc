@@ -17,6 +17,7 @@ element::element( const string &szTypeName )
   , m_width( 1 )
   , m_height( 1 )
   , m_userData( 0 )
+  , m_bVisible( true )
   , m_bDragging( false )
   , m_dragX( 0 )
   , m_dragY( 0 )
@@ -37,6 +38,14 @@ void element::SetParent( element *pParent )
 {
   if( m_pParent != pParent ) {
     m_pParent = pParent;
+    Dirty();
+  }
+}
+
+void element::SetVisible( bool bFlag )
+{
+  if( m_bVisible != bFlag ) {
+    m_bVisible = bFlag;
     Dirty();
   }
 }
@@ -94,6 +103,11 @@ void element::SetAnchorFlags( bool tl, bool tr, bool bl, bool br )
 element *element::GetParent( ) const
 {
   return m_pParent;
+}
+
+bool element::IsVisible( ) const
+{
+  return m_bVisible;
 }
 
 unsigned element::GetRelativeX( ) const
@@ -189,6 +203,10 @@ void element::Dirty( )
 
 void element::OnMessage( const state_message &msg )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( m_bDragging && msg.HasPointerHeld() ) {
     const unsigned px = m_dragX + (msg.GetCursorX()-GetAbsoluteX());
     const unsigned py = m_dragY + (msg.GetCursorY()-GetAbsoluteY());
@@ -225,6 +243,10 @@ void element::OnMessage( const state_message &msg )
 
 bool element::IsPointInside( unsigned px, unsigned py ) const
 {
+  if( !IsVisible() ) {
+    return false;
+  }
+
   const unsigned ab_px = GetAbsoluteX();
   const unsigned ab_py = GetAbsoluteY();
 
@@ -235,6 +257,10 @@ bool element::IsPointInside( unsigned px, unsigned py ) const
 void element::Update( )
 {
   m_bDirty = false;
+
+  if( !IsVisible() ) {
+    return;
+  }
 
   if( GetParent() ) {
     // expand horizontally
@@ -279,6 +305,10 @@ void element::SetEventReason(element_callback_reason event, const string &szReas
 
 void element::OnBlur( )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( !m_eventReasons[cb_blur].empty() && m_eventCallback != nullptr ) {
     callback_info cb_info( m_eventReasons[cb_blur], this);
     (*m_eventCallback)(cb_info);
@@ -287,6 +317,10 @@ void element::OnBlur( )
 
 void element::OnFocus( )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( !m_eventReasons[cb_focus].empty() && m_eventCallback != nullptr ) {
     callback_info cb_info( m_eventReasons[cb_focus], this);
     (*m_eventCallback)(cb_info);
@@ -295,6 +329,10 @@ void element::OnFocus( )
 
 void element::OnSelect( bool bActive )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( m_eventCallback != nullptr ) {
     if( bActive ) {
       if( !m_eventReasons[cb_press].empty() ) {
@@ -312,6 +350,10 @@ void element::OnSelect( bool bActive )
 
 void element::StartDrag( unsigned px, unsigned py )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( !m_bDragging ) {
     m_bDragging = true;
     m_dragX = GetAbsoluteX() - px;
@@ -321,6 +363,10 @@ void element::StartDrag( unsigned px, unsigned py )
 
 void element::StopDrag( )
 {
+  if( !IsVisible() ) {
+    return;
+  }
+
   if( m_bDragging ) {
     m_bDragging = false;
     m_dragX = 0;
