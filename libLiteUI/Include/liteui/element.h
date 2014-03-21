@@ -33,11 +33,20 @@ class callback_info
 private:
   const string m_reason;
   element *m_element;
+  void *m_userdata;
 public:
   /// Default constructor; callback reason and existing object
   callback_info( const string &reason, element *pObj )
     : m_reason( reason )
     , m_element( pObj )
+    , m_userdata( nullptr )
+  { }
+
+  /// Default constructor; callback reason, existing object, and userdata
+  callback_info( const string &reason, element *pObj, void *userdata )
+    : m_reason( reason )
+    , m_element( pObj )
+    , m_userdata( userdata )
   { }
 
   /// Get the reason for this callback
@@ -50,6 +59,12 @@ public:
   element *GetElement( ) const
   {
     return m_element;
+  }
+
+  /// Get the user data (may be null)
+  void *GetUserdata( ) const
+  {
+    return m_userdata;
   }
 };
 
@@ -154,6 +169,9 @@ public:
   /// Set a state listener callback (optional)
   void SetCallbackFunc( element_callback callback );
 
+  /// Set a state listener callback with user data (optional)
+  void SetCallbackFunc( element_callback callback, void *userdata );
+
   /// Allow the listener callback to handle a specific event
   void SetEventReason( element_callback_reason event, const string &szReason );
 
@@ -177,6 +195,7 @@ private:
     m_anchor_bl : 1,
     m_anchor_br : 1;
   element_callback m_eventCallback;
+  void *m_eventCallbackData;
   string m_eventReasons[cb_reason_count];
 };
 };

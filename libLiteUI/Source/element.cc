@@ -26,6 +26,7 @@ element::element( const string &szTypeName )
   , m_anchor_bl( 0 )
   , m_anchor_br( 0 )
   , m_eventCallback( nullptr )
+  , m_eventCallbackData( nullptr )
 {
 }
 
@@ -299,7 +300,13 @@ void element::Update( )
 
 void element::SetCallbackFunc( element_callback callback )
 {
+  SetCallbackFunc( callback, nullptr );
+}
+
+void element::SetCallbackFunc( element_callback callback, void *userdata )
+{
   m_eventCallback = callback;
+  m_eventCallbackData = userdata;
 }
 
 void element::SetEventReason(element_callback_reason event, const string &szReason)
@@ -316,7 +323,7 @@ void element::OnBlur( )
   }
 
   if( !m_eventReasons[cb_blur].empty() && m_eventCallback != nullptr ) {
-    callback_info cb_info( m_eventReasons[cb_blur], this);
+    callback_info cb_info( m_eventReasons[cb_blur], this, m_eventCallbackData );
     (*m_eventCallback)(cb_info);
   }
 }
@@ -328,7 +335,7 @@ void element::OnFocus( )
   }
 
   if( !m_eventReasons[cb_focus].empty() && m_eventCallback != nullptr ) {
-    callback_info cb_info( m_eventReasons[cb_focus], this);
+    callback_info cb_info( m_eventReasons[cb_focus], this, m_eventCallbackData );
     (*m_eventCallback)(cb_info);
   }
 }
@@ -342,12 +349,12 @@ void element::OnSelect( bool bActive )
   if( m_eventCallback != nullptr ) {
     if( bActive ) {
       if( !m_eventReasons[cb_press].empty() ) {
-        callback_info cb_info( m_eventReasons[cb_press], this);
+        callback_info cb_info( m_eventReasons[cb_press], this, m_eventCallbackData );
         (*m_eventCallback)(cb_info);
       }
     } else {
       if( !m_eventReasons[cb_release].empty() ) {
-        callback_info cb_info( m_eventReasons[cb_release], this);
+        callback_info cb_info( m_eventReasons[cb_release], this, m_eventCallbackData );
         (*m_eventCallback)(cb_info);
       }
     }
