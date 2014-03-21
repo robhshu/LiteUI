@@ -25,8 +25,9 @@ using tinyxml2::XMLAttribute;
 class parser_helper
 {
 public:
-  parser_helper( parser &parser_ref )
-    : m_parser( parser_ref )
+  parser_helper( parser &parser_ref, scenegraph &sgRef )
+    : m_sceneGraph( sgRef )
+    , m_parser( parser_ref )
   {
   }
 
@@ -43,6 +44,7 @@ public:
   }
 
 private:
+  scenegraph &m_sceneGraph;
   parser &m_parser;
 
   static bool CanSerialize( const string &szXML, XMLDocument &xmlDoc )
@@ -105,7 +107,7 @@ private:
         }
       }
 
-      m_parser.GetSceneGraph().AddScene(*pScene);
+      m_sceneGraph.AddScene(*pScene);
       return true;
     } else {
       return false;
@@ -170,24 +172,19 @@ private:
   }
 };
 
-parser::parser( scenegraph &sgRef )
-  : m_scenegraph( sgRef )
+bool parser::LoadSceneGraph( scenegraph &sgRef, const string &szXML )
 {
-}
-
-bool parser::Read( const string &szXML )
-{
-  parser_helper xmlParser(*this);
+  parser_helper xmlParser(*this, sgRef);
 
   return xmlParser.Serialize( szXML );
 }
 
-scene *parser::OnCreateScene( ) const
+scene *parser::OnCreateScene( )
 {
   return new scene;
 }
 
-element *parser::OnCreateElement( const string &szType ) const
+element *parser::OnCreateElement( const string &szType )
 {
   #define MAKE_ELEMENT_FROM_TYPE(t) if( szType.compare(#t) == 0 ) { return new t; }
   MAKE_ELEMENT_FROM_TYPE(group);
@@ -197,11 +194,6 @@ element *parser::OnCreateElement( const string &szType ) const
   #undef MAKE_ELEMENT_FROM_TYPE
 
   return nullptr;
-}
-
-scenegraph &parser::GetSceneGraph( )
-{
-  return m_scenegraph;
 }
 
 };
