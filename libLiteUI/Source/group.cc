@@ -114,10 +114,10 @@ void group::Update( )
       (*it)->Update();
     }
 
-    unsigned width = 1;
-    unsigned height = 1;
+    n_unit width = 1;
+    n_unit height = 1;
 
-    unsigned tmp_val = 0;
+    n_unit tmp_val = 0;
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();

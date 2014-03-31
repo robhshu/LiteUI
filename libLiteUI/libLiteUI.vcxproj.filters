@@ -81,6 +81,9 @@
     <ClInclude Include="Include\liteui\scenestack.h">
       <Filter>LiteUI\parser\scenestack</Filter>
     </ClInclude>
+    <ClInclude Include="Include\liteui\common.h">
+      <Filter>LiteUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\button.cc">

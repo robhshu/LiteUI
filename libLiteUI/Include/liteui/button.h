@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_BUTTON_H
 #define LIBLITEUI_BUTTON_H
 
+#include <liteui/common.h>
 #include <liteui/element.h>
 
 namespace liteui

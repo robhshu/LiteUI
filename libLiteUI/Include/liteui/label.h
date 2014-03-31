@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_LABEL_H
 #define LIBLITEUI_LABEL_H
 
+#include <liteui/common.h>
 #include <liteui/element.h>
 #include <string>
 

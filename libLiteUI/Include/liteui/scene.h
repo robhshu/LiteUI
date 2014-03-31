@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_SCENE_H
 #define LIBLITEUI_SCENE_H
 
+#include <liteui/common.h>
 #include <liteui/base.h>
 #include <liteui/group.h>
 
@@ -34,7 +35,7 @@ public:
   void AddGroup( group *pGroup );
 
   /// Update the cursor position and mouse state within this scene
-  void SetCursor( unsigned px, unsigned py, bool bPressed );
+  void SetCursor( n_unit px, n_unit py, bool bPressed );
 
   /// Update all elements within this scene
   void UpdateScene( );

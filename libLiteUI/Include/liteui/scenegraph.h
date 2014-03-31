@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_SCENEGRAPH_H
 #define LIBLITEUI_SCENEGRAPH_H
 
+#include <liteui/common.h>
 #include <liteui/scene.h>
 #include <vector>
 

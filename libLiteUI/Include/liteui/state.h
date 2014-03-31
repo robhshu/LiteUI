@@ -8,17 +8,19 @@
 #ifndef LIBLITEUI_STATE_H
 #define LIBLITEUI_STATE_H
 
+#include <liteui/common.h>
+
 namespace liteui
 {
 class state_message
 {
 private:
-  unsigned m_px;
-  unsigned m_py;
+  n_unit m_px;
+  n_unit m_py;
   unsigned m_state;
 public:
   /// Construct using a focus position and a pressed state flag
-  state_message( unsigned uPosX, unsigned uPosY, bool bPointerDown)
+  state_message( n_unit uPosX, n_unit uPosY, bool bPointerDown)
     : m_px( 0 )
     , m_py( 0 )
     , m_state( 0 )
@@ -27,7 +29,7 @@ public:
   }
 
   /// Update the focus position and pressed state flag
-  void Set( unsigned uPosX, unsigned uPosY, bool bPointerDown )
+  void Set( n_unit uPosX, n_unit uPosY, bool bPointerDown )
   {
       m_px        = uPosX;
       m_py        = uPosY;
@@ -43,13 +45,13 @@ public:
   }
 
   /// Fetch the cursor x-position
-  unsigned GetCursorX( ) const
+  n_unit GetCursorX( ) const
   {
     return m_px;
   }
 
   /// Fetch the cursor y-position
-  unsigned GetCursorY( ) const
+  n_unit GetCursorY( ) const
   {
     return m_py;
   }

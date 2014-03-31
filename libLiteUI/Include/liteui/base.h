@@ -8,6 +8,8 @@
 #ifndef LIBLITEUI_BASE_H
 #define LIBLITEUI_BASE_H
 
+#include <liteui/common.h>
+
 #include <string>
 
 namespace liteui

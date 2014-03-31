@@ -58,7 +58,7 @@ void element::SetVisible( bool bFlag )
   }
 }
 
-void element::SetPositionX( unsigned px )
+void element::SetPositionX( n_unit px )
 {
   if( m_posX != px ) {
     m_posX = px;
@@ -66,7 +66,7 @@ void element::SetPositionX( unsigned px )
   }
 }
 
-void element::SetPositionY( unsigned py )
+void element::SetPositionY( n_unit py )
 {
   if( m_posY != py ) {
     m_posY = py;
@@ -74,22 +74,22 @@ void element::SetPositionY( unsigned py )
   }
 }
 
-void element::SetPosition( unsigned px, unsigned py )
+void element::SetPosition( n_unit px, n_unit py )
 {
   SetPositionX( px );
   SetPositionY( py );
 }
 
-void element::SetWidth( unsigned val )
+void element::SetWidth( n_unit val )
 {
-  if( val >= 1 ) {
+  if( val >= n_unit(0) ) {
     m_width = val;
     Dirty();
   }
 }
 
-void element::SetHeight( unsigned val ) {
-  if( val >= 1 ) {
+void element::SetHeight( n_unit val ) {
+  if( val >= n_unit(0) ) {
     m_height = val;
     Dirty();
   }
@@ -118,19 +118,19 @@ bool element::IsVisible( ) const
   return m_bVisible;
 }
 
-unsigned element::GetRelativeX( ) const
+n_unit element::GetRelativeX( ) const
 {
   return m_posX;
 }
 
-unsigned element::GetRelativeY( ) const
+n_unit element::GetRelativeY( ) const
 {
   return m_posY;
 }
 
-unsigned element::GetAbsoluteX( ) const
+n_unit element::GetAbsoluteX( ) const
 {
-  const unsigned my_x = GetRelativeX( );
+  const n_unit my_x = GetRelativeX( );
 
   if( GetParent() ) {
     return GetParent()->GetAbsoluteX() + my_x;
@@ -139,9 +139,9 @@ unsigned element::GetAbsoluteX( ) const
   }
 }
 
-unsigned element::GetAbsoluteY( ) const
+n_unit element::GetAbsoluteY( ) const
 {
-  const unsigned my_y = GetRelativeY( );
+  const n_unit my_y = GetRelativeY( );
 
   if( GetParent() ) {
     return GetParent()->GetAbsoluteY() + my_y;
@@ -155,12 +155,12 @@ unsigned element::GetUserData( ) const
   return m_userData;
 }
 
-unsigned element::GetWidth( ) const
+n_unit element::GetWidth( ) const
 {
   return m_width;
 }
 
-unsigned element::GetHeight( ) const
+n_unit element::GetHeight( ) const
 {
   return m_height;
 }
@@ -184,16 +184,16 @@ void element::SetProperty(const string &szProperty, const string &szValue)
       }
     }
   } else if( szProperty == "width" ) {
-    const unsigned nValue = atoi(szValue.c_str());
+    const n_unit nValue = TO_N_UNIT(szValue.c_str());
     SetWidth( nValue );
   } else if( szProperty == "height" ) {
-    const unsigned nValue = atoi(szValue.c_str());
+    const n_unit nValue = TO_N_UNIT(szValue.c_str());
     SetHeight( nValue );
   } else if( szProperty == "pos_x" ) {
-    const unsigned nValue = atoi(szValue.c_str());
+    const n_unit nValue = TO_N_UNIT(szValue.c_str());
     SetPositionX( nValue );
   } else if( szProperty == "pos_y" ) {
-    const unsigned nValue = atoi(szValue.c_str());
+    const n_unit nValue = TO_N_UNIT(szValue.c_str());
     SetPositionY( nValue );
   } else if( szProperty == "anchor" ) {
     bool tl = (strstr(szValue.c_str(), "tl") != nullptr);
@@ -222,11 +222,11 @@ void element::OnMessage( const state_message &msg )
   }
 
   if( m_bDragging && msg.HasPointerHeld() ) {
-    const unsigned px = m_dragX + (msg.GetCursorX()-GetAbsoluteX());
-    const unsigned py = m_dragY + (msg.GetCursorY()-GetAbsoluteY());
+    //const unsigned px = m_dragX + (msg.GetCursorX()-GetAbsoluteX());
+    //const unsigned py = m_dragY + (msg.GetCursorY()-GetAbsoluteY());
 
-    SetPosition( px, py );
-    Dirty(); // force parent dirty flag
+    //SetPosition( px, py );
+    //Dirty(); // force parent dirty flag
   } else {
     const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
   
@@ -255,14 +255,14 @@ void element::OnMessage( const state_message &msg )
   }
 }
 
-bool element::IsPointInside( unsigned px, unsigned py ) const
+bool element::IsPointInside( n_unit px, n_unit py ) const
 {
   if( !IsVisible() ) {
     return false;
   }
 
-  const unsigned ab_px = GetAbsoluteX();
-  const unsigned ab_py = GetAbsoluteY();
+  const n_unit ab_px = GetAbsoluteX();
+  const n_unit ab_py = GetAbsoluteY();
 
   return( px >= ab_px && px <= ab_px + GetWidth()
     && py >= ab_py && py <= ab_py + GetHeight() );
@@ -370,28 +370,28 @@ void element::OnSelect( bool bActive )
 
 void element::StartDrag( unsigned px, unsigned py )
 {
-  if( !IsVisible() ) {
-    return;
-  }
+  //if( !IsVisible() ) {
+  //  return;
+  //}
 
-  if( !m_bDragging ) {
-    m_bDragging = true;
-    m_dragX = GetAbsoluteX() - px;
-    m_dragY = GetAbsoluteY() - py;
-  }
+  //if( !m_bDragging ) {
+  //  m_bDragging = true;
+  //  m_dragX = GetAbsoluteX() - px;
+  //  m_dragY = GetAbsoluteY() - py;
+  //}
 }
 
 void element::StopDrag( )
 {
-  if( !IsVisible() ) {
-    return;
-  }
+  //if( !IsVisible() ) {
+  //  return;
+  //}
 
-  if( m_bDragging ) {
-    m_bDragging = false;
-    m_dragX = 0;
-    m_dragY = 0;
-  }
+  //if( m_bDragging ) {
+  //  m_bDragging = false;
+  //  m_dragX = 0;
+  //  m_dragY = 0;
+  //}
 }
 
 };

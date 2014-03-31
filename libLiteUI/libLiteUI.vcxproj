@@ -14,6 +14,7 @@
     <ClInclude Include="External\tinyxml2\tinyxml2.h" />
     <ClInclude Include="Include\liteui.h" />
     <ClInclude Include="Include\liteui\base.h" />
+    <ClInclude Include="Include\liteui\common.h" />
     <ClInclude Include="Include\liteui\element.h" />
     <ClInclude Include="Include\liteui\button.h" />
     <ClInclude Include="Include\liteui\group.h" />

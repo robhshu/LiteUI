@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_PANEL_H
 #define LIBLITEUI_PANEL_H
 
+#include <liteui/common.h>
 #include <liteui/element.h>
 
 namespace liteui

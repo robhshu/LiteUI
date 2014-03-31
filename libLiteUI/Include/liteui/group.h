@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_GROUP_H
 #define LIBLITEUI_GROUP_H
 
+#include <liteui/common.h>
 #include <liteui/element.h>
 
 #include <vector>

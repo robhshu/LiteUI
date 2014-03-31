@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_ELEMENT_H
 #define LIBLITEUI_ELEMENT_H
 
+#include <liteui/common.h>
 #include <liteui/base.h>
 #include <liteui/state.h>
 #include <string>
@@ -95,19 +96,19 @@ public:
   void SetVisible( bool bFlag );
 
   /// Set the x-position of this instance; sets the dirty flag if changed
-  void SetPositionX( unsigned px );
+  void SetPositionX( n_unit px_n );
 
   /// Set the y-position of this instance; sets the dirty flag if changed
-  void SetPositionY( unsigned py );
+  void SetPositionY( n_unit py_n );
 
   /// Set the position of this instance; sets the dirty flag if changed
-  void SetPosition( unsigned px, unsigned py );
+  void SetPosition( n_unit px_n, n_unit py_n );
 
   /// Set the width of this instance; sets the dirty flag if changed
-  void SetWidth( unsigned val );
+  void SetWidth( n_unit val_n );
 
   /// Set the height of this instance; sets the dirty flag if changed
-  void SetHeight( unsigned val );
+  void SetHeight( n_unit val_n );
 
   /// Set custom user-defined data
   void SetUserData( unsigned val );
@@ -116,10 +117,10 @@ public:
   void SetAnchorFlags( bool tl, bool tr, bool bl, bool br );
 
   /// Get the width of this object
-  unsigned GetWidth( ) const;
+  n_unit GetWidth( ) const;
 
   /// Get the height of this object
-  unsigned GetHeight( ) const;
+  n_unit GetHeight( ) const;
 
   /// Get the parent element of this object or nullptr
   element *GetParent( ) const;
@@ -128,16 +129,16 @@ public:
   bool IsVisible( ) const;
 
   /// Get the x-position of this element relative to the parent
-  unsigned GetRelativeX( ) const;
+  n_unit GetRelativeX( ) const;
 
   /// Get the y-position of this element relative to the parent
-  unsigned GetRelativeY( ) const;
+  n_unit GetRelativeY( ) const;
 
   /// Get the x-position of this element in the current scene
-  unsigned GetAbsoluteX( ) const;
+  n_unit GetAbsoluteX( ) const;
 
   /// Get the y-position of this element in the current scene
-  unsigned GetAbsoluteY( ) const;
+  n_unit GetAbsoluteY( ) const;
 
   /// Get custom user-defined data value
   unsigned GetUserData( ) const;
@@ -155,7 +156,7 @@ public:
   virtual void OnMessage( const state_message &msg );
 
   /// Check if a point is within this object instance
-  virtual bool IsPointInside( unsigned px, unsigned py ) const;
+  virtual bool IsPointInside( n_unit px, n_unit py ) const;
 
   /// Element-specific updating
   virtual void Update( );
@@ -183,10 +184,10 @@ public:
 
 private:
   element *m_pParent;
-  unsigned m_posX;
-  unsigned m_posY;
-  unsigned m_width;
-  unsigned m_height;
+  n_unit m_posX;
+  n_unit m_posY;
+  n_unit m_width;
+  n_unit m_height;
   unsigned m_userData;
   bool m_bVisible;
   bool m_bDragging;

@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_SCENESTACK_H
 #define LIBLITEUI_SCENESTACK_H
 
+#include <liteui/common.h>
 #include <liteui/scene.h>
 #include <liteui/scenegraph.h>
 

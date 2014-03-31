@@ -8,6 +8,7 @@
 #ifndef LIBLITEUI_PARSER_H
 #define LIBLITEUI_PARSER_H
 
+#include <liteui/common.h>
 #include <liteui/element.h>
 #include <liteui/scenegraph.h>
 
