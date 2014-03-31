@@ -31,6 +31,13 @@ group::~group( )
   m_groupItems.clear();
 }
 
+void group::Release( )
+{
+  DecReferenceCount();
+
+  delete this;
+}
+
 void group::AddGroup( group *pGroup )
 {
   if( !HasGroup( pGroup ) ) {

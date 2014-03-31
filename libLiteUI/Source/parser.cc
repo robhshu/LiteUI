@@ -181,19 +181,32 @@ bool parser::LoadSceneGraph( scenegraph &sgRef, const string &szXML )
 
 scene *parser::OnCreateScene( )
 {
-  return new scene;
+  scene *pScene = new scene;
+
+  pScene->IncReferenceCount();
+
+  return pScene;
 }
 
 element *parser::OnCreateElement( const string &szType )
 {
-  #define MAKE_ELEMENT_FROM_TYPE(t) if( szType.compare(#t) == 0 ) { return new t; }
-  MAKE_ELEMENT_FROM_TYPE(group);
-  MAKE_ELEMENT_FROM_TYPE(button);
-  MAKE_ELEMENT_FROM_TYPE(label);
-  MAKE_ELEMENT_FROM_TYPE(panel);
-  #undef MAKE_ELEMENT_FROM_TYPE
+  element *pEle = nullptr;
 
-  return nullptr;
+  if( szType == "group" ) {
+    pEle = new group;
+  } else if( szType == "button" ) {
+    pEle = new button;
+  } else if( szType == "label" ) {
+    pEle = new label;
+  } else if( szType == "panel" ) {
+    pEle = new panel;
+  }
+
+  if( pEle ) {
+    pEle->IncReferenceCount( );
+  }
+
+  return pEle;
 }
 
 };

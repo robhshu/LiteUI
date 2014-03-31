@@ -15,4 +15,11 @@ panel::panel( )
 {
 }
 
+void panel::Release( )
+{
+  DecReferenceCount();
+
+  delete this;
+}
+
 };

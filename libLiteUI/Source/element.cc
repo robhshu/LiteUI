@@ -35,6 +35,13 @@ element::~element( )
   m_pParent = nullptr;
 }
 
+void element::Release( )
+{
+  DecReferenceCount();
+
+  delete this;
+}
+
 void element::SetParent( element *pParent )
 {
   if( m_pParent != pParent ) {

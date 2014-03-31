@@ -23,9 +23,6 @@ public:
   /// Virtual destructor
   virtual ~base( );
 
-  /// Destroy this element
-  void Release( );
-
   /// Update the name of this object (optional)
   void SetName( const string &szName );
   
@@ -43,15 +40,21 @@ public:
 
   /// Is this object named
   const bool HasCustomName( ) const;
+
+  /// Increase the reference count
+  void IncReferenceCount( );
+
+  /// Decrease the reference count
+  void DecReferenceCount( );
+
 private:
   static const string ms_szDefaultName;
   const string m_szTypeName;
   string m_szName;
+  unsigned m_refCount;
 protected:
   /// Flag to mark this object for update
   bool m_bDirty;
-  /// Reference counter; debug only
-  unsigned m_refCount;
 };
 };
 

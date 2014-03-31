@@ -33,6 +33,9 @@ public:
   /// Virtual destructor
   virtual ~group( );
 
+  /// Release this object
+  virtual void Release( );
+
   /// Add a group object to this scene; the scene will automatically be released when the destructor is called
   void AddGroup( group *pGroup );
 

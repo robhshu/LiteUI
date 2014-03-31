@@ -26,6 +26,13 @@ scene::~scene( )
   m_groupItems.clear();
 }
 
+void scene::Release( )
+{
+  DecReferenceCount();
+
+  delete this;
+}
+
 void scene::AddGroup( group *pGroup )
 {
   if( !HasGroup( pGroup ) ) {

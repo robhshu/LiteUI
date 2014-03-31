@@ -82,6 +82,9 @@ public:
   /// Virtual destructor
   virtual ~element( );
 
+  /// Release this object
+  virtual void Release( );
+
   /// Virtual rendering function to override
   virtual void Render( ) { }
 
