@@ -57,6 +57,13 @@ scene *scenegraph::FindScene( const string &szName )
   return nullptr;
 }
 
+void scenegraph::DirtyAll( )
+{
+  for( sceneptrvecCIt it=m_scenes.begin(); it!=m_scenes.end(); it++ ) {
+    (*it)->Dirty(true);
+  }
+}
+
 void scenegraph::ClearAll( )
 {
   for( sceneptrvecIt it=m_scenes.begin(); it!=m_scenes.end(); it++ ) {

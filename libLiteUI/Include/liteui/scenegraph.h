@@ -42,6 +42,9 @@ public:
   /// Locate a scene by name
   scene *FindScene( const string &szName );
 
+  /// Dirty all
+  void DirtyAll( );
+
   /// Release all scenes
   void ClearAll( );
   

@@ -38,6 +38,21 @@ void group::Release( )
   delete this;
 }
 
+void group::Dirty( bool bAll /* = false */ )
+{
+  if( bAll ) {
+    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+      (*it)->Dirty();
+    }
+
+    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+      (*it)->Dirty(true);
+    }
+  }
+
+  base::Dirty(bAll);
+}
+
 void group::AddGroup( group *pGroup )
 {
   if( !HasGroup( pGroup ) ) {

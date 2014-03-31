@@ -39,7 +39,7 @@ void base::SetProperty(const string &szProperty, const string &szValue)
   }
 }
 
-void base::Dirty( )
+void base::Dirty( bool bAll /* = false */)
 {
   m_bDirty = true;
 }

@@ -32,7 +32,7 @@ public:
   virtual void SetProperty(const string &szProperty, const string &szValue);
   
   /// Mark this object as dirty
-  virtual void Dirty( );
+  virtual void Dirty( bool bAll = false );
 
   /// Get the typename of this object
   const string &GetTypeName( ) const;

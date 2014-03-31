@@ -31,6 +31,9 @@ public:
   /// Release this object
   void Release( );
   
+  /// Mark this object as dirty
+  virtual void Dirty( bool bAll = false );
+
   /// Add a group object to this scene; the scene will automatically be released when the destructor is called
   void AddGroup( group *pGroup );
 
@@ -38,7 +41,7 @@ public:
   void SetCursor( n_unit px, n_unit py, bool bPressed );
 
   /// Update all elements within this scene
-  void UpdateScene( );
+  void UpdateScene( bool bMessage );
 
   /// Render elements within this scene
   void RenderScene( );

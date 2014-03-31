@@ -33,6 +33,17 @@ void scene::Release( )
   delete this;
 }
 
+void scene::Dirty( bool bAll /* = false */ )
+{
+  if( bAll ) {
+    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+      (*it)->Dirty(true);
+    }
+  }
+
+  base::Dirty(bAll);
+}
+
 void scene::AddGroup( group *pGroup )
 {
   if( !HasGroup( pGroup ) ) {
@@ -48,11 +59,13 @@ void scene::RenderScene( )
   }
 }
 
-void scene::UpdateScene( )
+void scene::UpdateScene( bool bMessage )
 {
   if( m_bDirty ) {
-    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-      (*it)->OnMessage(m_lastMsg);
+    if( bMessage) {
+      for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+        (*it)->OnMessage(m_lastMsg);
+      }
     }
     
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
@@ -70,9 +83,6 @@ bool scene::HasGroup( group *pGroup ) const
 
 void scene::SetCursor( n_unit px, n_unit py, bool bPressed )
 {
-  px /= 960;
-  py /= 486;
-
   if( m_bDirty || px != m_lastMsg.GetCursorX() || py != m_lastMsg.GetCursorY() || bPressed != m_lastMsg.HasPointerHeld() )
   {
     Dirty();

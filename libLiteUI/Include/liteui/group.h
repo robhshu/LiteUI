@@ -37,6 +37,9 @@ public:
   /// Release this object
   virtual void Release( );
 
+  /// Mark this object as dirty
+  virtual void Dirty( bool bAll = false );
+
   /// Add a group object to this scene; the scene will automatically be released when the destructor is called
   void AddGroup( group *pGroup );
 
