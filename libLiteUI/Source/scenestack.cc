@@ -50,6 +50,18 @@ void scenestack::Render( )
   }
 }
 
+void scenestack::UpdateAll( )
+{
+  sceneptrvec shallow_copy = m_sceneStack;
+
+  bool bFirst = true;
+
+  for( sceneptrvec::reverse_iterator i( shallow_copy.rbegin() ); i!=shallow_copy.rend(); i++ ) {
+    (*i)->UpdateScene(bFirst);
+    bFirst = false;
+  }
+}
+
 scene &scenestack::Top( ) const
 {
   assert(!Empty());

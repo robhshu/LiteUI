@@ -43,6 +43,9 @@ public:
   /// Render all scenes on the stack
   void Render( );
 
+  /// Update all scenes in the stack, messaging the top
+  void UpdateAll( );
+
   /// Get the foremost scene
   scene &Top( ) const;
 
