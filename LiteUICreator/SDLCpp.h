@@ -21,12 +21,14 @@ public:
   typedef unsigned char col;
 
   typedef void (*KeyboardCallback)(int key);
+  typedef void(*MouseCallback)(int x, int y, int button);
 private:
 
   Window _window;
   Renderer _renderer;
   liteui::scene* _scene;
   KeyboardCallback _cb;
+  MouseCallback _cbCursor;
 
   RenderContext(const RenderContext&){}
   RenderContext& operator=(const RenderContext&){}
@@ -36,8 +38,11 @@ public:
   RenderContext(const std::string& name, int width, int height);
   ~RenderContext();
 
+  inline liteui::scene* Scene(){ return _scene; }
   void SetActiveScene(liteui::scene* pScene) { _scene = pScene; }
+
   void SetKeyCallback(KeyboardCallback cb){ _cb = cb; }
+  void SetCursorCalback(MouseCallback cb){ _cbCursor = cb; }
 
   int Run();
 

@@ -6,18 +6,63 @@
 #include <fstream>
 #include <sstream>
 
+#include <cassert>
+
+class LiteLabel :public liteui::label
+{
+  CRenderContext _context;
+  bool _highlighted;
+public:
+  LiteLabel(CRenderContext context) : _context(context), _highlighted(false){}
+
+  virtual void OnFocus()
+  {
+    _highlighted = true;
+  }
+
+  virtual void OnBlur()
+  {
+    _highlighted = false;
+  }
+
+  virtual void Render()
+  {
+    int x = static_cast<int>(GetAbsoluteX() * 800);
+    int y = static_cast<int>(GetAbsoluteY() * 600);
+
+    _context->SetRenderDrawColor(255, 0, _highlighted ? 255 : 0);
+
+    _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
+
+    // debug:
+    _context->SetRenderDrawColor(255, 255, 255);
+    _context->RenderRect(x, y, GetWidthInScene(800) - 1, GetHeightInScene(600) - 1);
+  }
+};
+
 class LiteButton : public liteui::button
 {
   CRenderContext _context;
+  bool _highlighted;
 public:
-  LiteButton(CRenderContext context) : _context(context){}
+  LiteButton(CRenderContext context) : _context(context), _highlighted(false){}
+
+  virtual void OnFocus()
+  {
+    _highlighted = true;
+  }
+
+  virtual void OnBlur()
+  {
+    _highlighted = false;
+  }
 
   virtual void Render()
   {
     int x = static_cast<int>(GetAbsoluteX() * 800);
     int y = static_cast<int>(GetAbsoluteY() * 600);
         
-    _context->SetRenderDrawColor(255, 0, 0);
+    _context->SetRenderDrawColor(255, _highlighted ? 255 : 0, 0);
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
@@ -54,17 +99,18 @@ public:
 
   virtual liteui::element *OnCreateElement(const std::string &szType)
   {
-    if (szType == "button")
-    {
-      LiteButton *btn(new LiteButton(_context));
-      btn->IncReferenceCount();
-      return btn;
-    }
-    else if (szType == "group")
-    {
-      LiteGroup* group(new LiteGroup(_context));
-      group->IncReferenceCount();
-      return group;
+#define CREATE_ELEMENT(type) \
+  type* ele(new type(_context)); \
+  assert(ele->GetTypeName() == szType); \
+  ele->IncReferenceCount(); \
+  return ele;
+
+    if (szType == "button") {
+      CREATE_ELEMENT(LiteButton);
+    } else if (szType == "label") {
+      CREATE_ELEMENT(LiteLabel);
+    } else if (szType == "group") {
+      CREATE_ELEMENT(LiteGroup);
     }
 
     return liteui::parser::OnCreateElement(szType);
@@ -85,12 +131,22 @@ public:
   {
     m_psSharedContext = _context;
     m_psSharedContext->SetKeyCallback(Reload);
+    m_psSharedContext->SetCursorCalback(MoveCursor);
   }
 
   int operator()(void)
   {
     Reload(0);
     return _context->Run();
+  }
+
+  static void MoveCursor(int x, int y, int button)
+  {
+    if (m_psSharedContext && m_psSharedContext->Scene())
+    {
+      m_psSharedContext->Scene()->SetCursor(liteui::n_unit(x) / 800, liteui::n_unit(y) / 600, false);
+      m_psSharedContext->Scene()->UpdateScene(true);
+    }
   }
 
   static void Reload(int method)

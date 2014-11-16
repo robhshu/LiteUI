@@ -5,6 +5,7 @@ RenderContext::RenderContext(const std::string& name, int width, int height)
   , _renderer(nullptr)
   , _scene(nullptr)
   , _cb(nullptr)
+  , _cbCursor(nullptr)
 {
   _window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
 
@@ -67,14 +68,19 @@ int RenderContext::Run()
     SDL_Event e;
     if (SDL_PollEvent(&e)) {
       switch (e.type) {
-      case SDL_QUIT:
-        bQuit = true;
-        break;
-      case SDL_KEYDOWN:
-        if (_cb && e.key.keysym.scancode == SDL_SCANCODE_F5){
-          _cb(1);
-        }
-        break;
+        case SDL_QUIT:
+          bQuit = true;
+          break;
+        case SDL_KEYDOWN:
+          if (_cb && e.key.keysym.scancode == SDL_SCANCODE_F5){
+            _cb(1);
+          }
+          break;
+        case SDL_MOUSEMOTION:
+          if (_cbCursor) {
+            _cbCursor(e.motion.x, e.motion.y, 0);
+          }
+          break;
       }
     }
 
