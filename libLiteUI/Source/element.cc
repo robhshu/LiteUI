@@ -155,6 +155,18 @@ unsigned element::GetUserData( ) const
   return m_userData;
 }
 
+/// Get the width of this object from a scene
+unit element::GetWidthInScene(n_unit scale_x) const
+{
+  return static_cast<unit>(m_width * scale_x);
+}
+
+/// Get the height of this object from a scene
+unit element::GetHeightInScene(n_unit scale_y) const
+{
+  return static_cast<unit>(m_height * scale_y);
+}
+
 n_unit element::GetWidth( ) const
 {
   return m_width;

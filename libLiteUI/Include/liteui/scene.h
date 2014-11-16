@@ -46,6 +46,9 @@ public:
   /// Render elements within this scene
   void RenderScene( );
 
+  /// Update the bounds of this scene
+  void SetVirtualDimensions(n_unit width, n_unit height);
+
   /// Get object user data
   bool GetObjectUserData( const string &szName, unsigned &user_data );
 
@@ -54,6 +57,9 @@ public:
 private:
   groups m_groupItems;
   state_message m_lastMsg;
+
+  /// Size of the scene
+  n_unit bound_w, bound_h;
 
   /// Check if this group is already tracked by this scene
   bool HasGroup( group *pGroup ) const;

@@ -14,6 +14,8 @@ namespace liteui
 scene::scene( )
   : base("scene")
   , m_lastMsg( 0, 0, 0 )
+  , bound_w( 1.0f )
+  , bound_h( 1.0f )
 {
 }
 
@@ -104,6 +106,12 @@ element *scene::FindChildByName( const string &szName )
   }
 
   return nullptr;
+}
+
+void scene::SetVirtualDimensions(n_unit width, n_unit height)
+{
+  bound_w = width;
+  bound_h = height;
 }
 
 bool scene::GetObjectUserData( const string &szName, unsigned &user_data )

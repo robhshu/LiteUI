@@ -1,0 +1,7 @@
+<scene name="main">
+	<group pos_x="0.1" pos_y="0.3">
+		<button width="0.2" height="0.1" />
+		<button pos_x="-0.025" width="0.15" height="0.1" pos_y="0.15" />
+		<button pos_y="0.3" width="0.2" height="0.1" />
+	</group>
+</scene>

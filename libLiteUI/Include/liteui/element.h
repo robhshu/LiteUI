@@ -116,6 +116,12 @@ public:
   /// Set the anchor flags
   void SetAnchorFlags( bool tl, bool tr, bool bl, bool br );
 
+  /// Get the width of this object from a scene
+  unit GetWidthInScene(n_unit scale_x) const;
+
+  /// Get the height of this object from a scene
+  unit GetHeightInScene(n_unit scale_y) const;
+
   /// Get the width of this object
   n_unit GetWidth( ) const;
 

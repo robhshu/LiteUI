@@ -125,41 +125,49 @@ element *group::FindChildByName( const string &szName )
 void group::Update( )
 {
   if( m_bDirty ) {
+
+    n_unit width_upper(0);
+    n_unit height_upper(0);
+
+    n_unit temp(0);
+
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+
+      // is this correct here?
       (*it)->Update();
+
+      // Relative is usually 0
+
+      temp = (*it)->GetRelativeX() + (*it)->GetWidth();
+      if (temp > width_upper) {
+        width_upper = temp;
+      }
+
+      temp = (*it)->GetRelativeY() + (*it)->GetHeight();
+      if (temp > height_upper) {
+        height_upper = temp;
+      }
     }
 
-    n_unit width = 1;
-    n_unit height = 1;
-
-    n_unit tmp_val = 0;
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
-      if( tmp_val > width ) {
-        width = tmp_val;
+      temp = (*it)->GetRelativeX() + (*it)->GetWidth();
+      if (temp > width_upper) {
+        width_upper = temp;
       }
-      tmp_val = (*it)->GetRelativeY() + (*it)->GetHeight();
-      if( tmp_val > height ) {
-        height = tmp_val;
+
+      temp = (*it)->GetRelativeY() + (*it)->GetHeight();
+      if (temp > height_upper) {
+        height_upper = temp;
       }
     }
 
-    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-      tmp_val = (*it)->GetRelativeX() + (*it)->GetWidth();
-      if( tmp_val > width ) {
-        width = tmp_val;
-      }
-      tmp_val = (*it)->GetRelativeY() + (*it)->GetHeight();
-      if( tmp_val > height ) {
-        height = tmp_val;
-      }
-    }
-
-    SetWidth( width );
-    SetHeight( height );
+    SetWidth( width_upper );
+    SetHeight( height_upper );
 
     element::Update();
+
+    // Now update the elements after the true width is calculated?
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
       if( (*it)->IsVisible() ) {

@@ -66,6 +66,7 @@ void base::IncReferenceCount( )
 
 void base::DecReferenceCount( )
 {
+  assert(m_refCount > 0);
   m_refCount--;
 }
 
