@@ -9,8 +9,8 @@
 #define LIBLITEUI_LITEUI_H
 
 // Definitions
-#define LITEUI_VERSION_STR "0.02"
-#define LITEUI_VERSSION 0x0002
+#define LITEUI_VERSION_STR "0.03"
+#define LITEUI_VERSSION 0x0003
 
 // Elements
 #include <liteui/button.h>

@@ -17,7 +17,7 @@ panel::panel( )
 
 void panel::Release( )
 {
-  DecReferenceCount();
+ // DecReferenceCount();
 
   delete this;
 }

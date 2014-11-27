@@ -37,14 +37,16 @@ element::~element( )
 
 void element::Release( )
 {
-  DecReferenceCount();
+  //DecReferenceCount();
+
+  // virtual, so should convert up
 
   delete this;
 }
 
 void element::SetParent( element *pParent )
 {
-  if( m_pParent != pParent ) {
+  if (m_pParent != pParent) {
     m_pParent = pParent;
     Dirty();
   }

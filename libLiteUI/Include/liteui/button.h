@@ -17,6 +17,8 @@ class button
   : public element
 {
 public:
+  REGISTER_CLASS(button);
+
   /// Default constructor
   button( );
   

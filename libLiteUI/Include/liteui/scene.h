@@ -22,6 +22,8 @@ class scene
   : public base
 {
 public:
+  REGISTER_CLASS(scene);
+
   /// Default constructor
   scene( );
 
@@ -35,7 +37,7 @@ public:
   virtual void Dirty( bool bAll = false );
 
   /// Add a group object to this scene; the scene will automatically be released when the destructor is called
-  void AddGroup( group *pGroup );
+  void AddGroup( group::ptr pGroup);
 
   /// Update the cursor position and mouse state within this scene
   void SetCursor( n_unit px, n_unit py, bool bPressed );
@@ -62,7 +64,7 @@ private:
   n_unit bound_w, bound_h;
 
   /// Check if this group is already tracked by this scene
-  bool HasGroup( group *pGroup ) const;
+  bool HasGroup(group *pGroup); //const;
 
   /// Find child by name
   element *FindChildByName( const string &szName );

@@ -11,10 +11,19 @@
 #include <liteui/common.h>
 
 #include <string>
+#include <memory>
 
 namespace liteui
 {
 using std::string;
+using std::unique_ptr;
+using std::shared_ptr;
+
+#define REGISTER_CLASS(name) \
+  public: \
+    typedef name* inst; \
+    typedef shared_ptr<name> ptr; \
+    typedef unique_ptr<name> uptr;
 
 class base
 {
@@ -44,16 +53,16 @@ public:
   const bool HasCustomName( ) const;
 
   /// Increase the reference count
-  void IncReferenceCount( );
+  //void IncReferenceCount( );
 
   /// Decrease the reference count
-  void DecReferenceCount( );
+  //void DecReferenceCount( );
 
 private:
   static const string ms_szDefaultName;
   const string m_szTypeName;
   string m_szName;
-  unsigned m_refCount;
+  //unsigned m_refCount;
 protected:
   /// Flag to mark this object for update
   bool m_bDirty;

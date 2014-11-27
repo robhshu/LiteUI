@@ -18,23 +18,24 @@ group::group( )
 
 group::~group( )
 {
-  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-    (*it)->Release();
-  }
+
+  // should be automatically released when cleared
+
+  //for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+  //  (*it)->Release();
+  //}
 
   m_items.clear();
 
-  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-    (*it)->Release();
-  }
+  //for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+  //  (*it)->Release();
+  //}
 
   m_groupItems.clear();
 }
 
 void group::Release( )
 {
-  DecReferenceCount();
-
   delete this;
 }
 
@@ -53,33 +54,41 @@ void group::Dirty( bool bAll /* = false */ )
   base::Dirty(bAll);
 }
 
-void group::AddGroup( group *pGroup )
+void group::AddGroup(group::ptr pGroup)
 {
-  if( !HasGroup( pGroup ) ) {
+  if( !HasGroup( pGroup.get() ) ) {
     pGroup->SetParent( this ); // missing from scene
     m_groupItems.push_back( pGroup );
     Dirty();
   }
 }
 
-void group::AddChild( element *pObj )
+void group::AddChild(element::ptr pObj)
 {
-  if( !HasChild( pObj ) ) {
+  if( !HasChild( pObj.get() ) ) {
     pObj->SetParent( this );
     m_items.push_back( pObj );
     Dirty();
   }
 }
 
-void group::RemoveChild( element *pObj )
+void group::RemoveChildByName(const string &szName)
 {
-  items_cit cit = find(m_items.begin(), m_items.end(), pObj );
-  if( cit != m_items.end() ) {
-    (*cit)->SetParent(nullptr);
-    m_items.erase( cit );
-    pObj->Update();
+  element::ptr elementinst(FindChildByName(szName));
+
+  if (elementinst != nullptr) {
+    elementinst->SetParent(nullptr);
+    //m_items.erase(elementinst); // todo!
     Dirty();
   }
+
+  //items_cit cit = find(m_items.begin(), m_items.end(), pObj );
+  //if( cit != m_items.end() ) {
+  //  (*cit)->SetParent(nullptr);
+  //  m_items.erase( cit );
+  //  pObj->Update();
+  //  Dirty();
+  //}
 }
 
 void group::Render( )
@@ -101,22 +110,34 @@ void group::Render( )
   }
 }
 
-bool group::HasGroup( group *pGroup ) const
+bool group::HasGroup( element* pGroup) const
 {
-  return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
+  return false;
+  //return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
 }
 
 bool group::HasChild( element *pObj ) const
 {
-  return find(m_items.begin(), m_items.end(), pObj) != m_items.end();
+  return FindChildByNameInternal(pObj->GetName()) != m_items.end();
 }
 
-element *group::FindChildByName( const string &szName )
+items_cit group::FindChildByNameInternal(const string &szName) const
 {
-  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-    if( (*it)->HasCustomName() && (*it)->GetName() == szName ) {
-      return (*it);
+  for (items_cit cit(m_items.begin()); cit != m_items.end(); cit++) {
+    if ((*cit)->HasCustomName() && (*cit)->GetName() == szName) {
+      return cit;
     }
+  }
+
+  return m_items.end();
+}
+
+std::shared_ptr<element> group::FindChildByName(const string &szName)
+{
+  items_cit it(FindChildByNameInternal(szName));
+
+  if (it != m_items.end()) {
+    return *it;
   }
 
   return nullptr;

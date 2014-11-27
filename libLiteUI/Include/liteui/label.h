@@ -20,6 +20,8 @@ class label
   : public element
 {
 public:
+  REGISTER_CLASS(label);
+
   /// Default constructor
   label( );
 

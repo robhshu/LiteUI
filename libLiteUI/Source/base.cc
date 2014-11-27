@@ -15,14 +15,12 @@ const string base::ms_szDefaultName( "unnamed" );
 base::base( const string &szTypeName )
   : m_szTypeName( szTypeName )
   , m_szName( ms_szDefaultName )
-  , m_refCount( 0 )
   , m_bDirty( true )
 {
 }
 
 base::~base( )
 {
-  assert(m_refCount==0);
 }
 
 void base::SetName( const string &szName )
@@ -58,16 +56,16 @@ const bool base::HasCustomName( ) const
 {
   return m_szName != ms_szDefaultName;
 }
-
-void base::IncReferenceCount( )
-{
-  m_refCount++;
-}
-
-void base::DecReferenceCount( )
-{
-  assert(m_refCount > 0);
-  m_refCount--;
-}
+//
+//void base::IncReferenceCount( )
+//{
+//  m_refCount++;
+//}
+//
+//void base::DecReferenceCount( )
+//{
+//  assert(m_refCount > 0);
+//  m_refCount--;
+//}
 
 };

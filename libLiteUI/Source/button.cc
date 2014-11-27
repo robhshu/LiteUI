@@ -22,7 +22,7 @@ button::~button( )
 
 void button::Release( )
 {
-  DecReferenceCount();
+ // DecReferenceCount();
 
   delete this;
 }

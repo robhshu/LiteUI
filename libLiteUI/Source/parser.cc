@@ -57,8 +57,9 @@ private:
   {
     const string szScene = "scene";
     if( szScene == pRoot->Value() ) {
-      scene *pScene = m_parser.OnCreateScene();
-      if( pScene == nullptr ) {
+      scene::uptr sceneinst(m_parser.OnCreateScene());
+
+      if (sceneinst == nullptr) {
         return false;
       }
 
@@ -68,7 +69,7 @@ private:
       if( pAsElement ) {
         for( const XMLAttribute *pAttrib = pAsElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
           if( pAttrib->Name() == string("name") ) {
-            pScene->SetName(pAttrib->Value());
+            sceneinst->SetName(pAttrib->Value());
           }
         }
       }
@@ -81,40 +82,43 @@ private:
 
         const string szNodeType = pNode->Value();
         if( szNodeType == "group" ) {
-          element *pEle = m_parser.OnCreateElement(szNodeType);
-          if( !pEle ) {
+
+          group::inst grouprawptr(reinterpret_cast<group*>(m_parser.OnCreateElement(szNodeType)));
+          group::uptr groupinst(grouprawptr);
+
+          if (!groupinst) {
             // unable to create group
             return false;
           }
 
-          if( !LoadAttributes( pNode->ToElement(), pEle ) ) {
-            pEle->Release( );
+          // automatically downcast to element
+          if (!LoadAttributes(pNode->ToElement(), groupinst.get())) {
             return false;
           }
 
-          if( LoadGroup( pNode->ToElement(), static_cast<group*>(pEle) ) ) {
-            pScene->AddGroup( static_cast<group*>(pEle) );
+          if (LoadGroup(pNode->ToElement(), groupinst )) {
+            group::ptr groupptr(groupinst.release());
+            sceneinst->AddGroup(groupptr);
           } else {
             // failed to load group
-            pScene->Release();
             return false;
           }          
         } else {
           // cannot add anything but a group to this scene
 
-          pScene->Release();
           return false;
         }
       }
 
-      m_sceneGraph.AddScene(*pScene);
+      // XXX revisit this too
+      m_sceneGraph.AddScene(*sceneinst.release());
       return true;
     } else {
       return false;
     }
   }
 
-  bool LoadGroup( XMLElement *pRoot, group *pOwner )
+  bool LoadGroup( XMLElement *pRoot, const group::uptr &groupowner )
   {
     for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
       // Skip comments
@@ -122,28 +126,38 @@ private:
         continue;
       }
 
-      element *pEle = m_parser.OnCreateElement(pNode->Value());
+      const std::string elementname(pNode->Value());
+      element * meh = m_parser.OnCreateElement(elementname);
 
-      if( !pEle ) {
+      element::uptr elementinst(meh);
+
+      if (!elementinst) {
         // unable to create element
         return false;
       }
 
-      if( !LoadAttributes( pNode->ToElement(), pEle ) ) {
-        pEle->Release( );
+      if (!LoadAttributes(pNode->ToElement(), elementinst.get())) {
         return false;
       }
 
-      if(pEle->GetTypeName()=="group") {
+      if (elementinst->GetTypeName() == "group") {
 
-        if( LoadGroup( pNode->ToElement(), static_cast<group*>(pEle) ) ) {
-          pOwner->AddGroup(static_cast<group*>(pEle));
+        // converts from a unique element into a unique 
+
+        group::uptr groupinst(reinterpret_cast<group*>(elementinst.release()));
+
+        //group::uptr groupinst(nullptr);// std::make_unique<group>(dynamic_cast<group*>(elementinst.release())));
+
+        if (LoadGroup(pNode->ToElement(), groupinst) ) {
+
+          group::ptr groupptr(groupinst.release());
+          groupowner->AddGroup(groupptr);
         } else {
-          pEle->Release();
           return false;
         }
       } else {
-        pOwner->AddChild(pEle);
+        element::ptr elementptr(elementinst.release());
+        groupowner->AddChild(elementptr);
       }
     }
 
@@ -154,7 +168,8 @@ private:
   {
     for( const XMLAttribute *pAttrib = pElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
       if( pAttrib->Name() == string("text") ) {
-        static_cast<label* >(pEle)->SetText( pAttrib->Value() );
+        // odd.
+        dynamic_cast<label* >(pEle)->SetText( pAttrib->Value() );
       } else if( pAttrib->Name() == string("onFocus") ) {
         pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
       } else if( pAttrib->Name() == string("onBlur") ) {
@@ -182,9 +197,7 @@ bool parser::LoadSceneGraph( scenegraph &sgRef, const string &szXML )
 scene *parser::OnCreateScene( )
 {
   scene *pScene = new scene;
-
-  pScene->IncReferenceCount();
-
+  
   return pScene;
 }
 
@@ -202,9 +215,9 @@ element *parser::OnCreateElement( const string &szType )
     pEle = new panel;
   }
 
-  if( pEle ) {
-    pEle->IncReferenceCount( );
-  }
+  //if( pEle ) {
+  //  pEle->IncReferenceCount( );
+  //}
 
   return pEle;
 }

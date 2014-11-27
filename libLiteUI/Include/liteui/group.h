@@ -16,11 +16,12 @@
 namespace liteui
 {
 using std::vector;
-typedef vector<element *>       items;
+typedef vector<element::ptr>    items;
 typedef items::iterator         items_it;
 typedef items::const_iterator   items_cit;
 class group;
-typedef vector<group *>         groups;
+// to avoid dealing with foward declarations of types
+typedef vector<std::shared_ptr<group> >      groups;
 typedef groups::iterator        groups_it;
 typedef groups::const_iterator  groups_cit;
 
@@ -28,6 +29,8 @@ class group
   : public element
 {
 public:
+  REGISTER_CLASS(group);
+
   /// Default constructor
   group( );
 
@@ -41,19 +44,21 @@ public:
   virtual void Dirty( bool bAll = false );
 
   /// Add a group object to this scene; the scene will automatically be released when the destructor is called
-  void AddGroup( group *pGroup );
+  void AddGroup(group::ptr pGroup);
 
   /// Add an element object to this group; the group will automatically be released when the destructor is called
-  void AddChild( element *pObj );
+  void AddChild(element::ptr pObj);
+
+  // uh, can we add a raw child too??
 
   /// Remove an element object to this group
-  void RemoveChild( element *pObj );
+  void RemoveChildByName(const string &szName);
 
   /// Check if the element is within the current group
-  bool HasChild( element *pObj ) const;
+  bool HasChild( element* pObj) const;
 
   /// Find child by name
-  element *FindChildByName( const string &szName );
+  element::ptr FindChildByName(const string &szName);
 
   /// Handle a state update; filters through to children if applicable
   virtual void OnMessage( const state_message &msg );
@@ -70,8 +75,11 @@ private:
   /// Vector of nested groups
   groups m_groupItems;
 
+  /// Internal lookup for child
+  items_cit FindChildByNameInternal(const string &szName) const;
+
   /// Check if this group is already tracked by this scene
-  bool HasGroup( group *pGroup ) const;
+  bool HasGroup( element* pGroup) const;
 };
 };
 

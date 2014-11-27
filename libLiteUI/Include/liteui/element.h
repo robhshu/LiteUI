@@ -69,6 +69,8 @@ public:
   }
 };
 
+#include <memory>
+
 class element;
 typedef void (*element_callback)(const callback_info &info);
 
@@ -77,6 +79,8 @@ class element
   , public state
 {
 public:
+  REGISTER_CLASS(element);
+
   /// Default constructor; a typename is required to create an element
   element( const string &szTypeName );
 
@@ -90,7 +94,7 @@ public:
   virtual void Render( ) { }
 
   /// Set the current parent object of this instance; sets the dirty flag if changed
-  void SetParent( element *pParent );
+  void SetParent( element* pParent);
 
   /// Set the visibility of this item
   void SetVisible( bool bFlag );
@@ -129,7 +133,7 @@ public:
   n_unit GetHeight( ) const;
 
   /// Get the parent element of this object or nullptr
-  element *GetParent( ) const;
+  element* GetParent( ) const;
 
   /// Get the visibility of this element
   bool IsVisible( ) const;

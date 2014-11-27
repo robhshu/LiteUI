@@ -17,6 +17,8 @@ class panel
   : public element
 {
 public:
+  REGISTER_CLASS(panel);
+
   /// Default constructor
   panel( );
   

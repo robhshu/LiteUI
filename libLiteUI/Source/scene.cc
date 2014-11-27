@@ -21,17 +21,15 @@ scene::scene( )
 
 scene::~scene( )
 {
-  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-    (*it)->Release();
-  }
+  //for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+  //  (*it)->Release();
+  //}
 
   m_groupItems.clear();
 }
 
 void scene::Release( )
 {
-  DecReferenceCount();
-
   delete this;
 }
 
@@ -46,9 +44,9 @@ void scene::Dirty( bool bAll /* = false */ )
   base::Dirty(bAll);
 }
 
-void scene::AddGroup( group *pGroup )
+void scene::AddGroup(group::ptr pGroup)
 {
-  if( !HasGroup( pGroup ) ) {
+  if( !HasGroup( pGroup.get() ) ) {
     m_groupItems.push_back( pGroup );
     Dirty();
   }
@@ -78,9 +76,10 @@ void scene::UpdateScene( bool bMessage )
   }
 }
 
-bool scene::HasGroup( group *pGroup ) const
+bool scene::HasGroup( group *pGroup ) //const
 {
-  return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
+  return false;
+  //return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
 }
 
 void scene::SetCursor( n_unit px, n_unit py, bool bPressed )
@@ -95,13 +94,13 @@ void scene::SetCursor( n_unit px, n_unit py, bool bPressed )
 element *scene::FindChildByName( const string &szName )
 {
   for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-    if( (*it)->HasCustomName() && (*it)->GetName() == szName ) {
-      return (*it);
-    }
+    //if( (*it)->HasCustomName() && (*it)->GetName() == szName ) {
+    //  return (*it).get();
+    //}
 
-    element *pElement = (*it)->FindChildByName(szName);
-    if( pElement != nullptr ) {
-      return pElement;
+    element::ptr elementinst = (*it)->FindChildByName(szName);
+    if (elementinst != nullptr) {
+      return elementinst.get();
     }
   }
 

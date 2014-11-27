@@ -23,7 +23,7 @@ label::~label()
 
 void label::Release( )
 {
-  DecReferenceCount();
+ // DecReferenceCount();
 
   delete this;
 }

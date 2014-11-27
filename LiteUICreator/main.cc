@@ -102,7 +102,6 @@ public:
 #define CREATE_ELEMENT(type) \
   type* ele(new type(_context)); \
   assert(ele->GetTypeName() == szType); \
-  ele->IncReferenceCount(); \
   return ele;
 
     if (szType == "button") {
@@ -122,6 +121,7 @@ class Playground
   CRenderContext _context;
 
   static liteui::scenegraph sg;
+  static liteui::scenestack ss;
   static CRenderContext m_psSharedContext;
 
 public:
@@ -165,23 +165,29 @@ public:
       return;
     }
 
+    ss.Clear();
     sg.ClearAll();
 
     LiteSDLParser parser(m_psSharedContext);
     parser.LoadSceneGraph(sg, data);
 
-    if (liteui::scene* scene = sg.FindScene("main")) {
+    ss.PushScene("main");
 
-      scene->UpdateScene(false); // horrible
-      scene->SetVirtualDimensions(800, 600); // testing
+    if (!ss.Empty() ) {
 
-      m_psSharedContext->SetActiveScene(scene);
+      liteui::scene& scene(ss.Top());
+
+      scene.UpdateScene(false);
+      scene.SetVirtualDimensions(800, 600); // testing
+
+      m_psSharedContext->SetActiveScene(&scene);
     }
 
   }
 };
 
 liteui::scenegraph Playground::sg;
+liteui::scenestack Playground::ss(Playground::sg);
 CRenderContext Playground::m_psSharedContext(nullptr);
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
