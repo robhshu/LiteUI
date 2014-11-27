@@ -41,7 +41,7 @@ void scenegraph::DestroyScene( scene &ref )
 
   // destroy and remove if it does exist
   if( res != m_scenes.end() ) {
-    (*res)->Release();
+    delete *res;
     m_scenes.erase(res);
   }
 }
@@ -67,7 +67,7 @@ void scenegraph::DirtyAll( )
 void scenegraph::ClearAll( )
 {
   for( sceneptrvecIt it=m_scenes.begin(); it!=m_scenes.end(); it++ ) {
-    (*it)->Release();
+    delete *it;
   }
 
   m_scenes.clear();

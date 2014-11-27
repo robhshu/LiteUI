@@ -37,9 +37,6 @@ public:
   /// Virtual destructor
   virtual ~group( );
 
-  /// Release this object
-  virtual void Release( );
-
   /// Mark this object as dirty
   virtual void Dirty( bool bAll = false );
 

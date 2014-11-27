@@ -56,16 +56,5 @@ const bool base::HasCustomName( ) const
 {
   return m_szName != ms_szDefaultName;
 }
-//
-//void base::IncReferenceCount( )
-//{
-//  m_refCount++;
-//}
-//
-//void base::DecReferenceCount( )
-//{
-//  assert(m_refCount > 0);
-//  m_refCount--;
-//}
 
 };

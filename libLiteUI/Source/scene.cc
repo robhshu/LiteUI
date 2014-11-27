@@ -21,10 +21,6 @@ scene::scene( )
 
 scene::~scene( )
 {
-  //for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-  //  (*it)->Release();
-  //}
-
   m_groupItems.clear();
 }
 

@@ -25,9 +25,6 @@ public:
   /// Virtual destructor
   virtual ~button( );
 
-  /// Release this object
-  virtual void Release( );
-
   /// Button-specific rendering; unused
   virtual void Render( ) { }
 

@@ -52,17 +52,10 @@ public:
   /// Is this object named
   const bool HasCustomName( ) const;
 
-  /// Increase the reference count
-  //void IncReferenceCount( );
-
-  /// Decrease the reference count
-  //void DecReferenceCount( );
-
 private:
   static const string ms_szDefaultName;
   const string m_szTypeName;
   string m_szName;
-  //unsigned m_refCount;
 protected:
   /// Flag to mark this object for update
   bool m_bDirty;

@@ -25,9 +25,6 @@ public:
   /// Virtual destructor
   virtual ~panel( ){ }
 
-  /// Release this object
-  virtual void Release( );
-
   /// Panel-specific rendering; unused
   virtual void Render( ) { }
 

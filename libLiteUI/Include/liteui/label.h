@@ -28,9 +28,6 @@ public:
   /// Virtual destructor
   virtual ~label();
 
-  /// Release this object
-  virtual void Release( );
-
   /// Set the text label property of this object
   void SetText( const string &szText );
 

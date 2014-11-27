@@ -20,13 +20,6 @@ button::~button( )
 
 }
 
-void button::Release( )
-{
- // DecReferenceCount();
-
-  delete this;
-}
-
 void button::Update( )
 {
   element::Update( );

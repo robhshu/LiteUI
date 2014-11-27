@@ -21,13 +21,6 @@ label::~label()
   m_szText.clear();
 }
 
-void label::Release( )
-{
- // DecReferenceCount();
-
-  delete this;
-}
-
 void label::SetText( const string &szText )
 {
   if( m_szText != szText ) {

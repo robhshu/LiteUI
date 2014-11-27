@@ -18,25 +18,10 @@ group::group( )
 
 group::~group( )
 {
-
-  // should be automatically released when cleared
-
-  //for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-  //  (*it)->Release();
-  //}
+  // The shared_ptr will release with the ref count is 0
 
   m_items.clear();
-
-  //for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-  //  (*it)->Release();
-  //}
-
   m_groupItems.clear();
-}
-
-void group::Release( )
-{
-  delete this;
 }
 
 void group::Dirty( bool bAll /* = false */ )
@@ -74,21 +59,13 @@ void group::AddChild(element::ptr pObj)
 
 void group::RemoveChildByName(const string &szName)
 {
-  element::ptr elementinst(FindChildByName(szName));
+  items_cit cit(FindChildByNameInternal(szName));
 
-  if (elementinst != nullptr) {
-    elementinst->SetParent(nullptr);
-    //m_items.erase(elementinst); // todo!
+  if (cit != m_items.end()) {
+    (*cit)->SetParent(nullptr);
+    m_items.erase(cit); // will this free memory?
     Dirty();
   }
-
-  //items_cit cit = find(m_items.begin(), m_items.end(), pObj );
-  //if( cit != m_items.end() ) {
-  //  (*cit)->SetParent(nullptr);
-  //  m_items.erase( cit );
-  //  pObj->Update();
-  //  Dirty();
-  //}
 }
 
 void group::Render( )

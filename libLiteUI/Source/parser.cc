@@ -141,15 +141,9 @@ private:
       }
 
       if (elementinst->GetTypeName() == "group") {
-
-        // converts from a unique element into a unique 
-
         group::uptr groupinst(reinterpret_cast<group*>(elementinst.release()));
 
-        //group::uptr groupinst(nullptr);// std::make_unique<group>(dynamic_cast<group*>(elementinst.release())));
-
         if (LoadGroup(pNode->ToElement(), groupinst) ) {
-
           group::ptr groupptr(groupinst.release());
           groupowner->AddGroup(groupptr);
         } else {
@@ -206,18 +200,14 @@ element *parser::OnCreateElement( const string &szType )
   element *pEle = nullptr;
 
   if( szType == "group" ) {
-    pEle = new group;
+    pEle = new group();
   } else if( szType == "button" ) {
-    pEle = new button;
+    pEle = new button();
   } else if( szType == "label" ) {
-    pEle = new label;
+    pEle = new label();
   } else if( szType == "panel" ) {
-    pEle = new panel;
+    pEle = new panel();
   }
-
-  //if( pEle ) {
-  //  pEle->IncReferenceCount( );
-  //}
 
   return pEle;
 }
