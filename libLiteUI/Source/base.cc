@@ -73,7 +73,7 @@ bool base::HasAttribute(const string &szAttribName) const
   return m_attributes.find(szAttribName) != m_attributes.end();
 }
 
-void base::Dirty( bool bAll /* = false */)
+void base::Dirty( bool /* bAll = false */)
 {
   m_bDirty = true;
 }

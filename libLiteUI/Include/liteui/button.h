@@ -27,6 +27,9 @@ public:
 
   /// Button-specific rendering; unused
   virtual void Render( ) { }
+private:
+  button(const button&);
+  button& operator=(const button&);
 };
 };
 

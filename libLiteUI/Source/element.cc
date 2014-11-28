@@ -391,30 +391,4 @@ void element::OnSelect( bool bActive )
   }
 }
 
-void element::StartDrag( unsigned px, unsigned py )
-{
-  //if( !IsVisible() ) {
-  //  return;
-  //}
-
-  //if( !m_bDragging ) {
-  //  m_bDragging = true;
-  //  m_dragX = GetAbsoluteX() - px;
-  //  m_dragY = GetAbsoluteY() - py;
-  //}
-}
-
-void element::StopDrag( )
-{
-  //if( !IsVisible() ) {
-  //  return;
-  //}
-
-  //if( m_bDragging ) {
-  //  m_bDragging = false;
-  //  m_dragX = 0;
-  //  m_dragY = 0;
-  //}
-}
-
 };

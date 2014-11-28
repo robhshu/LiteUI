@@ -77,6 +77,9 @@ private:
 
   /// Check if this group is already tracked by this scene
   bool HasGroup( element* pGroup) const;
+
+  group(const group&);
+  group& operator=(const group&);
 };
 };
 

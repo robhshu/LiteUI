@@ -87,7 +87,8 @@ void group::Render( )
   }
 }
 
-bool group::HasGroup( element* pGroup) const
+// XXXXX revisit
+bool group::HasGroup( element* UNUSED(pGroup)) const
 {
   return false;
   //return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();

@@ -15,6 +15,7 @@ namespace liteui
 
   #define TO_N_UNIT  atof
   #define TO_UNIT    atoi
+  #define UNUSED(x)
 };
 
 #endif

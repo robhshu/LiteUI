@@ -81,9 +81,9 @@ private:
   class state_internal
   {
   public:
-    bool m_highlighted : 1;
-    bool m_selected : 1;
-    bool m_held : 1;
+    bool m_highlighted;
+    bool m_selected;
+    bool m_held;
 
     /// Constructor
     state_internal();
@@ -98,7 +98,7 @@ public:
   virtual void OnBlur( ) { }
 
   /// Virtual function to handle a select event
-  virtual void OnSelect( bool bActive ) { }
+  virtual void OnSelect(bool UNUSED(bActive) ) { }
 
   /// Flag to determine if there is focus
   bool IsHighlighted( ) const;

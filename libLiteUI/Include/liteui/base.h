@@ -72,6 +72,10 @@ private:
   static const string ms_szDefaultName;
   const string m_szTypeName;
   attributes m_attributes;
+
+  base(const base&){ }
+  base& operator=(const base&) {}
+
 protected:
   /// Flag to mark this object for update
   bool m_bDirty;

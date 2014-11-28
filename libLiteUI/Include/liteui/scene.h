@@ -68,6 +68,9 @@ private:
 
   /// Find child by name
   element *FindChildByName( const string &szName );
+
+  scene(const scene&);
+  scene& operator=(const scene&);
 };
 };
 

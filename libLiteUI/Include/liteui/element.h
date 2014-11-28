@@ -35,6 +35,10 @@ private:
   const string m_reason;
   element *m_element;
   void *m_userdata;
+
+  callback_info(const callback_info&){ }
+  callback_info& operator=(const callback_info&){ }
+
 public:
   /// Default constructor; callback reason and existing object
   callback_info( const string &reason, element *pObj )
@@ -154,7 +158,7 @@ public:
   bool GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const;
 
   /// Mark this object as dirty; will also set parent as dirty if this object has a parent
-  virtual void Dirty( );
+  void Dirty( );
 
   /// Handle a state update
   virtual void OnMessage( const state_message &msg );
@@ -183,11 +187,11 @@ public:
   /// Allow the listener callback to handle a specific event
   void SetEventReason( element_callback_reason event, const string &szReason );
 
-  void StartDrag( unsigned px, unsigned py );
-  void StopDrag( );
-
 private:
   element *m_pParent;
+
+  // xxxx 4 bytes of padding here
+
   n_unit m_posX;
   n_unit m_posY;
   n_unit m_width;
@@ -207,6 +211,9 @@ private:
   string m_eventReasons[cb_reason_count];
 
   void UpdateAttributes();
+
+  element(const element&);
+  element& operator=(const element&);
 };
 };
 

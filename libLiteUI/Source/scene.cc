@@ -72,7 +72,8 @@ void scene::UpdateScene( bool bMessage )
   }
 }
 
-bool scene::HasGroup( group *pGroup ) //const
+// XXXXX revisit
+bool scene::HasGroup( group * UNUSED(pGroup) ) //const
 {
   return false;
   //return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();

@@ -34,9 +34,10 @@ public:
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
-    // debug:
+#ifdef _DEBUG
     _context->SetRenderDrawColor(255, 255, 255);
     _context->RenderRect(x, y, GetWidthInScene(800) - 1, GetHeightInScene(600) - 1);
+#endif
   }
 };
 
@@ -66,9 +67,10 @@ public:
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
-    // debug:
+#ifdef _DEBUG
     _context->SetRenderDrawColor(255, 255, 255);
     _context->RenderRect(x, y, GetWidthInScene(800)-1, GetHeightInScene(600)-1);
+#endif
   }
 };
 
@@ -82,12 +84,13 @@ public:
   {
     liteui::group::Render();
 
-    // debug overlay:
+#ifdef _DEBUG
     int x = static_cast<int>(GetAbsoluteX() * 800);
     int y = static_cast<int>(GetAbsoluteY() * 600);
 
     _context->SetRenderDrawColor(255, 255, 255);
     _context->RenderRect(x - 1, y - 1, GetWidthInScene(800)+1, GetHeightInScene(600) +1);
+#endif
   }
 };
 

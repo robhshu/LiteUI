@@ -24,6 +24,9 @@ using tinyxml2::XMLAttribute;
 
 class parser_helper
 {
+private:
+  parser_helper(const parser_helper&);
+  parser_helper& operator=(const parser_helper&);
 public:
   parser_helper( parser &parser_ref, scenegraph &sgRef )
     : m_sceneGraph( sgRef )
