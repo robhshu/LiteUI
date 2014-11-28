@@ -12,40 +12,19 @@ namespace liteui
 
 label::label( )
   : element( "label" )
-  , m_szText( "" )
 {
 }
 
-label::~label()
+void label::SetText(const string &szText)
 {
-  m_szText.clear();
-}
-
-void label::SetText( const string &szText )
-{
-  if( m_szText != szText ) {
-    m_szText = szText;
-    Dirty();
+  if (GetText() != szText) {
+    SetAttributeDirty("text", szText);
   }
 }
 
-const string &label::GetText( ) const
+const string label::GetText() const
 {
-  return m_szText;
-}
-
-void label::SetProperty(const string &szProperty, const string &szValue)
-{
-  if( szProperty == "text" ) {
-    SetText( szValue );
-  } else {
-    element::SetProperty( szProperty, szValue );
-  }
-}
-
-void label::Update( )
-{
-  element::Update( );
+  return GetAttribute("text");
 }
 
 };

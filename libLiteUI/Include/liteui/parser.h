@@ -21,7 +21,7 @@ public:
   bool LoadSceneGraph( scenegraph &sgRef, const string &szXML );
 
   /// Request a scene be created when parsing XML 
-  virtual scene *OnCreateScene( );
+  virtual scene* OnCreateScene( );
 
   /// Request an element be created by name when parsing XML
   virtual element *OnCreateElement( const string &szType );

@@ -14,9 +14,9 @@ const string base::ms_szDefaultName( "unnamed" );
 
 base::base( const string &szTypeName )
   : m_szTypeName( szTypeName )
-  , m_szName( ms_szDefaultName )
   , m_bDirty( true )
 {
+  SetName(ms_szDefaultName);
 }
 
 base::~base( )
@@ -25,16 +25,52 @@ base::~base( )
 
 void base::SetName( const string &szName )
 {
-  if( m_szName != szName ) {
-    m_szName = szName;
+  SetAttribute("name", szName);
+}
+
+void base::SetAttribute(const string &szAttribName, const string &szValue)
+{
+  if (!szAttribName.empty()) {
+    m_attributes[szAttribName] = szValue;
   }
 }
 
-void base::SetProperty(const string &szProperty, const string &szValue)
+void base::SetAttributeDirty(const string &szAttribName, const string &szValue)
 {
-  if( szProperty == "name" ) {
-    SetName( szValue );
+  if (!szAttribName.empty()) {
+    m_attributes[szAttribName] = szValue;
+    Dirty();
   }
+}
+
+const string base::GetAttribute(const string &szAttribName) const
+{
+  if (!szAttribName.empty()) {
+    attributes::const_iterator res(m_attributes.find(szAttribName));
+    if (res != m_attributes.end()) {
+      return res->second;
+    }
+  }
+
+  return "";
+}
+
+bool base::GetAttribute(const string &szAttribName, string& value) const
+{
+  if (!szAttribName.empty()) {
+    attributes::const_iterator res(m_attributes.find(szAttribName));
+    if (res != m_attributes.end()) {
+      value = res->second;
+      return true;
+    }
+  }
+
+  return false;
+}
+
+bool base::HasAttribute(const string &szAttribName) const
+{
+  return m_attributes.find(szAttribName) != m_attributes.end();
 }
 
 void base::Dirty( bool bAll /* = false */)
@@ -47,14 +83,14 @@ const string &base::GetTypeName( ) const
   return m_szTypeName;
 }
 
-const string &base::GetName( ) const
+const string base::GetName( ) const
 {
-  return m_szName;
+  return GetAttribute("name");
 }
 
 const bool base::HasCustomName( ) const
 {
-  return m_szName != ms_szDefaultName;
+  return GetName() != ms_szDefaultName;
 }
 
 };

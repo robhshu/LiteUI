@@ -26,23 +26,17 @@ public:
   label( );
 
   /// Virtual destructor
-  virtual ~label();
+  virtual ~label() {}
 
-  /// Set the text label property of this object
-  void SetText( const string &szText );
+  /// Set the label text string
+  void SetText(const string &szText);
 
-  /// Get the text label property of this object
-  const string &GetText( ) const;
-
-  /// Request a label-specific member is updated from a property name and property value
-  virtual void SetProperty(const string &szProperty, const string &szValue);
+  /// Fetch the label text string
+  const string GetText() const;
 
   /// Label-specific rendering
   virtual void Render( ) { }
-
-  /// Label-specific updating
-  virtual void Update( ) ;
-
+  
 private:
   string m_szText;
 };

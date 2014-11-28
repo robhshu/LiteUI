@@ -161,20 +161,9 @@ private:
   bool LoadAttributes( XMLElement *pElement, element *pEle )
   {
     for( const XMLAttribute *pAttrib = pElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
-      if( pAttrib->Name() == string("text") ) {
-        // odd.
-        dynamic_cast<label* >(pEle)->SetText( pAttrib->Value() );
-      } else if( pAttrib->Name() == string("onFocus") ) {
-        pEle->SetEventReason(element_callback_reason::cb_focus, pAttrib->Value());
-      } else if( pAttrib->Name() == string("onBlur") ) {
-        pEle->SetEventReason(element_callback_reason::cb_blur, pAttrib->Value());
-      } else if( pAttrib->Name() == string("onPress") ) {
-        pEle->SetEventReason(element_callback_reason::cb_press, pAttrib->Value());
-      } else if( pAttrib->Name() == string("onRelease") ) {
-        pEle->SetEventReason(element_callback_reason::cb_release, pAttrib->Value());
-      } else {
-        pEle->SetProperty( pAttrib->Name(), pAttrib->Value() );
-      }
+
+      // Always dirty on new attribute
+      pEle->SetAttributeDirty(pAttrib->Name(), pAttrib->Value());
     }
 
     return true;

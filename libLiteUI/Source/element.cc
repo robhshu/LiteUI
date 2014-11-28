@@ -180,38 +180,6 @@ bool element::GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const
   return tl || tr || bl || br;
 }
 
-void element::SetProperty(const string &szProperty, const string &szValue)
-{
-  if( szProperty == "visible" ) {
-    if( !szValue.empty() ) {
-      if( szValue[0] == '0' ) {
-        SetVisible(false);
-      }
-    }
-  } else if( szProperty == "width" ) {
-    const n_unit nValue = TO_N_UNIT(szValue.c_str());
-    SetWidth( nValue );
-  } else if( szProperty == "height" ) {
-    const n_unit nValue = TO_N_UNIT(szValue.c_str());
-    SetHeight( nValue );
-  } else if( szProperty == "pos_x" ) {
-    const n_unit nValue = TO_N_UNIT(szValue.c_str());
-    SetPositionX( nValue );
-  } else if( szProperty == "pos_y" ) {
-    const n_unit nValue = TO_N_UNIT(szValue.c_str());
-    SetPositionY( nValue );
-  } else if( szProperty == "anchor" ) {
-    bool tl = (strstr(szValue.c_str(), "tl") != nullptr);
-    bool tr = (strstr(szValue.c_str(), "tr") != nullptr);
-    bool bl = (strstr(szValue.c_str(), "bl") != nullptr);
-    bool br = (strstr(szValue.c_str(), "br") != nullptr);
-
-    SetAnchorFlags(tl, tr, bl, br);
-  } else {
-    base::SetProperty( szProperty, szValue );
-  }
-}
-
 void element::Dirty( )
 {
   base::Dirty();
@@ -273,6 +241,54 @@ bool element::IsPointInside( n_unit px, n_unit py ) const
     && py >= ab_py && py <= ab_py + GetHeight() );
 }
 
+void element::UpdateAttributes()
+{
+  string szValue;
+
+  // Properties
+
+  if (GetAttribute("visible", szValue)) {
+    const bool is_visible(szValue.c_str()[0] != '0');
+    SetVisible(is_visible);
+  }
+
+  if (GetAttribute("width", szValue)) {
+    const n_unit val(TO_N_UNIT(szValue.c_str()));
+    SetWidth(val);
+  }
+
+  if (GetAttribute("height", szValue)) {
+    const n_unit val(TO_N_UNIT(szValue.c_str()));
+    SetHeight(val);
+  }
+
+  if (GetAttribute("pos_x", szValue)) {
+    const n_unit val(TO_N_UNIT(szValue.c_str()));
+    SetPositionX(val);
+  }
+
+  if (GetAttribute("pos_y", szValue)) {
+    const n_unit val(TO_N_UNIT(szValue.c_str()));
+    SetPositionY(val);
+  }
+
+  if (GetAttribute("anchor", szValue)) {
+    bool tl = (strstr(szValue.c_str(), "tl") != nullptr);
+    bool tr = (strstr(szValue.c_str(), "tr") != nullptr);
+    bool bl = (strstr(szValue.c_str(), "bl") != nullptr);
+    bool br = (strstr(szValue.c_str(), "br") != nullptr);
+
+    SetAnchorFlags(tl, tr, bl, br);
+  }
+
+  // Events
+
+  SetEventReason(element_callback_reason::cb_focus, GetAttribute("onFocus"));
+  SetEventReason(element_callback_reason::cb_blur, GetAttribute("onBlur"));
+  SetEventReason(element_callback_reason::cb_press, GetAttribute("onPress"));
+  SetEventReason(element_callback_reason::cb_release, GetAttribute("onRelease"));
+}
+
 void element::Update( )
 {
   m_bDirty = false;
@@ -280,6 +296,8 @@ void element::Update( )
   if( !IsVisible() ) {
     return;
   }
+
+  UpdateAttributes();
 
   if( GetParent() ) {
     // expand horizontally

@@ -153,9 +153,6 @@ public:
   /// Fetch the anchor flags
   bool GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const;
 
-  /// Request a member is updated from a property name and property value
-  virtual void SetProperty(const string &szProperty, const string &szValue);
-
   /// Mark this object as dirty; will also set parent as dirty if this object has a parent
   virtual void Dirty( );
 
@@ -208,6 +205,8 @@ private:
   element_callback m_eventCallback;
   void *m_eventCallbackData;
   string m_eventReasons[cb_reason_count];
+
+  void UpdateAttributes();
 };
 };
 
