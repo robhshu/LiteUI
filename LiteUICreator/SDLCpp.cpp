@@ -6,6 +6,8 @@ RenderContext::RenderContext(const std::string& name, int width, int height)
   , _scene(nullptr)
   , _cb(nullptr)
   , _cbCursor(nullptr)
+  , _winWidth(static_cast<double>(width))
+  , _winHeight(static_cast<double>(height))
 {
   _window = SDL_CreateWindow(name.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_RESIZABLE);
 
@@ -73,6 +75,12 @@ int RenderContext::Run()
       switch (e.type) {
         case SDL_QUIT:
           bQuit = true;
+          break;
+        case SDL_WINDOWEVENT:
+          if (e.window.event == SDL_WINDOWEVENT_RESIZED) {
+            _winWidth = static_cast<double>(e.window.data1);
+            _winHeight = static_cast<double>(e.window.data2);
+          }
           break;
         case SDL_KEYDOWN:
           if (_cb && e.key.keysym.scancode == SDL_SCANCODE_F5){

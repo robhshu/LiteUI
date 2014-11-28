@@ -16,17 +16,17 @@ public:
 
   virtual void Render()
   {
-    int x = static_cast<int>(GetAbsoluteX() * 800);
-    int y = static_cast<int>(GetAbsoluteY() * 600);
+    int x = static_cast<int>(GetAbsoluteX() * _context->GetWidth());
+    int y = static_cast<int>(GetAbsoluteY() * _context->GetHeight());
 
     RenderContext::col shade = IsSelected() ? 128 : 255;
     _context->SetRenderDrawColor(shade, IsHighlighted() ? shade : 0, 0);
 
-    _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
+    _context->RenderFillRect(x, y, GetWidthInScene(_context->GetWidth()), GetHeightInScene(_context->GetHeight()));
 
 #ifdef _DEBUG
     _context->SetRenderDrawColor(255, 255, 255);
-    _context->RenderRect(x, y, GetWidthInScene(800) - 1, GetHeightInScene(600) - 1);
+    _context->RenderRect(x, y, GetWidthInScene(_context->GetWidth()) - 1, GetHeightInScene(_context->GetHeight()) - 1);
 #endif
   }
 };
@@ -39,17 +39,17 @@ public:
 
   virtual void Render()
   {
-    int x = static_cast<int>(GetAbsoluteX() * 800);
-    int y = static_cast<int>(GetAbsoluteY() * 600);
+    int x = static_cast<int>(GetAbsoluteX() * _context->GetWidth());
+    int y = static_cast<int>(GetAbsoluteY() * _context->GetHeight());
         
     RenderContext::col shade = IsSelected() ? 128 : 255;
     _context->SetRenderDrawColor(shade, 0, IsHighlighted() ? shade : 0);
 
-    _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
+    _context->RenderFillRect(x, y, GetWidthInScene(_context->GetWidth()), GetHeightInScene(_context->GetHeight()));
 
 #ifdef _DEBUG
     _context->SetRenderDrawColor(255, 255, 255);
-    _context->RenderRect(x, y, GetWidthInScene(800)-1, GetHeightInScene(600)-1);
+    _context->RenderRect(x, y, GetWidthInScene(_context->GetWidth())-1, GetHeightInScene(_context->GetHeight())-1);
 #endif
   }
 };
@@ -65,11 +65,11 @@ public:
     liteui::group::Render();
 
 #ifdef _DEBUG
-    int x = static_cast<int>(GetAbsoluteX() * 800);
-    int y = static_cast<int>(GetAbsoluteY() * 600);
+    int x = static_cast<int>(GetAbsoluteX() * _context->GetWidth());
+    int y = static_cast<int>(GetAbsoluteY() * _context->GetHeight());
 
     _context->SetRenderDrawColor(255, 255, 255);
-    _context->RenderRect(x - 1, y - 1, GetWidthInScene(800)+1, GetHeightInScene(600) +1);
+    _context->RenderRect(x - 1, y - 1, GetWidthInScene(_context->GetWidth())+1, GetHeightInScene(_context->GetHeight()) +1);
 #endif
   }
 };
@@ -127,7 +127,7 @@ public:
   {
     if (m_psSharedContext && m_psSharedContext->Scene())
     {
-      m_psSharedContext->Scene()->SetCursor(liteui::n_unit(x) / 800, liteui::n_unit(y) / 600, button == 1);
+      m_psSharedContext->Scene()->SetCursor(liteui::n_unit(x) / m_psSharedContext->GetWidth(), liteui::n_unit(y) / m_psSharedContext->GetHeight(), button == 1);
       m_psSharedContext->Scene()->UpdateScene(true);
     }
   }
@@ -161,7 +161,7 @@ public:
       liteui::scene& scene(ss.Top());
 
       scene.UpdateScene(false);
-      scene.SetVirtualDimensions(800, 600); // testing
+      scene.SetVirtualDimensions(m_psSharedContext->GetWidth(), m_psSharedContext->GetHeight()); // testing
 
       m_psSharedContext->SetActiveScene(&scene);
     }
