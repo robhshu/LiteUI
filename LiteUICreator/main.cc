@@ -11,26 +11,15 @@
 class LiteLabel :public liteui::label
 {
   CRenderContext _context;
-  bool _highlighted;
 public:
-  LiteLabel(CRenderContext context) : _context(context), _highlighted(false){}
-
-  virtual void OnFocus()
-  {
-    _highlighted = true;
-  }
-
-  virtual void OnBlur()
-  {
-    _highlighted = false;
-  }
+  LiteLabel(CRenderContext context) : _context(context){}
 
   virtual void Render()
   {
     int x = static_cast<int>(GetAbsoluteX() * 800);
     int y = static_cast<int>(GetAbsoluteY() * 600);
 
-    _context->SetRenderDrawColor(255, 0, _highlighted ? 255 : 0);
+    _context->SetRenderDrawColor(255, 0, IsHighlighted() ? 255 : 0);
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
@@ -44,26 +33,15 @@ public:
 class LiteButton : public liteui::button
 {
   CRenderContext _context;
-  bool _highlighted;
 public:
-  LiteButton(CRenderContext context) : _context(context), _highlighted(false){}
-
-  virtual void OnFocus()
-  {
-    _highlighted = true;
-  }
-
-  virtual void OnBlur()
-  {
-    _highlighted = false;
-  }
+  LiteButton(CRenderContext context) : _context(context){}
 
   virtual void Render()
   {
     int x = static_cast<int>(GetAbsoluteX() * 800);
     int y = static_cast<int>(GetAbsoluteY() * 600);
         
-    _context->SetRenderDrawColor(255, _highlighted ? 255 : 0, 0);
+    _context->SetRenderDrawColor(255, IsHighlighted() ? 255 : 0, 0);
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
