@@ -29,6 +29,8 @@ private:
   liteui::scene* _scene;
   KeyboardCallback _cb;
   MouseCallback _cbCursor;
+  double _winWidth;
+  double _winHeight;
 
   RenderContext(const RenderContext&){}
   RenderContext& operator=(const RenderContext&){}
@@ -49,6 +51,9 @@ public:
   void SetRenderDrawColor(col r, col g, col b, col a = 255);
   void RenderRect(int x, int y, int w, int h);
   void RenderFillRect(int x, int y, int w, int h);
+
+  inline double GetWidth() const { return _winWidth; }
+  inline double GetHeight() const { return _winHeight; }
 
   //inline Window Window(){ return _window; }
   //inline Renderer Renderer(){ return _renderer; }
