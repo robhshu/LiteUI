@@ -71,11 +71,11 @@ private:
 
       if( pAsElement ) {
         for( const XMLAttribute *pAttrib = pAsElement->FirstAttribute(); pAttrib != nullptr; pAttrib = pAttrib->Next() ) {
-          if( pAttrib->Name() == string("name") ) {
-            sceneinst->SetName(pAttrib->Value());
-          }
+          sceneinst->SetAttribute(pAttrib->Name(), pAttrib->Value());
         }
       }
+
+      // note: scenes should have the name attribute
 
       for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
         // Skip comments
