@@ -31,6 +31,7 @@ public:
   parser_helper( parser &parser_ref, scenegraph &sgRef )
     : m_sceneGraph( sgRef )
     , m_parser( parser_ref )
+    , m_internalSceneCount(0)
   {
   }
 
@@ -39,6 +40,8 @@ public:
     XMLDocument xmlDoc;
 
     if( CanSerialize( szXML, xmlDoc ) ) {
+
+      m_internalSceneCount = 1;
       return LoadScene( xmlDoc.RootElement() );
     }
 
@@ -49,6 +52,7 @@ public:
 private:
   scenegraph &m_sceneGraph;
   parser &m_parser;
+  unsigned m_internalSceneCount;
 
   static bool CanSerialize( const string &szXML, XMLDocument &xmlDoc )
   {
@@ -66,7 +70,6 @@ private:
         return false;
       }
 
-      // try to name scene (todo: default to filename)
       XMLElement *pAsElement = pRoot->ToElement();
 
       if( pAsElement ) {
@@ -75,7 +78,16 @@ private:
         }
       }
 
-      // note: scenes should have the name attribute
+      if (!sceneinst->HasCustomName()) {
+        string sceneName(sceneinst->GetName());
+
+        char buf[16];
+        _itoa_s(m_internalSceneCount, buf, 10);
+        sceneName += buf;
+        sceneinst->SetName(sceneName);
+
+        ++m_internalSceneCount;
+      }
 
       for( XMLNode *pNode = pRoot->FirstChild(); pNode != nullptr; pNode = pNode->NextSibling() ) {
         // Skip comments

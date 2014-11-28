@@ -30,9 +30,6 @@ public:
   /// Virtual destructor
   virtual ~scene( );
 
-  /// Release this object
-  void Release( );
-  
   /// Mark this object as dirty
   virtual void Dirty( bool bAll = false );
 
@@ -64,7 +61,7 @@ private:
   n_unit bound_w, bound_h;
 
   /// Check if this group is already tracked by this scene
-  bool HasGroup(group *pGroup); //const;
+  bool HasGroup(group *pGroup) const;
 
   /// Find child by name
   element *FindChildByName( const string &szName );

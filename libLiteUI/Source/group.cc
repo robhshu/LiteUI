@@ -87,16 +87,32 @@ void group::Render( )
   }
 }
 
-// XXXXX revisit
-bool group::HasGroup( element* UNUSED(pGroup)) const
+bool group::HasGroup( element* pGroup) const
 {
+  groups_cit groupsCIt(m_groupItems.begin());
+  while (groupsCIt != m_groupItems.end()){
+    if ((*groupsCIt).get() == pGroup) {
+      return true;
+    }
+
+    ++groupsCIt;
+  }
+
   return false;
-  //return find(m_groupItems.begin(), m_groupItems.end(), pGroup ) != m_groupItems.end();
 }
 
 bool group::HasChild( element *pObj ) const
 {
-  return FindChildByNameInternal(pObj->GetName()) != m_items.end();
+  items_cit childCIt(m_items.begin());
+  while (childCIt != m_items.end()){
+    if ((*childCIt).get() == pObj) {
+      return true;
+    }
+
+    ++childCIt;
+  }
+
+  return false;
 }
 
 items_cit group::FindChildByNameInternal(const string &szName) const

@@ -115,8 +115,6 @@ int RenderContext::Run()
       }
     }
 
-    // todo: run update loop?
-
     Render();
   }
 
