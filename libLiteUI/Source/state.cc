@@ -9,14 +9,12 @@
 
 namespace liteui
 {
+state_message state_message::EmptyMessage;
+
 state::state_internal::state_internal( )
   : m_highlighted( false )
   , m_selected( false )
   , m_held( false )
-{
-}
-
-state::state( )
 {
 }
 
@@ -44,11 +42,6 @@ void state::UpdateState( bool bHighlighted, bool bSelected )
 
     m_internalState.m_selected = bSelected;
   }
-}
-
-void state::UpdateStateRaw( bool bHighlighted, bool bSelected )
-{
-  UpdateState( bHighlighted, bSelected );
 }
 
 bool state::IsHighlighted( ) const

@@ -28,7 +28,7 @@ void group::Dirty( bool bAll /* = false */ )
 {
   if( bAll ) {
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      (*it)->Dirty();
+      (*it)->MarkDirty();
     }
 
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
@@ -36,7 +36,7 @@ void group::Dirty( bool bAll /* = false */ )
     }
   }
 
-  base::Dirty(bAll);
+  base::MarkDirty();
 }
 
 void group::AddGroup(group::ptr pGroup)
@@ -191,32 +191,16 @@ void group::Update( )
 
 void group::OnMessage( const state_message &msg )
 {
-  if( !IsVisible() ) {
-    return;
+  const state_message &active_msg( IsPointInside(msg.GetCursorX(), msg.GetCursorY()) ? msg : state_message::EmptyMessage );
+
+  // Message all child groups and elements
+
+  for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
+    (*it)->OnMessage(active_msg);
   }
 
-  if( IsPointInside( msg.GetCursorX(), msg.GetCursorY() ) ) {
-    // Update all child elements within this group
-
-    for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-      if( (*it)->IsVisible() ) {
-        (*it)->OnMessage( msg );
-      }
-    }
-
-    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      if( (*it)->IsVisible() ) {
-        (*it)->OnMessage( msg );
-      }
-    }
-  } else {
-    // Set ignored states for all child elements
-
-    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      if( (*it)->IsVisible() ) {
-        (*it)->UpdateStateRaw(false, false);
-      }
-    }
+  for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+    (*it)->OnMessage(active_msg);
   }
 }
 

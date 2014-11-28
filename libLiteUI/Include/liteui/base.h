@@ -57,7 +57,7 @@ public:
   bool HasAttribute(const string &szAttribName) const;
   
   /// Mark this object as dirty
-  virtual void Dirty( bool bAll = false );
+  virtual void MarkDirty();
 
   /// Get the typename of this object
   const string &GetTypeName( ) const;

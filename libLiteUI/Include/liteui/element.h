@@ -136,7 +136,7 @@ public:
   /// Get the parent element of this object or nullptr
   element* GetParent( ) const;
 
-  /// Get the visibility of this element
+  /// Get the visibility of this element, also validates the width
   bool IsVisible( ) const;
 
   /// Get the x-position of this element relative to the parent
@@ -158,7 +158,7 @@ public:
   bool GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const;
 
   /// Mark this object as dirty; will also set parent as dirty if this object has a parent
-  void Dirty( );
+  virtual void MarkDirty();
 
   /// Handle a state update
   virtual void OnMessage( const state_message &msg );
@@ -189,18 +189,12 @@ public:
 
 private:
   element *m_pParent;
-
-  // xxxx 4 bytes of padding here
-
+  unsigned m_userData;
   n_unit m_posX;
   n_unit m_posY;
   n_unit m_width;
   n_unit m_height;
-  unsigned m_userData;
   bool m_bVisible;
-  bool m_bDragging;
-  unsigned m_dragX;
-  unsigned m_dragY;
   unsigned
     m_anchor_tl : 1,
     m_anchor_tr : 1,

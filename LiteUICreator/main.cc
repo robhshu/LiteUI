@@ -128,7 +128,7 @@ public:
     if (m_psSharedContext && m_psSharedContext->Scene())
     {
       m_psSharedContext->Scene()->SetCursor(liteui::n_unit(x) / m_psSharedContext->GetWidth(), liteui::n_unit(y) / m_psSharedContext->GetHeight(), button == 1);
-      m_psSharedContext->Scene()->UpdateScene(true);
+      m_psSharedContext->Scene()->UpdateScene();
     }
   }
 
@@ -160,7 +160,7 @@ public:
 
       liteui::scene& scene(ss.Top());
 
-      scene.UpdateScene(false);
+      scene.UpdateScene();
       scene.SetVirtualDimensions(m_psSharedContext->GetWidth(), m_psSharedContext->GetHeight()); // testing
 
       m_psSharedContext->SetActiveScene(&scene);

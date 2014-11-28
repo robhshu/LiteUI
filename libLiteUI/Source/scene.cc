@@ -13,7 +13,6 @@ namespace liteui
 
 scene::scene( )
   : base("scene")
-  , m_lastMsg( 0, 0, 0 )
   , bound_w( 1.0f )
   , bound_h( 1.0f )
 {
@@ -32,14 +31,14 @@ void scene::Dirty( bool bAll /* = false */ )
     }
   }
 
-  base::Dirty(bAll);
+  MarkDirty();
 }
 
 void scene::AddGroup(group::ptr pGroup)
 {
   if( !HasGroup( pGroup.get() ) ) {
     m_groupItems.push_back( pGroup );
-    Dirty();
+    Dirty(false);
   }
 }
 
@@ -50,15 +49,21 @@ void scene::RenderScene( )
   }
 }
 
-void scene::UpdateScene( bool bMessage )
+void scene::UpdateScene( )
 {
-  if( m_bDirty ) {
-    if( bMessage) {
-      for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
-        (*it)->OnMessage(m_lastMsg);
-      }
+  // Messages can be sent without marking anything dirty
+
+  if (m_lastMsg.IsNew()) {
+    for (groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++) {
+      (*it)->OnMessage(m_lastMsg);
     }
-    
+
+    m_lastMsg.Clear();
+  }
+
+  // If the dirty flag was set, or if the message has updated something
+
+  if( m_bDirty ) {
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
       (*it)->Update();
     }
@@ -85,7 +90,7 @@ void scene::SetCursor( n_unit px, n_unit py, bool bPressed )
 {
   if( m_bDirty || px != m_lastMsg.GetCursorX() || py != m_lastMsg.GetCursorY() || bPressed != m_lastMsg.HasPointerHeld() )
   {
-    Dirty();
+    // This sets the new flag on the message
     m_lastMsg.Set( px, py, bPressed );
   }
 }

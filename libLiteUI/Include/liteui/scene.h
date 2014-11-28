@@ -40,7 +40,7 @@ public:
   void SetCursor( n_unit px, n_unit py, bool bPressed );
 
   /// Update all elements within this scene
-  void UpdateScene( bool bMessage );
+  void UpdateScene( );
 
   /// Render elements within this scene
   void RenderScene( );

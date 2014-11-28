@@ -18,15 +18,17 @@ private:
   n_unit m_px;
   n_unit m_py;
   unsigned m_state;
+  bool m_hasUpdate;
 public:
-  /// Construct using a focus position and a pressed state flag
-  state_message( n_unit uPosX, n_unit uPosY, bool bPointerDown)
-    : m_px( 0 )
-    , m_py( 0 )
+  static state_message EmptyMessage;
+
+  /// Default constructor
+  state_message( )
+    : m_px( -999.9 )
+    , m_py( -999.9 )
     , m_state( 0 )
-  {
-      Set(uPosX, uPosY, bPointerDown);
-  }
+    , m_hasUpdate(false)
+  { }
 
   /// Update the focus position and pressed state flag
   void Set( n_unit uPosX, n_unit uPosY, bool bPointerDown )
@@ -42,6 +44,19 @@ public:
           m_state = 1;        // pressed
         }
       }
+      m_hasUpdate = true;
+  }
+
+  /// Mark this message as seen
+  void Clear()
+  {
+    m_hasUpdate = false;
+  }
+
+  /// Check the message has been changed
+  bool IsNew() const
+  {
+    return m_hasUpdate;
   }
 
   /// Fetch the cursor x-position
@@ -106,15 +121,12 @@ public:
   /// Flag to determine if there is selection
   bool IsSelected( ) const;
 
-  /// Update the raw state flags
-  void UpdateStateRaw( bool bHighlighted, bool bSelected );
+  /// Update the state, firing off callbacks if needed
+  void UpdateState(bool bHighlighted, bool bSelected);
 
 protected:
   /// Constructor; this object can only be inherited
-  state( );
-
-  /// Update the state flags; safter than UpdateStateRaw
-  void UpdateState( bool bHighlighted, bool bSelected );
+  state() {}
 };
 
 };

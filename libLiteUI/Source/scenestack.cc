@@ -20,7 +20,7 @@ scenestack::~scenestack( )
 
 void scenestack::PushScene( const string &szName, bool bAllowDuplicate /*= false*/ )
 {
-  if( !bAllowDuplicate && HasScene(szName) ) {
+  if (!bAllowDuplicate && HasSceneNamed(szName)) {
     return;
   }
 
@@ -52,12 +52,13 @@ void scenestack::Render( )
 
 void scenestack::UpdateAll( )
 {
-  sceneptrvec shallow_copy = m_sceneStack;
-
   bool bFirst = true;
 
-  for( sceneptrvec::reverse_iterator i( shallow_copy.rbegin() ); i!=shallow_copy.rend(); i++ ) {
-    (*i)->UpdateScene(bFirst);
+  for (sceneptrvec::reverse_iterator i(m_sceneStack.rbegin()); i != m_sceneStack.rend(); i++) {
+
+    // xxxx all scenes are updated, not just the top-most. this is an active issue.
+    (*i)->UpdateScene();
+
     bFirst = false;
   }
 }
@@ -85,7 +86,7 @@ bool scenestack::Empty( ) const
   return m_sceneStack.empty( );
 }
 
-bool scenestack::HasScene( const string &szName ) const
+bool scenestack::HasSceneNamed(const string &szName) const
 {
   for( sceneptrvecCIt ci( m_sceneStack.begin() ); ci!=m_sceneStack.end(); ci++ ) {
     if( (*ci)->GetName() == szName ) {

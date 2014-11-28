@@ -39,7 +39,7 @@ void base::SetAttributeDirty(const string &szAttribName, const string &szValue)
 {
   if (!szAttribName.empty()) {
     m_attributes[szAttribName] = szValue;
-    Dirty();
+    MarkDirty();
   }
 }
 
@@ -73,7 +73,7 @@ bool base::HasAttribute(const string &szAttribName) const
   return m_attributes.find(szAttribName) != m_attributes.end();
 }
 
-void base::Dirty( bool /* bAll = false */)
+void base::MarkDirty()
 {
   m_bDirty = true;
 }

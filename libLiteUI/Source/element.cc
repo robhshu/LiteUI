@@ -12,15 +12,12 @@ namespace liteui
 element::element( const string &szTypeName )
   : base( szTypeName )
   , m_pParent( nullptr )
+  , m_userData(0)
   , m_posX( 0 )
   , m_posY( 0 )
   , m_width( 1 )
   , m_height( 1 )
-  , m_userData( 0 )
   , m_bVisible( true )
-  , m_bDragging( false )
-  , m_dragX( 0 )
-  , m_dragY( 0 )
   , m_anchor_tl( 0 )
   , m_anchor_tr( 0 )
   , m_anchor_bl( 0 )
@@ -39,7 +36,7 @@ void element::SetParent( element *pParent )
 {
   if (m_pParent != pParent) {
     m_pParent = pParent;
-    Dirty();
+    MarkDirty();
   }
 }
 
@@ -47,7 +44,7 @@ void element::SetVisible( bool bFlag )
 {
   if( m_bVisible != bFlag ) {
     m_bVisible = bFlag;
-    Dirty();
+    MarkDirty();
   }
 }
 
@@ -55,7 +52,7 @@ void element::SetPositionX( n_unit px )
 {
   if( m_posX != px ) {
     m_posX = px;
-    Dirty();
+    MarkDirty();
   }
 }
 
@@ -63,7 +60,7 @@ void element::SetPositionY( n_unit py )
 {
   if( m_posY != py ) {
     m_posY = py;
-    Dirty();
+    MarkDirty();
   }
 }
 
@@ -77,14 +74,14 @@ void element::SetWidth( n_unit val )
 {
   if( val >= n_unit(0) ) {
     m_width = val;
-    Dirty();
+    MarkDirty();
   }
 }
 
 void element::SetHeight( n_unit val ) {
   if( val >= n_unit(0) ) {
     m_height = val;
-    Dirty();
+    MarkDirty();
   }
 }
 
@@ -108,7 +105,7 @@ element *element::GetParent( ) const
 
 bool element::IsVisible( ) const
 {
-  return m_bVisible;
+  return m_bVisible && m_width > 0.0 && m_height > 0.0;
 }
 
 n_unit element::GetRelativeX( ) const
@@ -180,11 +177,12 @@ bool element::GetAnchorFlags( bool &tl, bool &tr, bool &bl, bool &br ) const
   return tl || tr || bl || br;
 }
 
-void element::Dirty( )
+void element::MarkDirty()
 {
-  base::Dirty();
+  base::MarkDirty();
+
   if( GetParent() ) {
-    GetParent()->Dirty();
+    GetParent()->MarkDirty();
   }
 }
 
@@ -194,35 +192,28 @@ void element::OnMessage( const state_message &msg )
     return;
   }
 
-  if( m_bDragging && msg.HasPointerHeld() ) {
-    //const unsigned px = m_dragX + (msg.GetCursorX()-GetAbsoluteX());
-    //const unsigned py = m_dragY + (msg.GetCursorY()-GetAbsoluteY());
-
-    //SetPosition( px, py );
-    //Dirty(); // force parent dirty flag
-  } else {
-    const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
+  const bool bPointInside = IsPointInside( msg.GetCursorX(), msg.GetCursorY() );
   
-    const bool hover_change = ( IsHighlighted() != bPointInside );
-    const bool select_change = ( IsSelected() != msg.HasPointerHeld() );
+  const bool hover_change = ( IsHighlighted() != bPointInside );
+  const bool select_change = ( IsSelected() != msg.HasPointerHeld() );
 
-    if( hover_change ) {
-      // any hover change will stop it being selected
+  if( hover_change ) {
 
-      UpdateState( bPointInside, false );
-    } else if( select_change ) {
-      // we only care if this is within the element
-    
-      if( bPointInside ) {
-        if( msg.HasPointerPress() ) {
-          // update local selected flag when pressed the first time
+    // any hover change will stop it being selected
+    UpdateState( bPointInside, false );
 
-          UpdateState( true, true );
-        } else if( !msg.HasPointerHeld() ) {
-          // remove the local selected flag when released
+  } else if (IsHighlighted() && select_change) {
 
-          UpdateState( true, false );
-        }
+    // we only care if this is within the element
+    if( bPointInside ) {
+      if( msg.HasPointerPress() ) {
+        // update local selected flag when pressed the first time
+
+        UpdateState( true, true );
+      } else if( !msg.HasPointerHeld() ) {
+        // remove the local selected flag when released
+
+        UpdateState( true, false );
       }
     }
   }
@@ -234,11 +225,11 @@ bool element::IsPointInside( n_unit px, n_unit py ) const
     return false;
   }
 
-  const n_unit ab_px = GetAbsoluteX();
-  const n_unit ab_py = GetAbsoluteY();
+  px -= GetAbsoluteX();
+  py -= GetAbsoluteY();
 
-  return( px >= ab_px && px <= ab_px + GetWidth()
-    && py >= ab_py && py <= ab_py + GetHeight() );
+  return( px >= 0 && px <= GetWidth()
+    && py >= 0 && py <= GetHeight() );
 }
 
 void element::UpdateAttributes()

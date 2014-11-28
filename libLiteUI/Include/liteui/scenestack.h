@@ -60,7 +60,7 @@ private:
   sceneptrvec m_sceneStack;
 
   /// Find scene by name
-  bool HasScene( const string &szName ) const;
+  bool HasSceneNamed( const string &szName ) const;
 
   scenestack(const scenestack&);
   scenestack& operator=(const scenestack&);
