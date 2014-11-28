@@ -124,31 +124,36 @@ void group::Update( )
 {
   if( m_bDirty ) {
 
+    element::Update();
+
     n_unit width_upper(0);
     n_unit height_upper(0);
 
     n_unit temp(0);
 
+    // Update all nested sub groups
+
     for( groups_it it = m_groupItems.begin(); it != m_groupItems.end(); it++ ) {
 
-      // is this correct here?
       (*it)->Update();
-
-      // Relative is usually 0
 
       temp = (*it)->GetRelativeX() + (*it)->GetWidth();
       if (temp > width_upper) {
         width_upper = temp;
       }
-
+      
       temp = (*it)->GetRelativeY() + (*it)->GetHeight();
       if (temp > height_upper) {
         height_upper = temp;
       }
     }
 
+    // Update all items
 
     for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
+
+      (*it)->Update();
+
       temp = (*it)->GetRelativeX() + (*it)->GetWidth();
       if (temp > width_upper) {
         width_upper = temp;
@@ -163,15 +168,7 @@ void group::Update( )
     SetWidth( width_upper );
     SetHeight( height_upper );
 
-    element::Update();
-
-    // Now update the elements after the true width is calculated?
-
-    for( items_it it = m_items.begin(); it != m_items.end(); it++ ) {
-      if( (*it)->IsVisible() ) {
-        (*it)->Update();
-      }
-    }
+    m_bDirty = false;
   }
 }
 
