@@ -63,6 +63,9 @@ int RenderContext::Run()
 
   bool bQuit = false;
 
+  int button(0);
+  int x(0), y(0);
+
   while (!bQuit)
   {
     SDL_Event e;
@@ -76,9 +79,29 @@ int RenderContext::Run()
             _cb(1);
           }
           break;
+        case SDL_MOUSEBUTTONDOWN:
+          if (e.button.button == SDL_BUTTON_LEFT)
+          {
+            button = 1;
+            if (_cbCursor) {
+              _cbCursor(x, y, button);
+            }
+          }
+          break;
+        case SDL_MOUSEBUTTONUP:
+          if (e.button.button == SDL_BUTTON_LEFT)
+          {
+            button = 0;
+            if (_cbCursor) {
+              _cbCursor(x, y, button);
+            }
+          }
+          break;
         case SDL_MOUSEMOTION:
+          x = e.motion.x;
+          y = e.motion.y;
           if (_cbCursor) {
-            _cbCursor(e.motion.x, e.motion.y, 0);
+            _cbCursor(x, y, button);
           }
           break;
       }

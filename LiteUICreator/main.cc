@@ -19,7 +19,8 @@ public:
     int x = static_cast<int>(GetAbsoluteX() * 800);
     int y = static_cast<int>(GetAbsoluteY() * 600);
 
-    _context->SetRenderDrawColor(255, 0, IsHighlighted() ? 255 : 0);
+    RenderContext::col shade = IsSelected() ? 128 : 255;
+    _context->SetRenderDrawColor(shade, IsHighlighted() ? shade : 0, 0);
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
@@ -41,7 +42,8 @@ public:
     int x = static_cast<int>(GetAbsoluteX() * 800);
     int y = static_cast<int>(GetAbsoluteY() * 600);
         
-    _context->SetRenderDrawColor(255, IsHighlighted() ? 255 : 0, 0);
+    RenderContext::col shade = IsSelected() ? 128 : 255;
+    _context->SetRenderDrawColor(shade, 0, IsHighlighted() ? shade : 0);
 
     _context->RenderFillRect(x, y, GetWidthInScene(800), GetHeightInScene(600));
 
@@ -125,7 +127,7 @@ public:
   {
     if (m_psSharedContext && m_psSharedContext->Scene())
     {
-      m_psSharedContext->Scene()->SetCursor(liteui::n_unit(x) / 800, liteui::n_unit(y) / 600, false);
+      m_psSharedContext->Scene()->SetCursor(liteui::n_unit(x) / 800, liteui::n_unit(y) / 600, button == 1);
       m_psSharedContext->Scene()->UpdateScene(true);
     }
   }
